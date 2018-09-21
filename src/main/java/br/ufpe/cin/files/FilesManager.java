@@ -1,5 +1,19 @@
 package br.ufpe.cin.files;
 
+import br.ufpe.cin.generated.SimplePrintVisitor;
+import br.ufpe.cin.mergers.util.JavaCompiler;
+import br.ufpe.cin.mergers.util.MergeConflict;
+import br.ufpe.cin.mergers.util.MergeContext;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import de.ovgu.cide.fstgen.ast.FSTNode;
+import de.ovgu.cide.fstgen.ast.FSTNonTerminal;
+import de.ovgu.cide.fstgen.ast.FSTTerminal;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.MethodInvocation;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -13,20 +27,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import br.ufpe.cin.generated.SimplePrintVisitor;
-import br.ufpe.cin.mergers.util.MergeConflict;
-import br.ufpe.cin.mergers.util.MergeContext;
-
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ast.CompilationUnit;
-
-import de.ovgu.cide.fstgen.ast.FSTNode;
-import de.ovgu.cide.fstgen.ast.FSTNonTerminal;
-import de.ovgu.cide.fstgen.ast.FSTTerminal;
 
 /**
  * A set of utilities for managing files.
@@ -632,5 +632,31 @@ public final class FilesManager {
 		SimplePrintVisitor visitor = new SimplePrintVisitor();
 		visitor.visit(node);
 		return visitor.getResult().replaceAll(("  "), " ");
+	}
+
+	/**
+	 * Counts the number of a method invocations in a given file
+	 * @param file
+	 * @param methodName
+	 */
+	public static int countMethodInvocationInstances(File file, String methodName){
+	    //TODO check performance
+		JavaCompiler compiler = new JavaCompiler();
+		String source = FilesManager.readFileContent(file);
+		org.eclipse.jdt.core.dom.CompilationUnit compilationUnit = compiler.compile(source);
+		List<org.eclipse.jdt.core.dom.ASTNode> instances = new ArrayList<>();
+		compilationUnit.accept(new ASTVisitor() {
+			@Override
+			public boolean visit(MethodInvocation node) {
+				if (methodName.equals(node.getName().getIdentifier())) {
+					instances.add(node);
+				}
+
+				return super.visit(node);
+			}
+
+		});
+
+		return instances.size();
 	}
 }
