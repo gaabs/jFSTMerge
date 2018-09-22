@@ -1,20 +1,16 @@
-package test.java.br.ufpe.cin.performance;
+package br.ufpe.cin.performance;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import static java.nio.file.StandardCopyOption.*;
-
+import br.ufpe.cin.app.JFSTMerge;
+import br.ufpe.cin.util.TestUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import br.ufpe.cin.app.JFSTMerge;
+import java.io.File;
+import java.nio.file.Files;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static org.junit.Assert.assertTrue;
 
 public class CryptoPerformanceTest {
 	
@@ -34,13 +30,7 @@ public class CryptoPerformanceTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		//hidding sysout output
-		@SuppressWarnings("unused")
-		PrintStream originalStream = System.out;
-		PrintStream hideStream    = new PrintStream(new OutputStream(){
-			public void write(int b) {}
-		});
-		System.setOut(hideStream);
+		TestUtils.hideSystemOutput();
 		
 		renameFile("jfstmerge.statistics", "jfstmerge.statistics2");
     }
