@@ -1,5 +1,7 @@
-apply plugin: 'java'
-
+plugins {
+    id 'java'
+    id 'com.github.sherter.google-java-format' version '0.7.1'
+}
 
 repositories {
     mavenCentral()
@@ -34,4 +36,10 @@ task fatJar(type: Jar) {
 
 artifacts {
     archives fatJar
+}
+
+googleJavaFormat {
+    source = sourceSets*.allJava
+    source 'src'
+    include '**/*.java'
 }
