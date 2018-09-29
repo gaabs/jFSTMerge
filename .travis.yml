@@ -17,3 +17,4 @@ script:
 - ./gradlew test
 - cd testfiles/shelltests/
 - shunit2 s3mTests.sh
+- ./gradlew verGJF
