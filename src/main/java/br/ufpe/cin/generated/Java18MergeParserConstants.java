@@ -257,5 +257,4 @@ public interface Java18MergeParserConstants {
     "\">\"",
     "\"::\"",
   };
-
 }
