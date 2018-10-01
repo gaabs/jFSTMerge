@@ -109,24 +109,24 @@ public class LoggerStatistics {
 
 	public static void logConflicts(List<MergeConflict> conflicts, Source source) throws IOException {
 		String logpath = System.getProperty("user.home")+ File.separator + ".jfstmerge" + File.separator;
-		new File(logpath).mkdirs(); //ensuring that the directories exists	
+		new File(logpath).mkdirs(); //ensuring that the directories exists
+		File f1 = new File(logpath + "conflicts.equals");
+		File f2 = new File(logpath + "conflicts.unstructured");
+		File f3 = new File(logpath + "conflicts.semistructured");
 		for(MergeConflict mc : conflicts){
 			String origin =  ((mc.leftOriginFile != null) ? mc.leftOriginFile.getAbsolutePath() : "<empty left>") 
 					+ ";" + ((mc.baseOriginFile  != null) ? mc.baseOriginFile.getAbsolutePath() : "<empty base>") 
 					+ ";" + ((mc.rightOriginFile != null) ? mc.rightOriginFile.getAbsolutePath(): "<empty right>");
 			if(source == null){
-				File f = new File(logpath + "conflicts.equals");
-				FileUtils.write(f,(origin+'\n'+mc.body+'\n'),true);
+				FileUtils.write(f1,(origin+'\n'+mc.body+'\n'),true);
 				break;
 			}else {
 				switch (source) {
 				case UNSTRUCTURED:
-					File f = new File(logpath + "conflicts.unstructured");
-					FileUtils.write(f,(origin+'\n'+mc.body+'\n'),true);
+					FileUtils.write(f2,(origin+'\n'+mc.body+'\n'),true);
 					break;
 				case SEMISTRUCTURED:
-					f = new File(logpath + "conflicts.semistructured");
-					FileUtils.write(f,(origin+'\n'+mc.body+'\n'),true);
+					FileUtils.write(f3,(origin+'\n'+mc.body+'\n'),true);
 					break;
 				}
 			}
