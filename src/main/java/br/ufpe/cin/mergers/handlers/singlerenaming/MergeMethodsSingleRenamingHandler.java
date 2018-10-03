@@ -23,12 +23,19 @@ public class MergeMethodsSingleRenamingHandler implements SingleRenamingHandler 
         String newSignature = RenamingUtils.getSignature(possibleRenamingContent);
         String newBody = RenamingUtils.removeSignature(oppositeSideNodeContent);
 
-        //TODO: check method calls
+        String oldMethodName = RenamingUtils.getMethodName(baseContent);
+        String newMethodName = RenamingUtils.getMethodName(possibleRenamingContent);
 
-        // replace node with both nodes content
-        FilesManager.findAndReplaceASTNodeContent(context.superImposedTree, conflictNodeContent, newSignature + newBody);
+        if (RenamingUtils.hasNewMethodCall(context, oldMethodName, newMethodName, renamingSide)) {
+            RenamingUtils.generateRenamingConflict(context, conflictNodeContent, oppositeSideNodeContent,
+                    possibleRenamingContent, renamingSide);
+            FilesManager.findAndDeleteASTNode(context.superImposedTree, possibleRenamingContent);
+        } else {
+            // replace node with both nodes content
+            FilesManager.findAndReplaceASTNodeContent(context.superImposedTree, conflictNodeContent, newSignature + newBody);
 
-        // remove other node
-        FilesManager.findAndDeleteASTNode(context.superImposedTree, possibleRenamingContent);
+            // remove other node
+            FilesManager.findAndDeleteASTNode(context.superImposedTree, possibleRenamingContent);
+        }
     }
 }
