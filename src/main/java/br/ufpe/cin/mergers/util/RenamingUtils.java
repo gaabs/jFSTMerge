@@ -5,6 +5,7 @@ import de.ovgu.cide.fstgen.ast.FSTNode;
 import de.ovgu.cide.fstgen.ast.FSTTerminal;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -156,5 +157,50 @@ public class RenamingUtils {
         String rightBody = RenamingUtils.getNodeBodyWithoutSignature(right);
 
         return leftBody.equals(rightBody);
+    }
+
+    public static File getFileOfOppositeSide(MergeContext context, Side side) {
+        return getFileOfSide(context, side.opposite());
+    }
+
+    public static File getFileOfSide(MergeContext context, Side side) {
+        if (side == Side.LEFT) return context.getLeft();
+        if (side == Side.RIGHT) return context.getRight();
+
+        return null;
+    }
+
+    public static String getMethodName(String nodeContent) {
+        int parametersStartX = nodeContent.indexOf("(");
+        String methodDeclaration = nodeContent.substring(0, parametersStartX);
+        int methodNameStart = methodDeclaration.lastIndexOf(" ") + 1;
+
+        return methodDeclaration.substring(methodNameStart);
+    }
+
+    public static boolean hasNewMethodCall(MergeContext context, String baseMethodName, String newMethodName,
+                                           Side renamingSide) {
+        File baseFile = context.getBase();
+        File fileWithRenamedMethod = getFileOfOppositeSide(context, renamingSide.opposite());
+        File fileWithModifiedBody = getFileOfOppositeSide(context, renamingSide);
+
+        boolean hasNewRenamedCalls = hasNewMethodCall(baseFile, baseMethodName, fileWithRenamedMethod, newMethodName);
+        boolean hasNewModifiedCalls = hasNewMethodCall(baseFile, baseMethodName, fileWithModifiedBody, baseMethodName);
+
+        return hasNewRenamedCalls || hasNewModifiedCalls;
+    }
+
+    public static boolean hasNewMethodCall(File baseFile, String baseFileMethodName, File modifiedFile,
+                                           String modifiedFileMethodName) {
+        int baseFileMethodInstances = FilesManager.countMethodInvocationInstances(baseFile, baseFileMethodName);
+        int modifiedFileMethodInstances = FilesManager.countMethodInvocationInstances(modifiedFile, modifiedFileMethodName);
+
+        return modifiedFileMethodInstances > baseFileMethodInstances;
+    }
+
+    public static boolean forgotToRenameMethodCall(File modifiedFile, String baseFileMethodName) {
+        int oldNameMethodCalls = FilesManager.countMethodInvocationInstances(modifiedFile, baseFileMethodName);
+
+        return oldNameMethodCalls > 0;
     }
 }
