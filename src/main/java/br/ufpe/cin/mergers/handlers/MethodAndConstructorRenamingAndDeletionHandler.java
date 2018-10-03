@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Guilherme
  */
-public final class RenamingConflictsHandler {
+public final class MethodAndConstructorRenamingAndDeletionHandler {
     private static final double BODY_SIMILARITY_THRESHOLD = 0.7;  //a typical value of 0.7 (up to 1.0) is used, increase it for a more accurate comparison, or decrease for a more relaxed one.
 
     public static void handle(MergeContext context) {
@@ -38,6 +38,7 @@ public final class RenamingConflictsHandler {
         List<FSTNode> rightNewMethodsOrConstructors = RenamingUtils.getMethodsOrConstructors(context.addedRightNodes);
         for (FSTNode left : leftNewMethodsOrConstructors) {
             for (FSTNode right : rightNewMethodsOrConstructors) {
+                if (!RenamingUtils.haveSameParent(left, right)) continue;
                 if (RenamingUtils.haveDifferentSignature(left, right) && RenamingUtils.haveSameBody(left, right)) {
                     RenamingUtils.generateMutualRenamingConflict(context, left, right);
                     break;
