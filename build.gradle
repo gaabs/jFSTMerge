@@ -8,6 +8,8 @@ repositories {
 // most of the jar libraries is available in the /dependencies folder, not in a remote repository
 dependencies {
     compile fileTree(dir: 'dependencies', include: ['*.jar'])
+    compile group: 'org.eclipse.jdt', name: 'org.eclipse.jdt.core', version: '3.15.0'
+
     compile 'com.google.guava:guava:26.0-jre'
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.11.0'
@@ -47,7 +49,7 @@ task updateInstaller(type: Copy, dependsOn: assemble, group: "Binaries", descrip
     from fatJar
     into "installer"
     rename "jFSTMerge.*", "s3m.jar"
-    
+
     doLast {
         File installer = file("installer/s3mInstaller.jar");
         if(!installer.exists() || installer.length() < 5000) {
@@ -59,7 +61,7 @@ task updateInstaller(type: Copy, dependsOn: assemble, group: "Binaries", descrip
         ant.jar(update: "true", destfile: installer) {
             zipfileset(file: "installer/s3m.jar")
         }
-        
+
         delete "installer/s3m.jar"
     }
 }
