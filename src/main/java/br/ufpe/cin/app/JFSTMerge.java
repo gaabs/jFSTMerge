@@ -1,7 +1,9 @@
 package br.ufpe.cin.app;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class JFSTMerge {
 
 	@Parameter(names = "-c", description = "Parameter to disable cryptography during logs generation (true or false).",arity = 1)
 	public static boolean isCryptographed = true;
-	
+
 	@Parameter(names = "-l", description = "Parameter to disable logging of merged files (true or false).",arity = 1)
 	public static boolean logFiles = true;
 
@@ -65,9 +67,9 @@ public class JFSTMerge {
 	public static boolean keepBothVersionsOfRenamedMethod = false;
 
 	/**
-	 * Merges merge scenarios, indicated by .revisions files. 
+	 * Merges merge scenarios, indicated by .revisions files.
 	 * This is mainly used for evaluation purposes.
-	 * A .revisions file contains the directories of the revisions to merge in top-down order: 
+	 * A .revisions file contains the directories of the revisions to merge in top-down order:
 	 * first revision, base revision, second revision (three-way merge).
 	 * @param revisionsPath file path
 	 */
@@ -147,9 +149,9 @@ public class JFSTMerge {
 
 	/**
 	 * Three-way semistructured merge of the given .java files.
-	 * @param left (mine) version of the file, or <b>null</b> in case of intentional empty file. 
-	 * @param base (older) version of the file, or <b>null</b> in case of intentional empty file. 
-	 * @param right (yours) version of the file, or <b>null</b> in case of intentional empty file. 
+	 * @param left (mine) version of the file, or <b>null</b> in case of intentional empty file.
+	 * @param base (older) version of the file, or <b>null</b> in case of intentional empty file.
+	 * @param right (yours) version of the file, or <b>null</b> in case of intentional empty file.
 	 * @param outputFilePath of the merged file. Can be <b>null</b>, in this case, the output will only be printed in the console.
 	 * @return context with relevant information gathered during the merging process.
 	 */
@@ -217,6 +219,9 @@ public class JFSTMerge {
 			List<String> listRevisions = reader.lines().collect(Collectors.toList());
 
 			JFSTMerge jsFSTMerge = new JFSTMerge();
+            JFSTMerge.isGit = true;
+
+			BufferedWriter writer = Files.newBufferedWriter(Paths.get("renamings.revisions"));
 
 			for (String r : listRevisions) {
 				MergeScenario mergeScenario = jsFSTMerge.mergeRevisions(r);
@@ -226,9 +231,11 @@ public class JFSTMerge {
 								filesTuple -> {
 									if (filesTuple.getContext().renamingConflicts > 0) {
 										System.out.println("Found renaming");
-										System.out.println(mergeScenario.getRevisionsFilePath());
-										System.out.println(filesTuple.getBaseFile().getAbsolutePath());
-										System.out.println();
+										try {
+											writer.write(filesTuple.getBaseFile().getAbsolutePath() + "\n");
+										} catch (IOException e) {
+											e.printStackTrace();
+										}
 
 //										for (RenamingStrategy strategy : RenamingStrategy.values()) {
 //											String outputPath = "logs/" +
@@ -245,6 +252,9 @@ public class JFSTMerge {
 									}
 								});
 			}
+			writer.flush();
+			writer.close();
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
