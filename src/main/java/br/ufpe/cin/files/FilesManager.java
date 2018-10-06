@@ -18,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -309,7 +311,7 @@ public final class FilesManager {
 					file.getParentFile().mkdirs();
 					file.createNewFile();
 				}
-				BufferedWriter writer = Files.newBufferedWriter(Paths.get(filePath));
+				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath)));
 				writer.write(content);
 				writer.flush();	writer.close();
 			} catch(NullPointerException ne){
