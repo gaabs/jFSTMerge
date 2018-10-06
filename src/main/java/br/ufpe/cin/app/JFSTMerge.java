@@ -211,29 +211,44 @@ public class JFSTMerge {
 	}
 
 	public static void main(String[] args) {
-		JFSTMerge merger = new JFSTMerge();
-		merger.run(args);
-		System.exit(conflictState);
-
-		/*		new JFSTMerge().mergeFiles(
-						new File("C:/Users/Guilherme/Desktop/test/projects/sisbol/revisions/rev_0533511_8d296b5/rev_left_0533511/sisbol-core/src/main/java/br/mil/eb/cds/sisbol/boletim/util/Messages.java"),
-						new File("C:/Users/Guilherme/Desktop/test/projects/sisbol/revisions/rev_0533511_8d296b5/rev_base_7004707/sisbol-core/src/main/java/br/mil/eb/cds/sisbol/boletim/util/Messages.java"),
-						new File("C:/Users/Guilherme/Desktop/test/projects/sisbol/revisions/rev_0533511_8d296b5/rev_right_8d296b5/sisbol-core/src/main/java/br/mil/eb/cds/sisbol/boletim/util/Messages.java"),
-						null);*/
-
-		/*		try {
-			List<String> listRevisions = new ArrayList<>();
+		try {
 			BufferedReader reader;
-			reader = Files.newBufferedReader(Paths.get("C:\\sample\\all.revisions"));
-			listRevisions = reader.lines().collect(Collectors.toList());
-			for(String r : listRevisions){
-				new JFSTMerge().mergeRevisions(r);		
+			reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/all.revisions"));
+			List<String> listRevisions = reader.lines().collect(Collectors.toList());
+
+			JFSTMerge jsFSTMerge = new JFSTMerge();
+
+			for (String r : listRevisions) {
+				MergeScenario mergeScenario = jsFSTMerge.mergeRevisions(r);
+				mergeScenario
+						.getTuples()
+						.forEach(
+								filesTuple -> {
+									if (filesTuple.getContext().renamingConflicts > 0) {
+										System.out.println("Found renaming");
+										System.out.println(mergeScenario.getRevisionsFilePath());
+										System.out.println(filesTuple.getBaseFile().getAbsolutePath());
+										System.out.println();
+
+//										for (RenamingStrategy strategy : RenamingStrategy.values()) {
+//											String outputPath = "logs/" +
+//													strategy + "-" +
+//													filesTuple.getBaseFile().getAbsolutePath().replace("/home/Gio/Downloads/sample/", "");
+//
+//											JFSTMerge.renamingStrategy = strategy;
+//											jsFSTMerge.mergeFiles(filesTuple.getLeftFile(),
+//													filesTuple.getBaseFile(),
+//													filesTuple.getRightFile(),
+//													outputPath);
+//										}
+//										renamingStrategy = RenamingStrategy.SAFE;
+									}
+								});
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
-
+		}
 	}
 
 	private void run(String[] args) {
