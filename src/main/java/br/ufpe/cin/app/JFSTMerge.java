@@ -24,7 +24,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -86,6 +88,7 @@ public class JFSTMerge {
             //reading the .revisions file line by line to get revisions directories
             List<String> listRevisions = new ArrayList<>();
             BufferedReader reader = Files.newBufferedReader(Paths.get(revisionsPath));
+            System.out.println(revisionsPath);
             listRevisions = reader.lines().collect(Collectors.toList());
             if (listRevisions.size() != 3)
                 throw new Exception("Invalid .revisions file!");
@@ -220,14 +223,16 @@ public class JFSTMerge {
 
     public static void main(String[] args) {
         try {
-            BufferedReader reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/all.revisions"));
+            BufferedReader reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/renaming.revisions"));
             List<String> listRevisions = reader.lines().collect(Collectors.toList());
 
             JFSTMerge jsFSTMerge = new JFSTMerge();
             JFSTMerge.isGit = true;
 
-            for (String revison : listRevisions) {
-                MergeScenario mergeScenario = jsFSTMerge.mergeRevisions(revison);
+            Map<RenamingStrategy, Integer> conflictByStrategy = new HashMap<>();
+
+            for (String revision : listRevisions) {
+                MergeScenario mergeScenario = jsFSTMerge.mergeRevisions(revision);
                 mergeScenario.getTuples().stream()
                         .filter(tuple -> tuple.getContext().renamingConflicts > 0)
                         .forEach(tuple -> {
@@ -242,14 +247,21 @@ public class JFSTMerge {
                                         tuple.getBaseFile().getAbsolutePath().replace("/home/Gio/Downloads/sample/", "");
 
                                 JFSTMerge.renamingStrategy = strategy;
-                                jsFSTMerge.mergeFiles(tuple.getLeftFile(),
+                                MergeContext mergeContext = jsFSTMerge.mergeFiles(tuple.getLeftFile(),
                                         tuple.getBaseFile(),
                                         tuple.getRightFile(),
                                         outputPath);
+
+                                System.out.println(strategy);
+                                System.out.println("semistructuredNumberOfConflicts: " + mergeContext.semistructuredNumberOfConflicts);
+                                System.out.println("renamingConflicts: " + mergeContext.renamingConflicts);
+                                conflictByStrategy.merge(strategy, mergeContext.renamingConflicts, Integer::sum);
                             }
                             renamingStrategy = RenamingStrategy.SAFE;
                         });
             }
+
+            System.out.println(conflictByStrategy);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
