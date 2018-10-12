@@ -2,14 +2,28 @@ package br.ufpe.cin.mergers.handlers.singlerenaming;
 
 import br.ufpe.cin.app.JFSTMerge;
 import br.ufpe.cin.files.FilesManager;
+import br.ufpe.cin.mergers.util.JavaCompiler;
 import br.ufpe.cin.mergers.util.MergeContext;
 import br.ufpe.cin.mergers.util.RenamingStrategy;
+import br.ufpe.cin.mergers.util.Source;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +47,6 @@ public class DefaultSingleRenamingHandlerTest {
             public void write(int b) {
             }
         });
-        System.setOut(hideStream);
 
         JFSTMerge.renamingStrategy = RenamingStrategy.SAFE;
     }
@@ -54,6 +67,8 @@ public class DefaultSingleRenamingHandlerTest {
         left = bodyChangedFileBelowSignature;
 
         merge();
+
+        System.out.println(countMethodInvocationInstances(mergeContext.semistructuredOutput, "m"));
 
         verifyMergeResultWithConflict("<<<<<<<MINEpublicvoidn1(){inta;}=======publicvoidm(){inta=123;}>>>>>>>YOURS");
     }
@@ -97,6 +112,41 @@ public class DefaultSingleRenamingHandlerTest {
         assertThat(mergeResult).contains(expectedResult);
         assertThat(mergeResult).doesNotContain("(cause:possiblerenaming)");
         assertThat(mergeContext.renamingConflicts).isZero();
+    }
+
+    private int countMethodInvocationInstances(String source, String methodName) {
+        //TODO check performance
+        JavaCompiler compiler = new JavaCompiler();
+//        org.eclipse.jdt.core.dom.CompilationUnit compilationUnit = compiler.compile(source);
+        mergeContext.unstructuredOutput = "" +
+                "import br.ufpe.cin.files.FilesManager;" +
+                "public class Test {\n" +
+                "    public void m(){\n" +
+                "    }\n" +
+                "    public void n1(){\n" +
+                "        int a; m();\n" +
+                "FilesManager.x();" +
+                "    }\n" +
+                "}";
+        org.eclipse.jdt.core.dom.CompilationUnit compilationUnit = compiler.compile(mergeContext, Source.UNSTRUCTURED);
+        List<ASTNode> instances = new ArrayList<>();
+        compilationUnit.accept(new ASTVisitor() {
+            @Override
+            public boolean visit(MethodInvocation node) {
+                if (methodName.equals(node.getName().getIdentifier())) {
+                    instances.add(node);
+                }
+
+                return super.visit(node);
+            }
+
+        });
+
+        Arrays.stream(compilationUnit.getProblems()).forEach(problem -> {
+            System.out.println(problem.getMessage() + " : " + problem.isError());
+        });
+
+        return instances.size();
     }
 }
 

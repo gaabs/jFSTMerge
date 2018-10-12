@@ -105,7 +105,7 @@ public class JavaCompiler {
 	 * @return
 	 */
 	private String generateUnitName(MergeContext context) {
-		String unitName = "anyname";
+		String unitName = "Test";
 		try{
 			String projectpath = FilesManager.estimateProjectRootFolderPath(context);
 			String pattern = Pattern.quote(System.getProperty("file.separator"));
