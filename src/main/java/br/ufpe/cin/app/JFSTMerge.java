@@ -18,6 +18,7 @@ import br.ufpe.cin.statistics.Statistics;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
+import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -224,12 +225,14 @@ public class JFSTMerge {
     public static void main(String[] args) {
         try {
             BufferedReader reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/renaming.revisions"));
+//            BufferedReader reader = Files.newBufferedReader(Paths.get("mockito-renaming.revisions"));
             List<String> listRevisions = reader.lines().collect(Collectors.toList());
 
             JFSTMerge jsFSTMerge = new JFSTMerge();
             JFSTMerge.isGit = true;
 
             Map<RenamingStrategy, Integer> conflictByStrategy = new HashMap<>();
+            List<String> revisionsWithRenamingConflict = new ArrayList<>();
 
             for (String revision : listRevisions) {
                 MergeScenario mergeScenario = jsFSTMerge.mergeRevisions(revision);
@@ -240,11 +243,13 @@ public class JFSTMerge {
                             System.out.println(mergeScenario.getRevisionsFilePath());
                             System.out.println(tuple.getBaseFile().getAbsolutePath());
                             System.out.println();
+                            revisionsWithRenamingConflict.add(revision);
 
                             for (RenamingStrategy strategy : RenamingStrategy.values()) {
                                 String outputPath = "logs/" +
-                                        strategy + "-" +
-                                        tuple.getBaseFile().getAbsolutePath().replace("/home/Gio/Downloads/sample/", "");
+                                        revision.substring(0, revision.lastIndexOf("/")).replace("/home/Gio/Downloads/sample/", "") + "/" +
+                                        strategy + (tuple.getContext().renamingConflicts > 0 ? "-" : "-no-") + "conflict/" +
+                                        tuple.getBaseFile().getAbsolutePath().replace(revision.substring(0, revision.lastIndexOf("/") + 1), "");
 
                                 JFSTMerge.renamingStrategy = strategy;
                                 MergeContext mergeContext = jsFSTMerge.mergeFiles(tuple.getLeftFile(),
@@ -260,6 +265,10 @@ public class JFSTMerge {
                             renamingStrategy = RenamingStrategy.SAFE;
                         });
             }
+
+
+            FileUtils.write(new File("mockito-renaming.revisions"),
+                    String.join("\n", revisionsWithRenamingConflict));
 
             System.out.println(conflictByStrategy);
         } catch (Exception e) {
