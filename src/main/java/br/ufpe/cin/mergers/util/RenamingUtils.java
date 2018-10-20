@@ -24,6 +24,7 @@ public class RenamingUtils {
     public static List<Pair<Double, String>> getSimilarNodes(String baseContent, FSTNode currentNode,
                                                              List<FSTNode> addedNodes, double similarityThreshold) {
         //list of possible nodes renaming a previous one
+        baseContent = FilesManager.getStringContentIntoSingleLineNoSpacing(baseContent);
         List<Pair<Double, String>> similarNodes = new ArrayList<>();
 
         //1. getting similar nodes to fulfill renaming conflicts
@@ -32,7 +33,9 @@ public class RenamingUtils {
             if (!haveSameParent(newNode, currentNode)) continue;
 
             String possibleRenamingContent = ((FSTTerminal) newNode).getBody();
-            double bodySimilarity = FilesManager.computeStringSimilarity(baseContent, possibleRenamingContent);
+            String possibleRenamingContentNoSpacing = FilesManager.getStringContentIntoSingleLineNoSpacing(possibleRenamingContent);
+            double bodySimilarity = FilesManager.computeStringSimilarity(baseContent, possibleRenamingContentNoSpacing);
+            //TODO consider signature comparison
             if (bodySimilarity >= similarityThreshold) {
                 Pair<Double, String> tp = Pair.of(bodySimilarity, possibleRenamingContent);
                 similarNodes.add(tp);
