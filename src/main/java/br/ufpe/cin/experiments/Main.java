@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class Main {
     public static void main(String[] args) {
         try {
-            BufferedReader reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/atmosphere.revisions"));
+            BufferedReader reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/renaming.revisions"));
             List<String> listRevisions = reader.lines().collect(Collectors.toList());
 
             JFSTMerge jsFSTMerge = new JFSTMerge();
@@ -73,6 +73,12 @@ public class Main {
                                 System.out.println("renamingConflicts: " + mergeContext.renamingConflicts);
                                 conflictByStrategy.merge(strategy, mergeContext.renamingConflicts, Integer::sum);
 
+                                try {
+                                    FileUtils.write(new File(baseLogsPath + "UNSTRUCTURED" + fileRelativePath),
+                                            mergeContext.unstructuredOutput);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             JFSTMerge.renamingStrategy = RenamingStrategy.SAFE;
                         });
