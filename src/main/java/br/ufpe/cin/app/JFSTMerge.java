@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -224,8 +225,7 @@ public class JFSTMerge {
 
     public static void main(String[] args) {
         try {
-            BufferedReader reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/renaming.revisions"));
-//            BufferedReader reader = Files.newBufferedReader(Paths.get("mockito-renaming.revisions"));
+            BufferedReader reader = Files.newBufferedReader(Paths.get("/home/Gio/Downloads/sample/atmosphere.revisions"));
             List<String> listRevisions = reader.lines().collect(Collectors.toList());
 
             JFSTMerge jsFSTMerge = new JFSTMerge();
@@ -245,14 +245,30 @@ public class JFSTMerge {
                             System.out.println();
                             revisionsWithRenamingConflict.add(revision);
 
-                            for (RenamingStrategy strategy : RenamingStrategy.values()) {
-                                String outputPath = "logs/" +
-                                        revision.substring(0, revision.lastIndexOf("/")).replace("/home/Gio/Downloads/sample/", "") + "/" +
-                                        strategy + (tuple.getContext().renamingConflicts > 0 ? "-" : "-no-") + "conflict/" +
-                                        tuple.getBaseFile().getAbsolutePath().replace(revision.substring(0, revision.lastIndexOf("/") + 1), "");
+                            String baseLogsPath = "logs/"
+                                    + revision.substring(0, revision.lastIndexOf("/")).replace("/home/Gio/Downloads/sample/", "") + "/";
+                            String fileRelativePath = tuple.getBaseFile().getAbsolutePath().substring(tuple.getBaseFile().getAbsolutePath().lastIndexOf("/"));
 
+                            try {
+                                FileUtils.copyFile(tuple.getLeftFile(), new File(baseLogsPath + "left" + fileRelativePath));
+                                FileUtils.copyFile(tuple.getBaseFile(), new File(baseLogsPath + "base" + fileRelativePath));
+                                FileUtils.copyFile(tuple.getRightFile(), new File(baseLogsPath + "right" + fileRelativePath));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            for (RenamingStrategy strategy : RenamingStrategy.values()) {
                                 JFSTMerge.renamingStrategy = strategy;
                                 MergeContext mergeContext = jsFSTMerge.mergeFiles(tuple.getLeftFile(),
+                                        tuple.getBaseFile(),
+                                        tuple.getRightFile(),
+                                        null);
+
+                                String outputPath = baseLogsPath +
+                                        strategy + (mergeContext.renamingConflicts > 0 ? "-" : "-no-") + "conflict" +
+                                        fileRelativePath;
+
+                                jsFSTMerge.mergeFiles(tuple.getLeftFile(),
                                         tuple.getBaseFile(),
                                         tuple.getRightFile(),
                                         outputPath);
@@ -261,11 +277,11 @@ public class JFSTMerge {
                                 System.out.println("semistructuredNumberOfConflicts: " + mergeContext.semistructuredNumberOfConflicts);
                                 System.out.println("renamingConflicts: " + mergeContext.renamingConflicts);
                                 conflictByStrategy.merge(strategy, mergeContext.renamingConflicts, Integer::sum);
+
                             }
                             renamingStrategy = RenamingStrategy.SAFE;
                         });
             }
-
 
             FileUtils.write(new File("mockito-renaming.revisions"),
                     String.join("\n", revisionsWithRenamingConflict));
