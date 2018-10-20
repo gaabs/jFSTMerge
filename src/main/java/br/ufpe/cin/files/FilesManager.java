@@ -219,13 +219,11 @@ public final class FilesManager {
 	 * @param file to be read
 	 * @return string content of the file, or null in case of errors.
 	 */
-	public static String readFileContent(File file){
-		//StringBuilder content = new StringBuilder();
+	public static String readFileContent(File file) {
 		String content = "";
-		try{
-			BufferedReader reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()), StandardCharsets.UTF_8);
+		try (BufferedReader reader = Files.newBufferedReader(Paths.get(file.getAbsolutePath()), StandardCharsets.UTF_8)) {
 			content = reader.lines().collect(Collectors.joining("\n"));
-		}catch(Exception e){
+		} catch (Exception e) {
 			//System.err.println(e.getMessage());
 		}
 		return content;
