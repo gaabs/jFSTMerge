@@ -15,8 +15,15 @@ public class MergeMethodsSingleRenamingHandlerTest {
     private File bodyChangedAtEndFile = new File("testfiles/renaming/method/changed_body_at_end/Test.java");
     private File renamedMethodFile = new File("testfiles/renaming/method/renamed_method_1/Test.java");
 
+    private File baseFileWithCalls = new File("testfiles/renaming/method_with_calls/base/Test.java");
+    private File bodyChangedAtEndFileWithCalls = new File("testfiles/renaming/method_with_calls/changed_body_at_end/Test.java");
+    private File bodyChangedWithNewCallFile = new File("testfiles/renaming/method_with_calls/changed_body_at_end_with_new_call/Test.java");
+    private File renamedMethodAndCallsFile = new File("testfiles/renaming/method_with_calls/renamed_method_and_calls/Test.java");
+    private File renamedMethodButNotCallsFile = new File("testfiles/renaming/method_with_calls/renamed_method_but_not_calls/Test.java");
+    private File renamedMethodWithNewCallFile = new File("testfiles/renaming/method_with_calls/renamed_method_with_new_call/Test.java");
+
     private JFSTMerge jfstMerge = new JFSTMerge();
-    private File left, right;
+    private File base, left, right;
     private MergeContext mergeContext;
 
     @BeforeClass
@@ -28,6 +35,7 @@ public class MergeMethodsSingleRenamingHandlerTest {
 
     @Test
     public void testHandle_whenLeftRenamesMethod_andRightChangesBodyBelowSignature_shouldMergeChanges() {
+        base = baseFile;
         left = renamedMethodFile;
         right = bodyChangedFileBelowSignature;
 
@@ -38,6 +46,7 @@ public class MergeMethodsSingleRenamingHandlerTest {
 
     @Test
     public void testHandle_whenRightRenamesMethod_andLeftChangesBodyBelowSignature_shouldMergeChanges() {
+        base = baseFile;
         left = bodyChangedFileBelowSignature;
         right = renamedMethodFile;
 
@@ -48,6 +57,7 @@ public class MergeMethodsSingleRenamingHandlerTest {
 
     @Test
     public void testHandle_whenLeftRenamesMethod_andRightChangesBodyAtEnd_shouldMergeChangess() {
+        base = baseFile;
         left = renamedMethodFile;
         right = bodyChangedAtEndFile;
 
@@ -58,6 +68,7 @@ public class MergeMethodsSingleRenamingHandlerTest {
 
     @Test
     public void testHandle_whenLeftRenamesMethod_andRightChangesBodyAtEnd_shouldNotReportConflict() {
+        base = baseFile;
         left = bodyChangedAtEndFile;
         right = renamedMethodFile;
 
@@ -66,10 +77,77 @@ public class MergeMethodsSingleRenamingHandlerTest {
         TestUtils.verifyMergeResultWithoutRenamingConflict(mergeContext, "publicclassTest{publicvoidn1(){inta;a=123;}}");
     }
 
+    @Test
+    public void testHandleWithCalls_whenLeftChangedMethodBody_andRightRenamedMethodAndCalls_shouldNotReportConflict() {
+        base = baseFileWithCalls;
+        left = bodyChangedAtEndFile;
+        right = renamedMethodAndCallsFile;
+
+        merge();
+
+        TestUtils.verifyMergeResultWithoutRenamingConflict(mergeContext, "publicclassTest{publicvoidn2(){inta;a=123;}publicstaticvoidmain(String[]args){n2();}}");
+    }
+
+
+    @Test
+    public void testHandleWithCalls_whenLeftChangedMethodBody_andRightRenamedMethodButNotCalls_shouldNotReportConflict() {
+        base = baseFileWithCalls;
+        left = bodyChangedAtEndFileWithCalls;
+        right = renamedMethodButNotCallsFile;
+
+        merge();
+
+        TestUtils.verifyMergeResultWithoutRenamingConflict(mergeContext, "publicclassTest{publicvoidn2(){inta;a=123;}publicstaticvoidmain(String[]args){m();}}");
+    }
+
+    @Test
+    public void testHandleWithCalls_whenLeftChangedMethodBody_andRightRenamedMethodButAndAddedNewCall_shouldReportConflict() {
+        base = baseFileWithCalls;
+        left = bodyChangedAtEndFileWithCalls;
+        right = renamedMethodWithNewCallFile;
+
+        merge();
+
+        TestUtils.verifyMergeResultWithRenamingConflict(mergeContext, "publicclassTest{<<<<<<<MINEpublicvoidm(){inta;a=123;}=======publicvoidn2(){inta;}>>>>>>>YOURSpublicvoidn2_call(){n2();}publicstaticvoidmain(String[]args){n2();}}");
+    }
+
+    @Test
+    public void testHandleWithCalls_whenLeftChangedMethodBodyAndAddedNewCall_andRightRenamedMethodAndCalls_shouldNotReportConflict() {
+        base = baseFileWithCalls;
+        left = bodyChangedWithNewCallFile;
+        right = renamedMethodAndCallsFile;
+
+        merge();
+
+        TestUtils.verifyMergeResultWithRenamingConflict(mergeContext, "publicclassTest{<<<<<<<MINEpublicvoidm(){inta;a=123;}=======publicvoidn2(){inta;}>>>>>>>YOURSpublicvoidm_call(){m();}publicstaticvoidmain(String[]args){n2();}}");
+    }
+
+    @Test
+    public void testHandleWithCalls_whenLeftChangedMethodBodyAndAddedNewCall_andRightRenamedMethodButNotCalls_shouldReportConflict() {
+        base = baseFileWithCalls;
+        left = bodyChangedWithNewCallFile;
+        right = renamedMethodButNotCallsFile;
+
+        merge();
+
+        TestUtils.verifyMergeResultWithRenamingConflict(mergeContext, "publicclassTest{<<<<<<<MINEpublicvoidm(){inta;a=123;}=======publicvoidn2(){inta;}>>>>>>>YOURSpublicvoidm_call(){m();}publicstaticvoidmain(String[]args){m();}}");
+    }
+
+    @Test
+    public void testHandleWithCalls_whenLeftChangedMethodBodyAndAddedNewCall_andRightRenamedMethodAndAddedNewCall_shouldReportConflict() {
+        base = baseFileWithCalls;
+        left = bodyChangedWithNewCallFile;
+        right = renamedMethodWithNewCallFile;
+
+        merge();
+
+        TestUtils.verifyMergeResultWithRenamingConflict(mergeContext, "publicclassTest{<<<<<<<MINEpublicvoidm(){inta;a=123;}=======publicvoidn2(){inta;}>>>>>>>YOURSpublicvoidm_call(){m();}publicvoidn2_call(){n2();}publicstaticvoidmain(String[]args){n2();}}");
+    }
+
     private void merge() {
         mergeContext = jfstMerge.mergeFiles(
                 left,
-                baseFile,
+                base,
                 right,
                 null);
     }
