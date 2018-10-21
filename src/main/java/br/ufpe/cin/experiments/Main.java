@@ -26,12 +26,22 @@ public class Main {
             JFSTMerge jsFSTMerge = new JFSTMerge();
             JFSTMerge.isGit = true;
 
-            Map<RenamingStrategy, Integer> conflictByStrategy = new HashMap<>();
+            Map<String, Integer> numberOfFilesWithAnyConflict = new HashMap<>();
+            Map<String, Integer> numberOfAnyConflict = new HashMap<>();
+            Map<String, Integer> numberOfFilesWithRenamingConflict = new HashMap<>();
+            Map<String, Integer> numberOfRenamingConflicts = new HashMap<>();
             List<String> revisionsWithRenamingConflict = new ArrayList<>();
 
             for (String revision : listRevisions) {
                 MergeScenario mergeScenario = jsFSTMerge.mergeRevisions(revision);
                 mergeScenario.getTuples().stream()
+                        .peek(tuple -> {
+                            numberOfAnyConflict.merge("unstructured", tuple.getContext().unstructuredNumberOfConflicts, Integer::sum);
+                            numberOfFilesWithAnyConflict.merge("unstructured", tuple.getContext().unstructuredNumberOfConflicts > 0 ? 1 : 0, Integer::sum);
+
+                            numberOfAnyConflict.merge("semistructured", tuple.getContext().semistructuredNumberOfConflicts, Integer::sum);
+                            numberOfFilesWithAnyConflict.merge("semistructured", tuple.getContext().semistructuredNumberOfConflicts > 0 ? 1 : 0, Integer::sum);
+                        })
                         .filter(tuple -> tuple.getContext().renamingConflicts > 0)
                         .forEach(tuple -> {
                             System.out.println("Found renaming");
@@ -71,7 +81,8 @@ public class Main {
                                 System.out.println(strategy);
                                 System.out.println("semistructuredNumberOfConflicts: " + mergeContext.semistructuredNumberOfConflicts);
                                 System.out.println("renamingConflicts: " + mergeContext.renamingConflicts);
-                                conflictByStrategy.merge(strategy, mergeContext.renamingConflicts, Integer::sum);
+                                numberOfRenamingConflicts.merge(strategy.name(), mergeContext.renamingConflicts, Integer::sum);
+                                numberOfFilesWithRenamingConflict.merge(strategy.name(), mergeContext.renamingConflicts > 0 ? 1 : 0, Integer::sum);
 
                                 try {
                                     FileUtils.write(new File(baseLogsPath + "UNSTRUCTURED" + fileRelativePath),
@@ -87,7 +98,10 @@ public class Main {
             FileUtils.write(new File("mockito-renaming.revisions"),
                     String.join("\n", revisionsWithRenamingConflict));
 
-            System.out.println(conflictByStrategy);
+            System.out.println("numberOfFilesWithAnyConflict:" + numberOfFilesWithAnyConflict);
+            System.out.println("numberOfConflicts:" + numberOfAnyConflict);
+            System.out.println("numberOfFilesWithRenamingConflict:" + numberOfFilesWithRenamingConflict);
+            System.out.println("numberOfRenamingConflicts:" + numberOfRenamingConflicts);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
