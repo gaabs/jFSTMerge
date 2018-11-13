@@ -19,6 +19,8 @@ public class MethodAndConstructorRenamingAndDeletionHandlerTest {
     private File bodyChangedAtEndFile = new File("testfiles/renaming/method/changed_body_at_end/Test.java");
     private File renamedMethodFile1 = new File("testfiles/renaming/method/renamed_method_1/Test.java");
     private File renamedMethodFile2 = new File("testfiles/renaming/method/renamed_method_2/Test.java");
+    private File addedMethodFile1 = new File("testfiles/renaming/method/added_method_1/Test.java");
+    private File addedMethodFile2 = new File("testfiles/renaming/method/added_method_2/Test.java");
 
     private JFSTMerge jfstMerge = new JFSTMerge();
 
@@ -97,6 +99,20 @@ public class MethodAndConstructorRenamingAndDeletionHandlerTest {
                 null);
 
         verifyMergeResultWithConflict(mergeContext, "<<<<<<<MINEpublicvoidn1(){inta;}=======publicvoidn2(){inta;}>>>>>>>YOURS");
+    }
+
+    // TODO: check case when methods are exactly the same!
+    @Test
+    public void testMutualMethodRenaming_whenBothVersionsAddSimilarMethods_shouldNotReportConflict() {
+        JFSTMerge.renamingStrategy = RenamingStrategy.SAFE;
+
+        MergeContext mergeContext = jfstMerge.mergeFiles(
+                addedMethodFile1,
+                baseFile,
+                addedMethodFile2,
+                null);
+
+        verifyMergeResultWithoutConflict(mergeContext, "publicvoidm(){inta;}publicvoidn1(){inta;}publicvoidn2(){inta;}");
     }
 
     @Test

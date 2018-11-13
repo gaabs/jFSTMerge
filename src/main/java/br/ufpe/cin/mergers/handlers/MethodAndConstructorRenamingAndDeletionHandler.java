@@ -37,6 +37,7 @@ public final class MethodAndConstructorRenamingAndDeletionHandler implements Con
 
     private static void handleMutualRenamings(MergeContext context) {
         if (context.addedLeftNodes.isEmpty() || context.addedRightNodes.isEmpty()) return;
+        if (context.deletedBaseNodes.isEmpty()) return;
         if (JFSTMerge.renamingStrategy == RenamingStrategy.KEEP_BOTH_METHODS) return;
 
         List<FSTNode> leftNewMethodsOrConstructors = context.addedLeftNodes.stream().filter(m -> isMethodOrConstructorNode(m)).collect(Collectors.toList());
@@ -47,6 +48,7 @@ public final class MethodAndConstructorRenamingAndDeletionHandler implements Con
                 if (!left.getName().equals(right.getName())) { //only if the two declarations have different signatures
                     String leftBody = getNodeBodyWithoutSignature(left);
                     String rightBody = getNodeBodyWithoutSignature(right);
+                    //TODO: check deletedBaseNodes similarity
 
                     if (leftBody.equals(rightBody)) {//the methods have the same body, ignoring their signature
                         generateMutualRenamingConflict(context, ((FSTTerminal) left).getBody(), ((FSTTerminal) left).getBody(), ((FSTTerminal) right).getBody());
