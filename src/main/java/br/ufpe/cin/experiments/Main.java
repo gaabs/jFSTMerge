@@ -12,18 +12,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.google.common.base.Predicates.not;
 
 public class Main {
     private static final String SAMPLE_BASE_PATH = "/home/gio/Downloads/sample/";
-    private static final String SAMPLE_REVISIONS_FILENAME = "test.revisions";
+    private static final String SAMPLE_REVISIONS_FILENAME = "all.revisions";
     private static final String LOGS_BASE_PATH = "logs/";
 
     public static void main(String[] args) {
+        Long startTime = System.currentTimeMillis();
         try {
             BufferedReader reader = Files.newBufferedReader(Paths.get(SAMPLE_BASE_PATH + SAMPLE_REVISIONS_FILENAME));
             List<String> listRevisions = reader.lines().collect(Collectors.toList());
@@ -40,7 +41,12 @@ public class Main {
             List<String> filesWithSafeRenamingConflict = new ArrayList<>();
             List<String> filesWithNoSafeRenamingConflict = new ArrayList<>();
 
+            int currentRevisionNumber = 0;
             for (String revision : listRevisions) {
+                currentRevisionNumber++;
+                System.out.printf("At %d out of %d revisions\n", currentRevisionNumber, listRevisions.size());
+                System.out.println(revision);
+
                 JFSTMerge.renamingStrategy = RenamingStrategy.SAFE;
                 MergeScenario mergeScenario = jsFSTMerge.mergeRevisions(revision);
                 mergeScenario.getTuples().stream()
@@ -51,6 +57,7 @@ public class Main {
                             numberOfAnyConflict.merge("semistructured", tuple.getContext().semistructuredNumberOfConflicts, Integer::sum);
                             numberOfFilesWithAnyConflict.merge("semistructured", tuple.getContext().semistructuredNumberOfConflicts > 0 ? 1 : 0, Integer::sum);
                         })
+//                        .filter(tuple -> tuple.getBaseFile() != null)
 //                        .filter(tuple -> tuple.getContext().renamingConflicts > 0)
 //                        .filter(tuple -> tuple.getLeftFile() != null && tuple.getBaseFile() != null && tuple.getRightFile() != null)
 //                        .filter(tuple -> !RenamingUtils.getMethodsOrConstructors(tuple.getContext().nodesDeletedByLeft).isEmpty() ||
@@ -120,13 +127,22 @@ public class Main {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        Long endTime = System.currentTimeMillis();
+        System.out.printf("took %.3f minutes\n", (endTime - startTime) / (1000.0 * 60));
     }
 
     private static String getLogPath(String revision, FilesTuple tuple) {
         String revisionPath = revision.substring(0, revision.lastIndexOf("/")).replace("/home/gio/Downloads/sample/", "") + "/";
         revisionPath = revisionPath.replaceAll("/", ".");
 
-        String fileRelativePath = tuple.getBaseFile().getAbsolutePath().substring(tuple.getBaseFile().getAbsolutePath().lastIndexOf("/"))
+        String fileAbsolutePath = Stream.of(tuple.getBaseFile(), tuple.getLeftFile(), tuple.getRightFile())
+                .filter(not(Objects::isNull))
+                .map(File::getAbsolutePath)
+                .findFirst()
+                .get();
+
+        String fileRelativePath = fileAbsolutePath.substring(fileAbsolutePath.lastIndexOf("/") + 1)
                 .replaceAll("/", ".");
 
         return LOGS_BASE_PATH + revisionPath + fileRelativePath;
