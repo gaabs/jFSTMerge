@@ -8,6 +8,7 @@ import br.ufpe.cin.mergers.util.Side;
 import de.ovgu.cide.fstgen.ast.FSTNode;
 import de.ovgu.cide.fstgen.ast.FSTTerminal;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
@@ -26,14 +27,17 @@ public class MergeMethodsSingleRenamingHandler implements SingleRenamingHandler 
         }
 
         String newSignature = RenamingUtils.getSignature(possibleRenamingContent);
-        String newBody = RenamingUtils.removeSignature(oppositeSideNodeContent);
+        Pair<String, String> renamingContent = RenamingUtils.getRenamingContentOnCorrectOrder(possibleRenamingContent, oppositeSideNodeContent, renamingSide);
+        String bodyResult = RenamingUtils.mergeBodies(renamingContent.getLeft(), baseContent, renamingContent.getRight());
 
         //TODO: check method calls
 
         // replace node with both nodes content
-        FilesManager.findAndReplaceASTNodeContent(context.superImposedTree, conflictNodeContent, newSignature + newBody);
+        FilesManager.findAndReplaceASTNodeContent(context.superImposedTree, conflictNodeContent, newSignature + bodyResult);
 
         // remove other node
         FilesManager.findAndDeleteASTNode(context.superImposedTree, possibleRenamingContent);
+
+        context.renamingConflicts += StringUtils.countMatches(bodyResult, "<<<<<<<");
     }
 }

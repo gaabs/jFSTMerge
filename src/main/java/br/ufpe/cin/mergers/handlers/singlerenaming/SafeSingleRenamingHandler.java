@@ -20,7 +20,7 @@ public class SafeSingleRenamingHandler implements SingleRenamingHandler {
 
         if (RenamingUtils.hasUnstructuredMergeConflict(context, baseContent)) {
             String possibleRenamingContent = RenamingUtils.getMostSimilarNodeContent(baseContent, conflictNode, addedNodes);
-            RenamingUtils.generateRenamingConflict(context, conflictNodeContent, possibleRenamingContent, oppositeSideNodeContent, renamingSide);
+            RenamingUtils.generateRenamingConflict(context, conflictNodeContent, baseContent, possibleRenamingContent, oppositeSideNodeContent, renamingSide);
         } else {
             ((FSTTerminal) conflictNode).setBody(oppositeSideNodeContent);
         }
