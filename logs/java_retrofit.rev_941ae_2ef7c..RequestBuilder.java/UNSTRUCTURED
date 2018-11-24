@@ -1,0 +1,245 @@
+// Copyright 2012 Square, Inc.
+package retrofit.http;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+<<<<<<< MINE
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+=======
+>>>>>>> YOURS
+import java.util.List;
+import retrofit.http.client.Header;
+import retrofit.http.client.Request;
+import retrofit.http.mime.FormEncodedTypedOutput;
+import retrofit.http.mime.MultipartTypedOutput;
+import retrofit.http.mime.TypedOutput;
+
+import static retrofit.http.RestMethodInfo.NO_BODY;
+
+/** Builds HTTP requests from Java method invocations. */
+final class RequestBuilder {
+  private final Converter converter;
+
+  private RestMethodInfo methodInfo;
+  private Object[] args;
+  private String apiUrl;
+  private List<HeaderPair> headers;
+
+  RequestBuilder(Converter converter) {
+    this.converter = converter;
+  }
+
+  /** Supply cached method metadata info. */
+  RequestBuilder methodInfo(RestMethodInfo methodDetails) {
+    this.methodInfo = methodDetails;
+    return this;
+  }
+
+  /** Base API url. */
+  RequestBuilder apiUrl(String apiUrl) {
+    this.apiUrl = apiUrl;
+    return this;
+  }
+
+  /** Arguments from method invocation. */
+  RequestBuilder args(Object[] args) {
+    this.args = args;
+    return this;
+  }
+
+<<<<<<< MINE
+  RequestBuilder setHeaders(List<HeaderPair> headers) {
+=======
+  /** A list of custom headers. */
+  RequestBuilder headers(List<Header> headers) {
+>>>>>>> YOURS
+    this.headers = headers;
+    return this;
+  }
+
+<<<<<<< MINE
+  /** List of all URL parameters. Return value will be mutated. */
+  private List<Parameter> createParamList() {
+    List<Parameter> params = new ArrayList<Parameter>();
+
+    // Add arguments as parameters.
+    String[] pathNamedParams = methodInfo.namedParams;
+    int singleEntityArgumentIndex = methodInfo.singleEntityArgumentIndex;
+    for (int i = 0; i < pathNamedParams.length; i++) {
+      Object arg = args[i];
+      if (arg == null || pathNamedParams[i] == null) continue;
+      if (i != singleEntityArgumentIndex) {
+        params.add(new Parameter(pathNamedParams[i], arg, arg.getClass()));
+      }
+    }
+
+    return params;
+  }
+
+  Request build() {
+    // Alter parameter list if path parameters are present.
+    Set<String> pathParams = new LinkedHashSet<String>(methodInfo.pathParams);
+    List<Parameter> paramList = createParamList();
+    String replacedPath = methodInfo.path;
+    for (String pathParam : pathParams) {
+      Parameter found = null;
+      for (Parameter param : paramList) {
+        if (param.getName().equals(pathParam)) {
+          found = param;
+          break;
+        }
+      }
+      if (found != null) {
+        String value = getUrlEncodedValue(found);
+        replacedPath = replacedPath.replace("{" + found.getName() + "}", value);
+        paramList.remove(found);
+      } else {
+        throw new IllegalArgumentException(
+            "URL param " + pathParam + " has no matching method @Name param.");
+      }
+    }
+
+    if (methodInfo.singleEntityArgumentIndex != NO_SINGLE_ENTITY) {
+      // We're passing a JSON object as the entity: paramList should only contain path param values.
+      if (!paramList.isEmpty()) {
+        throw new IllegalStateException(
+            "Found @Name param on single-entity request that was not used for path substitution.");
+      }
+    }
+=======
+  /**
+   * Construct a {@link Request} from the supplied information. You <strong>must</strong> call
+   * {@link #methodInfo}, {@link #apiUrl}, {@link #args}, and {@link #headers} before invoking this
+   * method.
+   */
+  Request build() throws UnsupportedEncodingException {
+    String apiUrl = this.apiUrl;
+>>>>>>> YOURS
+
+    StringBuilder url = new StringBuilder(apiUrl);
+    if (apiUrl.endsWith("/")) {
+      // We enforce relative paths to start with '/'. Prevent a double-slash.
+      url.deleteCharAt(url.length() - 1);
+    }
+
+    // Append the method relative URL.
+    url.append(buildRelativeUrl());
+
+    // Append query parameters, if needed.
+    if (methodInfo.hasQueryParams) {
+      boolean first = true;
+      String requestQuery = methodInfo.requestQuery;
+      if (requestQuery != null) {
+        url.append(requestQuery);
+        first = false;
+      }
+      String[] requestQueryName = methodInfo.requestQueryName;
+      for (int i = 0; i < requestQueryName.length; i++) {
+        String query = requestQueryName[i];
+        if (query != null) {
+          String value = URLEncoder.encode(String.valueOf(args[i]), "UTF-8");
+          url.append(first ? '?' : '&').append(query).append('=').append(value);
+          first = false;
+        }
+      }
+    }
+
+<<<<<<< MINE
+    List<HeaderPair> headers = new ArrayList<HeaderPair>();
+    if (this.headers != null) {
+      headers.addAll(this.headers);
+    }
+    if (methodInfo.headers != null) {
+      headers.addAll(methodInfo.headers);
+    }
+    // RFC 2616: Field names are case-insensitive
+    List<String> lcHeadersToRemove = new ArrayList<String>();
+    if (methodInfo.headerParams != null) {
+      for (int i = 0; i < methodInfo.headerParams.length; i++) {
+        String name = methodInfo.headerParams[i];
+        if (name == null) continue;
+        Object arg = args[i];
+        if (arg != null) {
+          headers.add(new HeaderPair(name, arg.toString()));
+        } else {
+          lcHeadersToRemove.add(name.toLowerCase());
+        }
+      }
+    }
+    for (Iterator<HeaderPair> header = headers.iterator(); header.hasNext();) {
+      // RFC 2616: Field names are case-insensitive
+      if (lcHeadersToRemove.contains(header.next().getName().toLowerCase()))
+        header.remove();
+    }
+    return new Request(methodInfo.restMethod.value(), url.toString(), headers, body);
+=======
+    return new Request(methodInfo.requestMethod, url.toString(), headers, buildBody());
+>>>>>>> YOURS
+  }
+
+  /** Create the final relative URL by performing parameter replacement. */
+  private String buildRelativeUrl() throws UnsupportedEncodingException {
+    String replacedPath = methodInfo.requestUrl;
+    String[] requestUrlParam = methodInfo.requestUrlParam;
+    for (int i = 0; i < requestUrlParam.length; i++) {
+      String param = requestUrlParam[i];
+      if (param != null) {
+        String value = URLEncoder.encode(String.valueOf(args[i]), "UTF-8");
+        replacedPath = replacedPath.replace("{" + param + "}", value);
+      }
+    }
+    return replacedPath;
+  }
+
+  /** Create the request body using the method info and invocation arguments. */
+  private TypedOutput buildBody() {
+    switch (methodInfo.requestType) {
+      case SIMPLE: {
+        int bodyIndex = methodInfo.bodyIndex;
+        if (bodyIndex == NO_BODY) {
+          return null;
+        }
+        Object body = args[bodyIndex];
+        if (body instanceof TypedOutput) {
+          return (TypedOutput) body;
+        } else {
+          return converter.toBody(body);
+        }
+      }
+
+      case FORM_ENCODED: {
+        FormEncodedTypedOutput body = new FormEncodedTypedOutput();
+        String[] requestFormPair = methodInfo.requestFormPair;
+        for (int i = 0; i < requestFormPair.length; i++) {
+          String name = requestFormPair[i];
+          if (name != null) {
+            body.addPair(name, String.valueOf(args[i]));
+          }
+        }
+        return body;
+      }
+
+      case MULTIPART: {
+        MultipartTypedOutput body = new MultipartTypedOutput();
+        String[] requestMultipartPart = methodInfo.requestMultipartPart;
+        for (int i = 0; i < requestMultipartPart.length; i++) {
+          String name = requestMultipartPart[i];
+          if (name != null) {
+            Object value = args[i];
+            if (value instanceof TypedOutput) {
+              body.addPart(name, (TypedOutput) value);
+            } else {
+              body.addPart(name, converter.toBody(value));
+            }
+          }
+        }
+        return body;
+      }
+
+      default:
+        throw new IllegalArgumentException("Unknown request type " + methodInfo.requestType);
+    }
+  }
+}
