@@ -103,20 +103,6 @@ public TermsHashPerField(DocInverterPerField docInverterPerField, final TermsHas
     postingsHash = new int[postingsHashSize];
     Arrays.fill(postingsHash, -1);
     bytesUsed(postingsHashSize * RamUsageEstimator.NUM_BYTES_INT);
-
-    fieldState = docInverterPerField.fieldState;
-    this.consumer = termsHash.consumer.addField(this, fieldInfo);
-    initPostingsArray();
-
-    streamCount = consumer.getStreamCount();
-    numPostingInt = 2*streamCount;
-    utf8 = termsHash.utf8;
-    this.fieldInfo = fieldInfo;
-    if (nextTermsHash != null)
-      nextPerField = (TermsHashPerField) nextTermsHash.addField(docInverterPerField, fieldInfo);
-    else
-      nextPerField = null;
-  }
 =======
 public TermsHashPerField(DocInverterPerField docInverterPerField, final TermsHashPerThread perThread, final TermsHashPerThread nextPerThread, final FieldInfo fieldInfo) {
     this.perThread = perThread;
@@ -125,22 +111,31 @@ public TermsHashPerField(DocInverterPerField docInverterPerField, final TermsHas
     termBytePool = perThread.termBytePool;
     docState = perThread.docState;
     bytesUsed =  perThread.termsHash.trackAllocations?perThread.termsHash.docWriter.bytesUsed:new AtomicLong();
+>>>>>>> YOURS
 
     fieldState = docInverterPerField.fieldState;
+<<<<<<< MINE
+    this.consumer = termsHash.consumer.addField(this, fieldInfo);
+    initPostingsArray();
+
+=======
     this.consumer = perThread.consumer.addField(this, fieldInfo);
     PostingsBytesStartArray byteStarts = new PostingsBytesStartArray(this, bytesUsed);
     bytesHash = new BytesRefHash(termBytePool, HASH_INIT_SIZE, byteStarts); 
+>>>>>>> YOURS
     streamCount = consumer.getStreamCount();
     numPostingInt = 2*streamCount;
+<<<<<<< MINE
+    utf8 = termsHash.utf8;
+=======
     termBytesRef = perThread.termBytesRef;
+>>>>>>> YOURS
     this.fieldInfo = fieldInfo;
-    if (nextPerThread != null)
-      nextPerField = (TermsHashPerField) nextPerThread.addField(docInverterPerField, fieldInfo);
+    if (nextTermsHash != null)
+      nextPerField = (TermsHashPerField) nextTermsHash.addField(docInverterPerField, fieldInfo);
     else
       nextPerField = null;
   }
-
->>>>>>> YOURS
 	
 
   
@@ -153,10 +148,9 @@ private void bytesUsed(long size) {
       termsHash.docWriter.bytesUsed(size);
     }
   }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
   void shrinkHash(int targetSize) {
@@ -238,10 +232,9 @@ int comparePostings(int term1, int term2) {
 
     return termComp.compare(termsHash.tr1, termsHash.tr2);
   }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
   /** Test whether the text for current RawPostingList p equals
@@ -277,10 +270,9 @@ private boolean postingEquals(final int termID) {
       return false;
     }
   }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
   private boolean doCall;

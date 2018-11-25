@@ -97,27 +97,48 @@ final  class  TermsHashPerField  extends InvertedDocConsumerPerField {
 	
 
   public TermsHashPerField(DocInverterPerField docInverterPerField, final TermsHash termsHash, final TermsHash nextTermsHash, final FieldInfo fieldInfo) {
+<<<<<<< MINE
     this.perThread = perThread;
     intPool = perThread.intPool;
     bytePool = perThread.bytePool;
     termBytePool = perThread.termBytePool;
     docState = perThread.docState;
     bytesUsed =  perThread.termsHash.trackAllocations?perThread.termsHash.docWriter.bytesUsed:new AtomicLong();
+=======
+    intPool = termsHash.intPool;
+    bytePool = termsHash.bytePool;
+    termBytePool = termsHash.termBytePool;
+    docState = termsHash.docState;
+    this.termsHash = termsHash;
+
+    postingsHash = new int[postingsHashSize];
+    Arrays.fill(postingsHash, -1);
+    bytesUsed(postingsHashSize * RamUsageEstimator.NUM_BYTES_INT);
+>>>>>>> YOURS
 
     fieldState = docInverterPerField.fieldState;
+<<<<<<< MINE
     this.consumer = perThread.consumer.addField(this, fieldInfo);
     PostingsBytesStartArray byteStarts = new PostingsBytesStartArray(this, bytesUsed);
     bytesHash = new BytesRefHash(termBytePool, HASH_INIT_SIZE, byteStarts); 
+=======
+    this.consumer = termsHash.consumer.addField(this, fieldInfo);
+    initPostingsArray();
+
+>>>>>>> YOURS
     streamCount = consumer.getStreamCount();
     numPostingInt = 2*streamCount;
+<<<<<<< MINE
     termBytesRef = perThread.termBytesRef;
+=======
+    utf8 = termsHash.utf8;
+>>>>>>> YOURS
     this.fieldInfo = fieldInfo;
-    if (nextPerThread != null)
-      nextPerField = (TermsHashPerField) nextPerThread.addField(docInverterPerField, fieldInfo);
+    if (nextTermsHash != null)
+      nextPerField = (TermsHashPerField) nextTermsHash.addField(docInverterPerField, fieldInfo);
     else
       nextPerField = null;
   }
-
 	
 
   

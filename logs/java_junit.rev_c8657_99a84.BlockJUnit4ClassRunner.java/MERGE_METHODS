@@ -195,12 +195,11 @@ public  class  BlockJUnit4ClassRunner  extends ParentRunner<FrameworkMethod> {
 	private void validateRuleField(Field field, List<Throwable> errors) {
 		if (!MethodRule.class.isAssignableFrom(field.getType()))
 			errors.add(new Exception("Field " + field.getName()
-					+ " must implement StatementInterceptor"));
+					+ " must implement MethodRule"));
 		if (!Modifier.isPublic(field.getModifiers()))
 			errors.add(new Exception("Field " + field.getName()
 					+ " must be public"));
 	}
-
 	
 
 	/**

@@ -90,13 +90,11 @@ public  class  InMemorySecurityMaster  implements SecurityMaster {
   <<<<<<< MINE
 public InMemorySecurityMaster(final MasterChangeManager changeManager) {
     this(new ObjectIdSupplier(DEFAULT_OID_SCHEME), changeManager);
-  }
-
 =======
 public InMemorySecurityMaster(final ChangeManager changeManager) {
     this(new ObjectIdentifierSupplier(DEFAULT_OID_SCHEME), changeManager);
-  }
 >>>>>>> YOURS
+  }
 	
 
   /**
@@ -107,13 +105,11 @@ public InMemorySecurityMaster(final ChangeManager changeManager) {
   <<<<<<< MINE
 public InMemorySecurityMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicMasterChangeManager());
-  }
 =======
 public InMemorySecurityMaster(final Supplier<ObjectIdentifier> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
-  }
-
 >>>>>>> YOURS
+  }
 	
 
   /**

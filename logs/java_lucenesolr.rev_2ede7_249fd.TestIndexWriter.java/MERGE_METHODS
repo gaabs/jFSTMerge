@@ -3292,7 +3292,7 @@ public void doAfterFlush() {
     FlushCountingIndexWriter w = new FlushCountingIndexWriter(dir, newIndexWriterConfig( TEST_VERSION_CURRENT, new MockAnalyzer(MockTokenizer.WHITESPACE, true, false)).setRAMBufferSizeMB(0.5).setMaxBufferedDocs(-1).setMaxBufferedDeleteTerms(-1));
     w.setInfoStream(VERBOSE ? System.out : null);
     Document doc = new Document();
-    doc.add(newField("field", "go 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20", Field.Store.NO, Field.Index.ANALYZED));
+    doc.add(new Field("field", "go 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20", Field.Store.NO, Field.Index.ANALYZED));
     int num = 6 * RANDOM_MULTIPLIER;
     for (int iter = 0; iter < num; iter++) {
       int count = 0;
@@ -3321,7 +3321,6 @@ public void doAfterFlush() {
     w.close();
     dir.close();
   }
-
 	
   
   public void testNoCommits() throws Exception {

@@ -70,6 +70,11 @@ public SimpleInterpolatedYieldAndDiscountCurveFunction(final LocalDate curveDate
     Validate.notNull(curveDate, "Curve Date");
     Validate.notNull(currency, "Currency");
     Validate.notNull(name, "Name");
+=======
+public SimpleInterpolatedYieldAndDiscountCurveFunction(final Currency currency, final String name, final boolean isYieldCurve) {
+    ArgumentChecker.notNull(currency, "currency");
+    ArgumentChecker.notNull(name, "name");
+>>>>>>> YOURS
     _definition = null;
     _curveDate = curveDate;
     _curveCurrency = currency;
@@ -80,21 +85,6 @@ public SimpleInterpolatedYieldAndDiscountCurveFunction(final LocalDate curveDate
     _result = null;
     _results = null;
   }
-=======
-public SimpleInterpolatedYieldAndDiscountCurveFunction(final Currency currency, final String name, final boolean isYieldCurve) {
-    ArgumentChecker.notNull(currency, "currency");
-    ArgumentChecker.notNull(name, "name");
-    _definition = null;
-    _curveCurrency = currency;
-    _curveName = name;
-    _isYieldCurve = isYieldCurve;
-    _interpolator = null;
-    _requirements = null;
-    _result = null;
-    _results = null;
-  }
-
->>>>>>> YOURS
 	
   private LocalDate _curveDate;
 	

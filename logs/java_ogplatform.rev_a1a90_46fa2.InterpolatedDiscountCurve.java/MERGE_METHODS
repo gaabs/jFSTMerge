@@ -313,12 +313,18 @@ public  class  InterpolatedDiscountCurve  extends DiscountCurve  implements Seri
 
   @SuppressWarnings("unchecked")
   public static InterpolatedDiscountCurve fromFudgeMsg(final FudgeDeserializationContext context, final FudgeFieldContainer message) {
+<<<<<<< MINE
+    final Interpolator1D interpolator = Interpolator1DFactory.getInterpolator(message.getString(INTERPOLATOR_FIELD_NAME));
+    final SortedMap<Double, Double> rateData = new TreeMap<Double, Double>(context.fieldValueToObject(Map.class, message.getByName(RATE_DATA_FIELD_NAME)));
+    final SortedMap<Double, Double> dfData = new TreeMap<Double, Double>(context.fieldValueToObject(Map.class, message.getByName(DF_DATA_FIELD_NAME)));
+    return new InterpolatedDiscountCurve(rateData, dfData, interpolator);
+=======
     final SortedMap<Double, Double> rateData = decodeSortedDoubleDoubleMap(message.getMessage(RATE_DATA_FIELD_NAME));
     final SortedMap<Double, Double> dfData = decodeSortedDoubleDoubleMap(message.getMessage(DF_DATA_FIELD_NAME));
     final SortedMap<Double, Interpolator1D> interpolators = decodeSortedDoubleInterpolator1DMap(message.getMessage(INTERPOLATOR_FIELD_NAME));
     return new InterpolatedDiscountCurve(rateData, dfData, interpolators);
+>>>>>>> YOURS
   }
-
 	
 
   // REVIEW kirk 2010-03-31 -- These probably belong in a utility class

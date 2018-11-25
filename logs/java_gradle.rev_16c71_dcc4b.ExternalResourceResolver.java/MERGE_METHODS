@@ -393,7 +393,6 @@ public abstract  class  ExternalResourceResolver  implements ModuleVersionPublis
             result.resolved(ImmutableSet.of(artifact));
         }
     }
-
 	
 
     protected void resolveJavadocArtifacts(ModuleVersionMetaData module, BuildableArtifactSetResolveResult result, boolean localOnly) {

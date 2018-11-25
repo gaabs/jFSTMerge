@@ -1,11 +1,28 @@
-package org.apache.lucene.store;
+package org.apache.lucene.store; 
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Closeable;
-// for javadocs
-import java.util.Collection;
-import org.apache.lucene.util.IOUtils;
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import java.io.FileNotFoundException; 
+import java.io.IOException; 
+import java.io.Closeable; 
+import java.util.Collection;  // for javadocs
+
+import org.apache.lucene.util.IOUtils; 
 
 /** A Directory is a flat list of files.  Files may be written once, when they
  * are created.  Once a file is created it may only be opened for read, or
@@ -23,33 +40,43 @@ import org.apache.lucene.util.IOUtils;
  * instance using {@link #setLockFactory}.
  *
  */
-public abstract class Directory implements Closeable {
+public abstract  class  Directory  implements Closeable {
+	
 
-    protected volatile boolean isOpen = true;
+  volatile protected boolean isOpen = true;
+	
 
-    /** Holds the LockFactory instance (implements locking for
+  /** Holds the LockFactory instance (implements locking for
    * this Directory instance). */
-    protected LockFactory lockFactory;
+  protected LockFactory lockFactory;
+	
 
-    /**
+  /**
    * Returns an array of strings, one for each file in the directory.
    * 
    * @throws NoSuchDirectoryException if the directory is not prepared for any
    *         write operations (such as {@link #createOutput(String)}).
    * @throws IOException in case of other IO errors
    */
-    public abstract String[] listAll() throws IOException;
+  public abstract String[] listAll() throws IOException;
+	
 
-    /** Returns true iff a file with the given name exists. */
-    public abstract boolean fileExists(String name) throws IOException;
+  /** Returns true iff a file with the given name exists. */
+  public abstract boolean fileExists(String name)
+       throws IOException;
+	
 
-    /** Returns the time the named file was last modified. */
-    public abstract long fileModified(String name) throws IOException;
+  /** Returns the time the named file was last modified. */
+  public abstract long fileModified(String name)
+       throws IOException;
+	
 
-    /** Removes an existing file in the directory. */
-    public abstract void deleteFile(String name) throws IOException;
+  /** Removes an existing file in the directory. */
+  public abstract void deleteFile(String name)
+       throws IOException;
+	
 
-    /**
+  /**
    * Returns the length of a file in the directory. This method follows the
    * following contract:
    * <ul>
@@ -62,13 +89,23 @@ public abstract class Directory implements Closeable {
    * @throws IOException if there was an IO error while retrieving the file's
    *         length.
    */
-    public abstract long fileLength(String name) throws IOException;
+  public abstract long fileLength(String name) throws IOException;
+	
 
-    /** Creates a new, empty file in the directory with the given name.
+
+  /** Creates a new, empty file in the directory with the given name.
       Returns a stream writing this file. */
-    public abstract IndexOutput createOutput(String name, IOContext context) throws IOException;
+  
+	
 
-    /**
+
+  /** Creates a new, empty file in the directory with the given name.
+      Returns a stream writing this file. */
+  public abstract IndexOutput createOutput(String name, IOContext context)
+       throws IOException;
+	
+
+  /**
    * Ensure that any writes to these files are moved to
    * stable storage.  Lucene uses this to properly commit
    * changes to the index, to prevent a machine/OS crash
@@ -79,17 +116,24 @@ public abstract class Directory implements Closeable {
    * For other impls the operation can be a noop, for various
    * reasons.
    */
-    public abstract void sync(Collection<String> names) throws IOException;
+  public abstract void sync(Collection<String> names) throws IOException;
+	
 
-    /** Returns a stream reading an existing file. */
-    /** Returns a stream reading an existing file, with the
+  /** Returns a stream reading an existing file. */
+  
+	
+
+  /** Returns a stream reading an existing file, with the
    * specified read buffer size.  The particular Directory
    * implementation may ignore the buffer size.  Currently
    * the only Directory implementations that respect this
    * parameter are {@link FSDirectory} and {@link
    * CompoundFileDirectory}.
   */
-    /** 
+  
+	
+  
+  /** 
    * Returns a {@link CompoundFileDirectory} capable of
    * reading the Lucene compound file format.  
    * <p>
@@ -97,11 +141,12 @@ public abstract class Directory implements Closeable {
    * {@link DefaultCompoundFileDirectory}.
    * @lucene.experimental
    */
-    public CompoundFileDirectory openCompoundInput(String name, int bufferSize) throws IOException {
-        return new DefaultCompoundFileDirectory(this, name, bufferSize, false);
-    }
-
-    /** 
+  public CompoundFileDirectory openCompoundInput(String name, int bufferSize) throws IOException {
+    return new DefaultCompoundFileDirectory(this, name, bufferSize, false);
+  }
+	
+  
+  /** 
    * Returns a {@link CompoundFileDirectory} capable of
    * writing the Lucene compound file format.  
    * <p>
@@ -109,42 +154,47 @@ public abstract class Directory implements Closeable {
    * {@link DefaultCompoundFileDirectory}.
    * @lucene.experimental
    */
-    public CompoundFileDirectory createCompoundOutput(String name) throws IOException {
-        return new DefaultCompoundFileDirectory(this, name, 1024, true);
-    }
+  public CompoundFileDirectory createCompoundOutput(String name) throws IOException {
+    return new DefaultCompoundFileDirectory(this, name, 1024, true);
+  }
+	
 
-    /** Returns a stream reading an existing file, with the
+  /** Returns a stream reading an existing file, with the
    * specified read buffer size.  The particular Directory
    * implementation may ignore the buffer size.  Currently
    * the only Directory implementations that respect this
    * parameter are {@link FSDirectory} and {@link
    * org.apache.lucene.index.CompoundFileReader}.
   */
-    public abstract IndexInput openInput(String name, IOContext context) throws IOException;
+  public abstract IndexInput openInput(String name, IOContext context) throws IOException;
+	
 
-    /** Construct a {@link Lock}.
+  /** Construct a {@link Lock}.
    * @param name the name of the lock file
    */
-    public Lock makeLock(String name) {
-        return lockFactory.makeLock(name);
-    }
-
-    /**
+  public Lock makeLock(String name) {
+      return lockFactory.makeLock(name);
+  }
+	
+  /**
    * Attempt to clear (forcefully unlock and remove) the
    * specified lock.  Only call this at a time when you are
    * certain this lock is no longer in use.
    * @param name name of the lock to be cleared.
    */
-    public void clearLock(String name) throws IOException {
-        if (lockFactory != null) {
-            lockFactory.clearLock(name);
-        }
+  public void clearLock(String name) throws IOException {
+    if (lockFactory != null) {
+      lockFactory.clearLock(name);
     }
+  }
+	
 
-    /** Closes the store. */
-    public abstract void close() throws IOException;
+  /** Closes the store. */
+  public abstract void close()
+       throws IOException;
+	
 
-    /**
+  /**
    * Set the LockFactory that this Directory instance should
    * use for its locking implementation.  Each * instance of
    * LockFactory should only be used for one directory (ie,
@@ -153,23 +203,25 @@ public abstract class Directory implements Closeable {
    *
    * @param lockFactory instance of {@link LockFactory}.
    */
-    public void setLockFactory(LockFactory lockFactory) throws IOException {
-        assert lockFactory != null;
-        this.lockFactory = lockFactory;
-        lockFactory.setLockPrefix(this.getLockID());
-    }
+  public void setLockFactory(LockFactory lockFactory) throws IOException {
+    assert lockFactory != null;
+    this.lockFactory = lockFactory;
+    lockFactory.setLockPrefix(this.getLockID());
+  }
+	
 
-    /**
+  /**
    * Get the LockFactory that this Directory instance is
    * using for its locking implementation.  Note that this
    * may be null for Directory implementations that provide
    * their own locking implementation.
    */
-    public LockFactory getLockFactory() {
-        return this.lockFactory;
-    }
+  public LockFactory getLockFactory() {
+      return this.lockFactory;
+  }
+	
 
-    /**
+  /**
    * Return a string identifier that uniquely differentiates
    * this Directory instance from other Directory instances.
    * This ID should be the same if two Directory instances
@@ -177,16 +229,18 @@ public abstract class Directory implements Closeable {
    * are considered "the same index".  This is how locking
    * "scopes" to the right index.
    */
-    public String getLockID() {
-        return this.toString();
-    }
+  public String getLockID() {
+      return this.toString();
+  }
+	
 
-    @Override
-    public String toString() {
-        return super.toString() + " lockFactory=" + getLockFactory();
-    }
+  @Override
+  public String toString() {
+    return super.toString() + " lockFactory=" + getLockFactory();
+  }
+	
 
-    /**
+  /**
    * Copies the file <i>src</i> to {@link Directory} <i>to</i> under the new
    * file name <i>dest</i>.
    * <p>
@@ -203,26 +257,33 @@ public abstract class Directory implements Closeable {
    * <b>NOTE:</b> this method does not check whether <i>dest<i> exist and will
    * overwrite it if it does.
    */
-    public void copy(Directory to, String src, String dest, IOContext context) throws IOException {
-        IndexOutput os = null;
-        IndexInput is = null;
-        IOException priorException = null;
-        try {
-            os = to.createOutput(dest);
-            is = openInput(src);
-            is.copyBytes(os, is.length());
-        } catch (IOException ioe) {
-            priorException = ioe;
-        } finally {
-            IOUtils.closeSafely(priorException, os, is);
-        }
+  public void copy(Directory to, String src, String dest, IOContext context) throws IOException {
+<<<<<<< MINE
+    IndexOutput os = null;
+    IndexInput is = null;
+=======
+    IndexOutput os = to.createOutput(dest, context);
+    IndexInput is = openInput(src, context);
+>>>>>>> YOURS
+    IOException priorException = null;
+    try {
+      os = to.createOutput(dest);
+      is = openInput(src);
+      is.copyBytes(os, is.length());
+    } catch (IOException ioe) {
+      priorException = ioe;
+    } finally {
+      IOUtils.closeSafely(priorException, os, is);
     }
+  }
+	
 
-    /**
+  /**
    * @throws AlreadyClosedException if this Directory is closed
    */
-    protected final void ensureOpen() throws AlreadyClosedException {
-        if (!isOpen)
-            throw new AlreadyClosedException("this Directory is closed");
-    }
+  protected final void ensureOpen() throws AlreadyClosedException {
+    if (!isOpen)
+      throw new AlreadyClosedException("this Directory is closed");
+  }
+
 }

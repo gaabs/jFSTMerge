@@ -162,18 +162,15 @@ public  class  SimpleFSDirectory  extends FSDirectory {
 public SimpleFSIndexInput(File path, IOContext context, int chunkSize) throws IOException {
       super(context);
       file = new Descriptor(path, "r");
-      this.chunkSize = chunkSize;
-    }
 =======
 public SimpleFSIndexInput(File path, int bufferSize, int chunkSize) throws IOException {
       super(bufferSize);
       this.file = new Descriptor(path, "r"); 
+>>>>>>> YOURS
       this.chunkSize = chunkSize;
       this.off = 0L;
       this.end = file.length;
     }
-
->>>>>>> YOURS
 		
     
     public SimpleFSIndexInput(Descriptor file, long off, long length, int bufferSize, int chunkSize) throws IOException {

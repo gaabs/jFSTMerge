@@ -113,7 +113,7 @@ public class ODirectMemoryPointer {
             rangeCheck(srcOffset, len);
             rangeCheck(destOffset, len);
         }
-        directMemory.copyData(dataPointer + srcOffset, destPointer.getDataPointer() + destOffset, len);
+        directMemory.moveData(dataPointer + srcOffset, destPointer.getDataPointer() + destOffset, len);
     }
 
     private void rangeCheck(long offset, long size) {

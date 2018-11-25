@@ -66,9 +66,16 @@ public  class  SimpleInterpolatedYieldAndDiscountCurveFunction  extends Abstract
 	
 
   public SimpleInterpolatedYieldAndDiscountCurveFunction(final LocalDate curveDate, final Currency currency, final String name, final boolean isYieldCurve) {
+<<<<<<< MINE
     ArgumentChecker.notNull(currency, "currency");
     ArgumentChecker.notNull(name, "name");
+=======
+    Validate.notNull(curveDate, "Curve Date");
+    Validate.notNull(currency, "Currency");
+    Validate.notNull(name, "Name");
+>>>>>>> YOURS
     _definition = null;
+    _curveDate = curveDate;
     _curveCurrency = currency;
     _curveName = name;
     _isYieldCurve = isYieldCurve;
@@ -77,7 +84,6 @@ public  class  SimpleInterpolatedYieldAndDiscountCurveFunction  extends Abstract
     _result = null;
     _results = null;
   }
-
 	
   private LocalDate _curveDate;
 	

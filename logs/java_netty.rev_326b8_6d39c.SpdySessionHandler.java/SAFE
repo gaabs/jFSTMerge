@@ -435,90 +435,10 @@ public  class  SpdySessionHandler  extends ChannelHandlerAdapter<Object, Object>
     }
 	
 
-    <<<<<<< MINE
-private void handleOutboundMessage(ChannelOutboundHandlerContext<Object> ctx, Object msg)
+    private void handleOutboundMessage(ChannelOutboundHandlerContext<Object> ctx, Object msg)
             throws Exception {
-        if (msg instanceof SpdyDataFrame) {
-
-            SpdyDataFrame spdyDataFrame = (SpdyDataFrame) msg;
-            int streamID = spdyDataFrame.getStreamID();
-
-            if (spdySession.isLocalSideClosed(streamID)) {
-                issueStreamError(ctx, streamID, SpdyStreamStatus.PROTOCOL_ERROR);
-                return;
-            }
-
-            if (spdyDataFrame.isLast()) {
-                halfCloseStream(streamID, false);
-            }
-
-        } else if (msg instanceof SpdySynStreamFrame) {
-
-            SpdySynStreamFrame spdySynStreamFrame = (SpdySynStreamFrame) msg;
-            int streamID = spdySynStreamFrame.getStreamID();
-            boolean remoteSideClosed = spdySynStreamFrame.isUnidirectional();
-            boolean localSideClosed = spdySynStreamFrame.isLast();
-            if (!acceptStream(streamID, remoteSideClosed, localSideClosed)) {
-                issueStreamError(ctx, streamID, SpdyStreamStatus.PROTOCOL_ERROR);
-                return;
-            }
-
-        } else if (msg instanceof SpdySynReplyFrame) {
-
-            SpdySynReplyFrame spdySynReplyFrame = (SpdySynReplyFrame) msg;
-            int streamID = spdySynReplyFrame.getStreamID();
-
-            if (!isRemoteInitiatedID(streamID) || spdySession.isLocalSideClosed(streamID)) {
-                ctx.fireExceptionCaught(PROTOCOL_EXCEPTION);
-                return;
-            }
-
-            if (spdySynReplyFrame.isLast()) {
-                halfCloseStream(streamID, false);
-            }
-
-        } else if (msg instanceof SpdyRstStreamFrame) {
-
-            SpdyRstStreamFrame spdyRstStreamFrame = (SpdyRstStreamFrame) msg;
-            removeStream(spdyRstStreamFrame.getStreamID());
-
-        } else if (msg instanceof SpdySettingsFrame) {
-
-            SpdySettingsFrame spdySettingsFrame = (SpdySettingsFrame) msg;
-            updateConcurrentStreams(spdySettingsFrame, false);
-
-        } else if (msg instanceof SpdyPingFrame) {
-
-            SpdyPingFrame spdyPingFrame = (SpdyPingFrame) msg;
-            if (isRemoteInitiatedID(spdyPingFrame.getID())) {
-                ctx.fireExceptionCaught(new IllegalArgumentException(
-                            "invalid PING ID: " + spdyPingFrame.getID()));
-                return;
-            }
-            pings.getAndIncrement();
-
-        } else if (msg instanceof SpdyGoAwayFrame) {
-
-            // Should send a CLOSE ChannelStateEvent
-            ctx.fireExceptionCaught(PROTOCOL_EXCEPTION);
-            return;
-
-        } else if (msg instanceof SpdyHeadersFrame) {
-
-            SpdyHeadersFrame spdyHeadersFrame = (SpdyHeadersFrame) msg;
-            int streamID = spdyHeadersFrame.getStreamID();
-
-            if (spdySession.isLocalSideClosed(streamID)) {
-                ctx.fireExceptionCaught(PROTOCOL_EXCEPTION);
-                return;
-            }
-        }
-
-        ctx.out().messageBuffer().add(msg);
-    }
+<<<<<<< MINE
 =======
-public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
-            throws Exception {
         if (evt instanceof ChannelStateEvent) {
             ChannelStateEvent e = (ChannelStateEvent) evt;
             switch (e.getState()) {
@@ -546,6 +466,7 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
         MessageEvent e = (MessageEvent) evt;
         Object msg = e.getMessage();
 
+>>>>>>> YOURS
         if (msg instanceof SpdyDataFrame) {
 
             SpdyDataFrame spdyDataFrame = (SpdyDataFrame) msg;
@@ -553,7 +474,7 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
 
             // Frames must not be sent on half-closed streams
             if (spdySession.isLocalSideClosed(streamID)) {
-                e.getFuture().setFailure(PROTOCOL_EXCEPTION);
+                issueStreamError(ctx, streamID, SpdyStreamStatus.PROTOCOL_ERROR);
                 return;
             }
 
@@ -636,6 +557,8 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
 
             SpdySynStreamFrame spdySynStreamFrame = (SpdySynStreamFrame) msg;
             int streamID = spdySynStreamFrame.getStreamID();
+<<<<<<< MINE
+=======
 
             if (isRemoteInitiatedID(streamID)) {
                 e.getFuture().setFailure(PROTOCOL_EXCEPTION);
@@ -643,10 +566,16 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
             }
 
             byte priority = spdySynStreamFrame.getPriority();
+>>>>>>> YOURS
             boolean remoteSideClosed = spdySynStreamFrame.isUnidirectional();
             boolean localSideClosed = spdySynStreamFrame.isLast();
+<<<<<<< MINE
+            if (!acceptStream(streamID, remoteSideClosed, localSideClosed)) {
+                issueStreamError(ctx, streamID, SpdyStreamStatus.PROTOCOL_ERROR);
+=======
             if (!acceptStream(streamID, priority, remoteSideClosed, localSideClosed)) {
                 e.getFuture().setFailure(PROTOCOL_EXCEPTION);
+>>>>>>> YOURS
                 return;
             }
 
@@ -657,7 +586,7 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
 
             // Frames must not be sent on half-closed streams
             if (!isRemoteInitiatedID(streamID) || spdySession.isLocalSideClosed(streamID)) {
-                e.getFuture().setFailure(PROTOCOL_EXCEPTION);
+                ctx.fireExceptionCaught(PROTOCOL_EXCEPTION);
                 return;
             }
 
@@ -701,7 +630,7 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
 
             SpdyPingFrame spdyPingFrame = (SpdyPingFrame) msg;
             if (isRemoteInitiatedID(spdyPingFrame.getID())) {
-                e.getFuture().setFailure(new IllegalArgumentException(
+                ctx.fireExceptionCaught(new IllegalArgumentException(
                             "invalid PING ID: " + spdyPingFrame.getID()));
                 return;
             }
@@ -709,9 +638,14 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
 
         } else if (msg instanceof SpdyGoAwayFrame) {
 
+<<<<<<< MINE
+            // Should send a CLOSE ChannelStateEvent
+            ctx.fireExceptionCaught(PROTOCOL_EXCEPTION);
+=======
             // Why is this being sent? Intercept it and fail the write.
             // Should have sent a CLOSE ChannelStateEvent
             e.getFuture().setFailure(PROTOCOL_EXCEPTION);
+>>>>>>> YOURS
             return;
 
         } else if (msg instanceof SpdyHeadersFrame) {
@@ -721,7 +655,7 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
 
             // Frames must not be sent on half-closed streams
             if (spdySession.isLocalSideClosed(streamID)) {
-                e.getFuture().setFailure(PROTOCOL_EXCEPTION);
+                ctx.fireExceptionCaught(PROTOCOL_EXCEPTION);
                 return;
             }
 
@@ -737,10 +671,8 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
             return;
         }
 
-        ctx.sendDownstream(evt);
+        ctx.out().messageBuffer().add(msg);
     }
-
->>>>>>> YOURS
 	
 
     /*
@@ -1254,7 +1186,6 @@ public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent evt)
 	
 
     <<<<<<< MINE
-
 =======
 private void sendGoAwayFrame(ChannelHandlerContext ctx, ChannelStateEvent e) {
         // Avoid NotYetConnectedException
@@ -1271,8 +1202,8 @@ private void sendGoAwayFrame(ChannelHandlerContext ctx, ChannelStateEvent e) {
             closeSessionFuture.addListener(new ClosingChannelFutureListener(ctx, e));
         }
     }
-
 >>>>>>> YOURS
+
 	
 
     private synchronized ChannelFuture sendGoAwayFrame(

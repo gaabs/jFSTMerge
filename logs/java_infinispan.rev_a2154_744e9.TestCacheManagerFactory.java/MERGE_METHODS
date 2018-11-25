@@ -176,9 +176,12 @@ public  class  TestCacheManagerFactory {
 	
 
    public static EmbeddedCacheManager createClusteredCacheManager(TransportFlags flags) {
+<<<<<<< MINE
+      return createClusteredCacheManager(new Configuration(), false, flags);
+=======
       return createClusteredCacheManager(withFD, new Configuration());
+>>>>>>> YOURS
    }
-
 	
 
    /**

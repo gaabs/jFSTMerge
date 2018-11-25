@@ -87,13 +87,11 @@ public  class  InMemorySnapshotMaster  implements MarketDataSnapshotMaster {
   <<<<<<< MINE
 public InMemorySnapshotMaster(final MasterChangeManager changeManager) {
     this(new ObjectIdSupplier(DEFAULT_OID_SCHEME), changeManager);
-  }
-
 =======
 public InMemorySnapshotMaster(final ChangeManager changeManager) {
     this(new ObjectIdentifierSupplier(DEFAULT_OID_SCHEME), changeManager);
-  }
 >>>>>>> YOURS
+  }
 	
 
   /**
@@ -104,13 +102,11 @@ public InMemorySnapshotMaster(final ChangeManager changeManager) {
   <<<<<<< MINE
 public InMemorySnapshotMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicMasterChangeManager());
-  }
 =======
 public InMemorySnapshotMaster(final Supplier<ObjectIdentifier> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
-  }
-
 >>>>>>> YOURS
+  }
 	
 
   /**

@@ -390,10 +390,14 @@ public  class  EquityFuturesFunction  extends AbstractFunction.NonCompiledInvoke
 	
 
   private ValueRequirement getDividendYieldRequirement(FutureSecurity security) {
+<<<<<<< MINE
+    ExternalId id = getSpotAssetId(security);
+    return new ValueRequirement(MarketDataRequirementNames.DIVIDEND_YIELD, id);
+=======
     ExternalId id = security.getUnderlyingId();
     return new ValueRequirement(MarketDataRequirementNames.DIVIDEND_YIELD, ComputationTargetType.PRIMITIVE, id);
+>>>>>>> YOURS
   }
-
 	
 
   
@@ -410,9 +414,13 @@ public  class  EquityFuturesFunction  extends AbstractFunction.NonCompiledInvoke
 	
 
   private ValueRequirement getCostOfCarryRequirement(FutureSecurity security) {
-    return new ValueRequirement(MarketDataRequirementNames.COST_OF_CARRY, ComputationTargetType.PRIMITIVE, security.getUnderlyingId());
-  }
+<<<<<<< MINE
 
+    return new ValueRequirement(MarketDataRequirementNames.COST_OF_CARRY, getSpotAssetId(security));
+=======
+    return new ValueRequirement(MarketDataRequirementNames.COST_OF_CARRY, ComputationTargetType.PRIMITIVE, security.getUnderlyingId());
+>>>>>>> YOURS
+  }
 	
 
   

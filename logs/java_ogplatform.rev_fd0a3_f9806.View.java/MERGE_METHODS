@@ -464,7 +464,7 @@ public class View implements Lifecycle, LiveDataSnapshotListener {
             }
         }
         if (!failures.isEmpty()) {
-            throw new ViewAccessException(user + " is not entitled to " + this + " because they do not have permissions to " + failures.get(0));
+            throw new ViewPermissionException(user + " is not entitled to the output of " + this + " because they do not have permissions to " + failures.get(0));
         }
     }
 

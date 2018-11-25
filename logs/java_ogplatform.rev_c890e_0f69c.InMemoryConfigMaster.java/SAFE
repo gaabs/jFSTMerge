@@ -274,8 +274,7 @@ public  class  InMemoryConfigMaster  implements ConfigMaster {
 	
 
   //-------------------------------------------------------------------------
-  <<<<<<< MINE
-@SuppressWarnings("unchecked")
+  @SuppressWarnings("unchecked")
   @Override
   public ConfigSearchResult search(ConfigSearchRequest request) {
     ArgumentChecker.notNull(request, "request");
@@ -286,34 +285,24 @@ public  class  InMemoryConfigMaster  implements ConfigMaster {
         list.add(doc);
       }
     }
+<<<<<<< MINE
     final ConfigSearchResult result = new ConfigSearchResult();
+=======
+    Collections.sort(list, request.getSortOrder());
+    
+    final ConfigSearchResult<T> result = new ConfigSearchResult<T>();
+>>>>>>> YOURS
     result.setPaging(Paging.of(request.getPagingRequest(), list));
+<<<<<<< MINE
 
     List<ConfigDocument> select = request.getPagingRequest().select(list);
 
     result.getDocuments().addAll(select);
-    return result;
-  }
 =======
-@SuppressWarnings("unchecked")
-  @Override
-  public <T> ConfigSearchResult<T> search(final ConfigSearchRequest<T> request) {
-    ArgumentChecker.notNull(request, "request");
-    final List<ConfigDocument<T>> list = new ArrayList<ConfigDocument<T>>();
-    for (ConfigDocument<?> doc : _store.values()) {
-      if (request.matches(doc)) {
-        list.add((ConfigDocument<T>) doc);
-      }
-    }
-    Collections.sort(list, request.getSortOrder());
-    
-    final ConfigSearchResult<T> result = new ConfigSearchResult<T>();
-    result.setPaging(Paging.of(request.getPagingRequest(), list));
     result.getDocuments().addAll(request.getPagingRequest().select(list));
+>>>>>>> YOURS
     return result;
   }
-
->>>>>>> YOURS
 	
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

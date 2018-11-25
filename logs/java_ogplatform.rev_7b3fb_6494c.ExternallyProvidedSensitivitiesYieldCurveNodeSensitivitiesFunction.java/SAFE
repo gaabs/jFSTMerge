@@ -221,32 +221,10 @@ public  class  ExternallyProvidedSensitivitiesYieldCurveNodeSensitivitiesFunctio
 private DoubleMatrix1D getSensitivities(final SecuritySource secSource, final FunctionInputs inputs, final RawSecurity rawSecurity,
       final InterpolatedYieldCurveSpecificationWithSecurities curveSpec,
       final YieldAndDiscountCurve curve) {
-    final Collection<FactorExposureData> decodedSensitivities = RawSecurityUtils.decodeFactorExposureData(secSource, rawSecurity);
-    final double[] entries = new double[curveSpec.getStrips().size()];
-    int i = 0;
-    for (final FixedIncomeStripWithSecurity strip : curveSpec.getStrips()) {
-      final FactorExposureData externalSensitivitiesData = searchForTenorMatch(decodedSensitivities, strip);
-      if (externalSensitivitiesData != null) {
-        final ComputedValue computedValue = inputs.getComputedValue(getSensitivityRequirement(externalSensitivitiesData.getExposureExternalId()));
-        if (computedValue != null) {
-          final ManageableHistoricalTimeSeries mhts = (ManageableHistoricalTimeSeries) computedValue.getValue();
-          final Double value = mhts.getTimeSeries().getLatestValue();
-          entries[i] = -value; // we invert here because OpenGamma uses -1bp shift rather than +1.  DV01 function will invert back.
-        } else {
-          s_logger.warn("Value was null when getting required input data " + externalSensitivitiesData.getExposureExternalId());
-          entries[i] = 0d;
-        }
-      } else {
-        entries[i] = 0d;
-      }
-      i++;
-    }
-    return new DoubleMatrix1D(entries);
-  }
-
 =======
 private DoubleMatrix1D getSensitivities(final SecuritySource secSource, final FunctionInputs inputs, final RawSecurity rawSecurity, final InterpolatedYieldCurveSpecificationWithSecurities curveSpec,
       final YieldAndDiscountCurve curve, BigDecimal qty) {
+>>>>>>> YOURS
     final Collection<FactorExposureData> decodedSensitivities = RawSecurityUtils.decodeFactorExposureData(secSource, rawSecurity);
     final double[] entries = new double[curveSpec.getStrips().size()];
     int i = 0;
@@ -256,8 +234,13 @@ private DoubleMatrix1D getSensitivities(final SecuritySource secSource, final Fu
         final ComputedValue computedValue = inputs.getComputedValue(getSensitivityRequirement(externalSensitivitiesData.getExposureExternalId()));
         if (computedValue != null) {
           final ManageableHistoricalTimeSeries mhts = (ManageableHistoricalTimeSeries) computedValue.getValue(); 
+<<<<<<< MINE
+          final Double value = mhts.getTimeSeries().getLatestValue();
+          entries[i] = -value; // we invert here because OpenGamma uses -1bp shift rather than +1.  DV01 function will invert back.
+=======
           final Double value = (Double) mhts.getTimeSeries().getLatestValue();
           entries[i] = -value * (qty.doubleValue() / 10000d); // we invert here because OpenGamma uses -1bp shift rather than +1.  DV01 function will invert back.
+>>>>>>> YOURS
         } else {
           s_logger.warn("Value was null when getting required input data " + externalSensitivitiesData.getExposureExternalId());
           entries[i] = 0d;
@@ -269,7 +252,6 @@ private DoubleMatrix1D getSensitivities(final SecuritySource secSource, final Fu
     }
     return new DoubleMatrix1D(entries);
   }
->>>>>>> YOURS
 	
 
   private FactorExposureData searchForTenorMatch(final Collection<FactorExposureData> exposures, final FixedIncomeStripWithSecurity strip) {

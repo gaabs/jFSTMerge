@@ -169,9 +169,9 @@ public  class  SSTableReader  extends SSTable {
     }
 	
 
-    <<<<<<< MINE
-public static SSTableReader open(Descriptor descriptor, Set<Component> components, DataTracker tracker, CFMetaData metadata, IPartitioner partitioner) throws IOException
+    public static SSTableReader open(Descriptor descriptor, Set<Component> components, DataTracker tracker, CFMetaData metadata, IPartitioner partitioner) throws IOException
     {
+<<<<<<< MINE
         assert partitioner != null;
         // Minimum components without which we can't do anything
         assert components.contains(Component.DATA);
@@ -221,14 +221,10 @@ public static SSTableReader open(Descriptor descriptor, Set<Component> component
             logger.debug(String.format("key cache contains %s/%s keys", sstable.getKeyCache().size(), sstable.getKeyCache().getCapacity()));
 
         return sstable;
-    }
 =======
-public static SSTableReader open(Descriptor descriptor, Set<Component> components, Set<DecoratedKey> savedKeys, DataTracker tracker, CFMetaData metadata, IPartitioner partitioner) throws IOException
-    {
         return open(descriptor, components, savedKeys, tracker, metadata, partitioner, true);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     private static SSTableReader open(Descriptor descriptor,

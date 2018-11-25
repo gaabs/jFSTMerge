@@ -261,19 +261,11 @@ public abstract  class  Directory  implements Closeable {
 public void copy(Directory to, String src, String dest, IOContext context) throws IOException {
     IndexOutput os = to.createOutput(dest, context);
     IndexInput is = openInput(src, context);
-    IOException priorException = null;
-    try {
-      is.copyBytes(os, is.length());
-    } catch (IOException ioe) {
-      priorException = ioe;
-    } finally {
-      IOUtils.closeSafely(priorException, os, is);
-    }
-  }
 =======
 public void copy(Directory to, String src, String dest) throws IOException {
     IndexOutput os = null;
     IndexInput is = null;
+>>>>>>> YOURS
     IOException priorException = null;
     try {
       os = to.createOutput(dest);
@@ -285,8 +277,6 @@ public void copy(Directory to, String src, String dest) throws IOException {
       IOUtils.closeSafely(priorException, os, is);
     }
   }
-
->>>>>>> YOURS
 	
 
   /**

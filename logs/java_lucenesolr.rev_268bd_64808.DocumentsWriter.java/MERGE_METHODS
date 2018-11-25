@@ -519,7 +519,9 @@ SegmentDeletes pendingDeletes;
 	
 
   private final void pushDeletes(SegmentInfo segmentInfo, SegmentDeletes segmentDeletes) {
+    synchronized(indexWriter) {
     // Lock order: DW -> BD
+<<<<<<< MINE
     final long delGen = bufferedDeletesStream.getNextGen();
     if (pendingDeletes.any()) {
       if (segmentInfos.size() > 0 || newSegment != null) {
@@ -533,7 +535,19 @@ SegmentDeletes pendingDeletes;
         }
         if (newSegment != null) {
           newSegment.setBufferedDeletesGen(packet.gen);
+=======
+      if (segmentDeletes.any()) {
+        if (segmentInfo != null) {
+          bufferedDeletes.pushDeletes(segmentDeletes, segmentInfo);
+        } else if (indexWriter.segmentInfos.size() > 0) {
+          if (infoStream != null) {
+            message("flush: push buffered deletes to previously flushed segment " + indexWriter.segmentInfos.lastElement());
+>>>>>>> YOURS
         }
+<<<<<<< MINE
+=======
+          bufferedDeletes.pushDeletes(segmentDeletes, indexWriter.segmentInfos.lastElement(), true);
+>>>>>>> YOURS
       } else {
         if (infoStream != null) {
           message("flush: drop buffered deletes: no segments");
@@ -542,12 +556,15 @@ SegmentDeletes pendingDeletes;
         // there are no segments, the deletions cannot
         // affect anything.
       }
+<<<<<<< MINE
       pendingDeletes.clear();
     } else if (newSegment != null) {
       newSegment.setBufferedDeletesGen(delGen);
+=======
+      }
+>>>>>>> YOURS
     }
   }
-
 	
 
   public int getBufferedDeleteTermsSize() {

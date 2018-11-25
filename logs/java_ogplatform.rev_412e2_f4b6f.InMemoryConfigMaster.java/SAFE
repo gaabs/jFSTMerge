@@ -92,13 +92,11 @@ public  class  InMemoryConfigMaster  implements ConfigMaster {
   <<<<<<< MINE
 public InMemoryConfigMaster(final MasterChangeManager changeManager) {
     this(new ObjectIdSupplier(InMemoryConfigMaster.DEFAULT_OID_SCHEME), changeManager);
-  }
-
 =======
 public InMemoryConfigMaster(final ChangeManager changeManager) {
     this(new ObjectIdentifierSupplier(InMemoryConfigMaster.DEFAULT_OID_SCHEME), changeManager);
-  }
 >>>>>>> YOURS
+  }
 	
 
   /**
@@ -109,13 +107,11 @@ public InMemoryConfigMaster(final ChangeManager changeManager) {
   <<<<<<< MINE
 public InMemoryConfigMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicMasterChangeManager());
-  }
 =======
 public InMemoryConfigMaster(final Supplier<ObjectIdentifier> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
-  }
-
 >>>>>>> YOURS
+  }
 	
 
 

@@ -123,14 +123,12 @@ public  class  EquityVarianceSwapYieldCurveNodeSensitivityFunction  extends Equi
 private ValueRequirement getCurveSpecRequirement(final Currency currency) {
     ValueProperties properties = ValueProperties.builder().with(ValuePropertyNames.CURVE, getCurveDefinitionName()).get();
     return new ValueRequirement(ValueRequirementNames.YIELD_CURVE_SPEC, ComputationTargetSpecification.of(currency), properties);
-  }
-
 =======
 private ValueRequirement getCurveSpecRequirement(final Currency currency, final String curveName) {
     final ValueProperties properties = ValueProperties.builder()
         .with(ValuePropertyNames.CURVE, curveName).get();
     return new ValueRequirement(ValueRequirementNames.YIELD_CURVE_SPEC, ComputationTargetType.PRIMITIVE, currency.getUniqueId(), properties);
-  }
 >>>>>>> YOURS
+  }
 
 }

@@ -76,13 +76,21 @@ IndexReader reader;
 
   @BeforeClass
   public static void beforeClass() throws Exception {
+<<<<<<< MINE
+=======
     super.setUp();
+>>>>>>> YOURS
     String[] data = new String[] { "A 1 2 3 4 5 6", "Z       4 5 6", null,
         "B   2   4 5 6", "Y     3   5 6", null, "C     3     6",
         "X       4 5 6" };
 
+<<<<<<< MINE
+    small = newDirectory();
+    RandomIndexWriter writer = new RandomIndexWriter(random, small, new MockAnalyzer(MockTokenizer.WHITESPACE, false));
+=======
     small = new RAMDirectory();
     RandomIndexWriter writer = new RandomIndexWriter(rand, small, new MockAnalyzer(MockTokenizer.WHITESPACE, false));
+>>>>>>> YOURS
 
     for (int i = 0; i < data.length; i++) {
       Document doc = new Document();
@@ -101,7 +109,6 @@ IndexReader reader;
     reader = writer.getReader();
     writer.close();
   }
-
 	
 
   @Override

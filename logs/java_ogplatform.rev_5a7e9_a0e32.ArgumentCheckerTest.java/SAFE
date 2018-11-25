@@ -19,44 +19,14 @@ import org.junit.Test;
 public  class  ArgumentCheckerTest {
 	
 
-  <<<<<<< MINE
-@Test(expected=NullPointerException.class)
-  public void test_notNull_null() {
-    try {
-      ArgumentChecker.notNull(null, "name");
-    } catch (NullPointerException ex) {
-      assertEquals(ex.getMessage().contains("'name'"), true);
-      assertEquals(ex.getMessage().contains("Injected"), false);
-      throw ex;
-    }
-  }
-=======
-@Test(expected=NullPointerException.class)
-  public void test_checkNotNull_null() {
-    try {
-      ArgumentChecker.notNull(null, "name");
-    } catch (NullPointerException ex) {
-      assertTrue(ex.getMessage().contains("'name'"));
-      assertFalse(ex.getMessage().contains("Injected"));
-      throw ex;
-    }
-  }
-
->>>>>>> YOURS
-	
-
-  <<<<<<< MINE
-@Test
+  @Test
+<<<<<<< MINE
   public void test_notNull_ok() {
-    ArgumentChecker.notNull("Kirk", "name");
-  }
 =======
-@Test
   public void test_checkNotNull_nonNull() {
+>>>>>>> YOURS
     ArgumentChecker.notNull("Kirk", "name");
   }
-
->>>>>>> YOURS
 	
 
   //-------------------------------------------------------------------------
@@ -78,6 +48,18 @@ public  class  ArgumentCheckerTest {
     ArgumentChecker.notNullInjected("Kirk", "name");
   }
 
+	
+
+  @Test(expected=NullPointerException.class)
+  public void test_notNull_null() {
+    try {
+      ArgumentChecker.notNull(null, "name");
+    } catch (NullPointerException ex) {
+      assertEquals(ex.getMessage().contains("'name'"), true);
+      assertEquals(ex.getMessage().contains("Injected"), false);
+      throw ex;
+    }
+  }
 	
 
   //-------------------------------------------------------------------------

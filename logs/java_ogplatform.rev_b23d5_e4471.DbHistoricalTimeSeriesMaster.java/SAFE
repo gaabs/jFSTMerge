@@ -526,8 +526,6 @@ public  class  DbHistoricalTimeSeriesMaster  extends AbstractDocumentDbMaster<Hi
 @Override
   public HistoricalTimeSeriesSummary getSummary(UniqueId uniqueId) {
     return getDataPointsWorker().getSummary(uniqueId);
-  }
-
 =======
 public ManageableHistoricalTimeSeries getTimeSeries(UniqueId uniqueId) {
     ArgumentChecker.notNull(uniqueId, "uniqueId");
@@ -540,18 +538,17 @@ public ManageableHistoricalTimeSeries getTimeSeries(UniqueId uniqueId) {
       vc = VersionCorrection.LATEST;
     }
     return getTimeSeries(uniqueId.getObjectId(), vc);
-  }
 >>>>>>> YOURS
+  }
 	
 
   <<<<<<< MINE
 public HistoricalTimeSeriesSummary getSummary(ObjectIdentifiable objectId, VersionCorrection versionCorrection) {
     return getDataPointsWorker().getSummary(objectId, versionCorrection);
   }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
   //-------------------------------------------------------------------------

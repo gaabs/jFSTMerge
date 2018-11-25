@@ -291,73 +291,9 @@ public final  class  TermInfosReader {
 
   <<<<<<< MINE
 TermInfo seekEnum(SegmentTermEnum enumerator, Term term, TermInfoAndOrd tiOrd) throws IOException {
-    if (size == 0) {
-      return null;
-    }
-
-    // optimize sequential access: first try scanning cached enum w/o seeking
-    if (enumerator.term() != null                 // term is at or past current
-	&& ((enumerator.prev() != null && term.compareToUTF16(enumerator.prev())> 0)
-	    || term.compareToUTF16(enumerator.term()) >= 0)) {
-      int enumOffset = (int)(enumerator.position/totalIndexInterval)+1;
-      if (indexTerms.length == enumOffset	  // but before end of block
-    || term.compareToUTF16(indexTerms[enumOffset]) < 0) {
-       // no need to seek
-
-        final TermInfo ti;
-        int numScans = enumerator.scanTo(term);
-        if (enumerator.term() != null && term.compareToUTF16(enumerator.term()) == 0) {
-          ti = enumerator.termInfo();
-          if (numScans > 1) {
-            // we only  want to put this TermInfo into the cache if
-            // scanEnum skipped more than one dictionary entry.
-            // This prevents RangeQueries or WildcardQueries to 
-            // wipe out the cache when they iterate over a large numbers
-            // of terms in order
-            if (tiOrd == null) {
-              termsCache.put(new CloneableTerm(term), new TermInfoAndOrd(ti, (int) enumerator.position));
-            } else {
-              assert sameTermInfo(ti, tiOrd, enumerator);
-              assert (int) enumerator.position == tiOrd.termOrd;
-            }
-          }
-        } else {
-          ti = null;
-        }
-
-        return ti;
-      }  
-    }
-
-    // random-access: must seek
-    final int indexPos;
-    if (tiOrd != null) {
-      indexPos = tiOrd.termOrd / totalIndexInterval;
-    } else {
-      // Must do binary search:
-      indexPos = getIndexOffset(term);
-    }
-
-    seekEnum(enumerator, indexPos);
-    enumerator.scanTo(term);
-    final TermInfo ti;
-
-    if (enumerator.term() != null && term.compareToUTF16(enumerator.term()) == 0) {
-      ti = enumerator.termInfo();
-      if (tiOrd == null) {
-        termsCache.put(new CloneableTerm(term), new TermInfoAndOrd(ti, (int) enumerator.position));
-      } else {
-        assert sameTermInfo(ti, tiOrd, enumerator);
-        assert (int) enumerator.position == tiOrd.termOrd;
-      }
-    } else {
-      ti = null;
-    }
-    return ti;
-  }
-
 =======
 TermInfo seekEnum(SegmentTermEnum enumerator, Term term, TermInfoAndOrd tiOrd, boolean useCache) throws IOException {
+>>>>>>> YOURS
     if (size == 0) {
       return null;
     }
@@ -374,7 +310,11 @@ TermInfo seekEnum(SegmentTermEnum enumerator, Term term, TermInfoAndOrd tiOrd, b
         final TermInfo ti;
         int numScans = enumerator.scanTo(term);
         if (enumerator.term() != null && term.compareToUTF16(enumerator.term()) == 0) {
+<<<<<<< MINE
+          ti = enumerator.termInfo();
+=======
           ti = enumerator.termInfo;
+>>>>>>> YOURS
           if (numScans > 1) {
             // we only  want to put this TermInfo into the cache if
             // scanEnum skipped more than one dictionary entry.
@@ -412,7 +352,11 @@ TermInfo seekEnum(SegmentTermEnum enumerator, Term term, TermInfoAndOrd tiOrd, b
     final TermInfo ti;
 
     if (enumerator.term() != null && term.compareToUTF16(enumerator.term()) == 0) {
+<<<<<<< MINE
+      ti = enumerator.termInfo();
+=======
       ti = enumerator.termInfo;
+>>>>>>> YOURS
       if (tiOrd == null) {
         if (useCache) {
           termsCache.put(new CloneableTerm(term), new TermInfoAndOrd(ti, enumerator.position));
@@ -426,7 +370,6 @@ TermInfo seekEnum(SegmentTermEnum enumerator, Term term, TermInfoAndOrd tiOrd, b
     }
     return ti;
   }
->>>>>>> YOURS
 	
 
   // called only from asserts

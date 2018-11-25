@@ -71,7 +71,6 @@ RequestBuilder headers(List<Header> headers) {
 
   /** List of all URL parameters. Return value will be mutated. */
   <<<<<<< MINE
-
 =======
 private List<Parameter> createParamList() {
     List<Parameter> params = new ArrayList<Parameter>();
@@ -89,8 +88,8 @@ private List<Parameter> createParamList() {
 
     return params;
   }
-
 >>>>>>> YOURS
+
 	
 
   /** Supply cached method metadata info. */

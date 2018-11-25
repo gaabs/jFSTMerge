@@ -351,9 +351,9 @@ public class InflationBuildingCurveSimpleTest {
         //REVIEW is it intended that the first two branches of the switch statement do the same thing
         switch(unit) {
             case 0:
-                return withToday ? TS_FIXED_IBOR_USD3M_WITH_TODAY : TS_FIXED_IBOR_USD3M_WITHOUT_TODAY;
+                return withToday ? TS_FIXED_PRICE_INDEX_USD_WITH_TODAY : TS_FIXED_PRICE_INDEX_USD_WITHOUT_TODAY;
             case 1:
-                return withToday ? TS_FIXED_IBOR_USD3M_WITH_TODAY : TS_FIXED_IBOR_USD3M_WITHOUT_TODAY;
+                return withToday ? TS_FIXED_PRICE_INDEX_USD_WITH_TODAY : TS_FIXED_PRICE_INDEX_USD_WITHOUT_TODAY;
             default:
                 throw new IllegalArgumentException(unit.toString());
         }

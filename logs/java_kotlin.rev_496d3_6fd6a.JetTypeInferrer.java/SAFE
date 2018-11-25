@@ -2098,37 +2098,28 @@ public  class  JetTypeInferrer {
         <<<<<<< MINE
 private boolean checkHasNextFunctionSupport(@NotNull ASTNode reportErrorsOn, @NotNull JetType iteratorType, TypeInferenceContext context) {
             OverloadResolutionResult<FunctionDescriptor> hasNextResolutionResult = context.services.callResolver.resolveExactSignature(context.scope, iteratorType, "hasNext", Collections.<JetType>emptyList());
-            if (hasNextResolutionResult.isAmbiguity()) {
-                context.trace.getErrorHandler().genericError(reportErrorsOn, "Method 'iterator().hasNext()' is ambiguous for this expression");
-            } else if (hasNextResolutionResult.isNothing()) {
-                return false;
-            } else {
-                JetType hasNextReturnType = hasNextResolutionResult.getDescriptor().getReturnType();
-                if (!isBoolean(hasNextReturnType)) {
-                    context.trace.getErrorHandler().genericError(reportErrorsOn, "The 'iterator().hasNext()' method of the loop range must return Boolean, but returns " + hasNextReturnType);
-                }
-            }
-            return true;
-        }
-
 =======
 @Nullable
         private FunctionDescriptor checkHasNextFunctionSupport(@NotNull JetExpression loopRange, @NotNull JetType iteratorType, TypeInferenceContext context) {
             OverloadResolutionResult hasNextResolutionResult = context.services.resolveNoParametersFunction(iteratorType, context.scope, "hasNext");
+>>>>>>> YOURS
             if (hasNextResolutionResult.isAmbiguity()) {
                 context.trace.getErrorHandler().genericError(loopRange.getNode(), "Method 'iterator().hasNext()' is ambiguous for this expression");
             } else if (hasNextResolutionResult.isNothing()) {
                 return null;
             } else {
+<<<<<<< MINE
+                JetType hasNextReturnType = hasNextResolutionResult.getDescriptor().getReturnType();
+=======
                 assert hasNextResolutionResult.isSuccess();
                 JetType hasNextReturnType = hasNextResolutionResult.getFunctionDescriptor().getReturnType();
+>>>>>>> YOURS
                 if (!isBoolean(hasNextReturnType)) {
                     context.trace.getErrorHandler().genericError(loopRange.getNode(), "The 'iterator().hasNext()' method of the loop range must return Boolean, but returns " + hasNextReturnType);
                 }
             }
             return hasNextResolutionResult.getFunctionDescriptor();
         }
->>>>>>> YOURS
 		
 
         

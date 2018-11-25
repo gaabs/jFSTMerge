@@ -105,7 +105,7 @@ protected RequirementBasedWebViewGrid(String name,
     Integer rowId = getGridStructure().getRowId(target);
     if (rowId == null) {
       // Result not in the grid
-      return;
+      return null; // TODO empty map?
     }
 
     Map<String, Object> valuesToSend = createTargetResult(rowId);
@@ -115,31 +115,51 @@ protected RequirementBasedWebViewGrid(String name,
     
     // Whether or not the row is in the viewport, we may have to store history
     if (resultModel != null) {
-      for (String calcConfigName : resultModel.getCalculationConfigurationNames()) {
-        for (ComputedValue value : resultModel.getAllValues(calcConfigName)) {
-          ValueSpecification specification = value.getSpecification();
-          Collection<WebViewGridColumn> columns = getGridStructure().getColumns(calcConfigName, specification);
-          if (columns == null) {
-            // Expect a column for every value
-            s_logger.warn("Could not find column for calculation configuration {} with value specification {}", calcConfigName, specification);
-            continue;
-          }
-          Object originalValue = value.getValue();        
-          for (WebViewGridColumn column : columns) {
-            int colId = column.getId();
-            WebGridCell cell = WebGridCell.of(rowId, colId);
+    for (String calcConfigName : resultModel.getCalculationConfigurationNames()) {
+      for (ComputedValue value : resultModel.getAllValues(calcConfigName)) {
+        ValueSpecification specification = value.getSpecification();
+        Collection<WebViewGridColumn> columns = getGridStructure().getColumns(calcConfigName, specification);
+        if (columns == null) {
+          // Expect a column for every value
+          s_logger.warn("Could not find column for calculation configuration {} with value specification {}", calcConfigName, specification);
+          continue;
+        }
+        Object originalValue = value.getValue();        
+        for (WebViewGridColumn column : columns) {
+          int colId = column.getId();
+          WebGridCell cell = WebGridCell.of(rowId, colId);
+<<<<<<< MINE
             ResultConverter<Object> converter = originalValue != null ? getConverter(column, value.getSpecification().getValueName(), originalValue.getClass()) : null;
             Map<String, Object> cellData = processCellValue(cell, specification, originalValue, resultTimestamp, converter);
-            if (cellData != null) {
-              valuesToSend.put(Integer.toString(colId), cellData);
+=======
+          ResultConverter<Object> converter;
+          if (originalValue == null) {
+            converter = null;
+          } else {
+            converter = getConverter(column, value.getSpecification().getValueName(), originalValue.getClass());
+          }
+          Map<String, Object> cellData = getCellValue(cell, specification, originalValue, resultTimestamp, converter);
+          Object depGraph = getDepGraphIfRequested(cell, calcConfigName, specification, resultTimestamp);
+          if (depGraph != null) {
+            if (cellData == null) {
+              cellData = new HashMap<String, Object>();
             }
+            cellData.put("dg", depGraph);
+          }
+>>>>>>> YOURS
+          if (cellData != null) {
+            valuesToSend.put(Integer.toString(colId), cellData);
           }
         }
       }
     }
+<<<<<<< MINE
+    }
     getRemoteClient().deliver(getLocalClient(), getUpdateChannel(), valuesToSend, null);
+=======
+    return valuesToSend; // TODO empty map if null?
+>>>>>>> YOURS
   }
-
 	
   
   private Map<String, Object> createTargetResult(Integer rowId) {

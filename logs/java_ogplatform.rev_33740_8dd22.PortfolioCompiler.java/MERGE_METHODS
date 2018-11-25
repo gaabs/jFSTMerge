@@ -65,12 +65,16 @@ public final  class  PortfolioCompiler {
       return null;
     }
 
-    Portfolio portfolio = forcePortfolioResolution ? getPortfolio(compilationContext, versionCorrection) : null;
+    Portfolio portfolio = null;
 
+<<<<<<< MINE
     // For each configuration in the view def, add portfolio requirements to dep graph, resolve the portfolio and
     // start the graph building job
     for (ViewCalculationConfiguration calcConfig : compilationContext.getViewDefinition().getAllCalculationConfigurations()) {
 
+=======
+    for (final ViewCalculationConfiguration calcConfig : compilationContext.getViewDefinition().getAllCalculationConfigurations()) {
+>>>>>>> YOURS
       if (calcConfig.getAllPortfolioRequirements().size() == 0) {
         // No portfolio requirements for this calculation configuration - avoid further processing.
         continue;
@@ -78,7 +82,8 @@ public final  class  PortfolioCompiler {
 
       // Actually need the portfolio now
       if (portfolio == null) {
-        portfolio = getPortfolio(compilationContext, versionCorrection);
+        portfolio = getPortfolio(compilationContext);
+        resolutions.putIfAbsent(new ComputationTargetSpecification(ComputationTargetType.PORTFOLIO, compilationContext.getViewDefinition().getPortfolioId()), portfolio.getUniqueId());
       }
       
       // Add portfolio requirements to the dependency graph:
@@ -86,15 +91,20 @@ public final  class  PortfolioCompiler {
       // PortfolioCompilerTraversalCallback passes any found value requirements to the dep graph builder,
       // and any related graph building may immediately proceed in the background
       final DependencyGraphBuilder builder = compilationContext.getBuilder(calcConfig.getName());
+<<<<<<< MINE
       final PortfolioCompilerTraversalCallback traversalCallback = new PortfolioCompilerTraversalCallback(calcConfig, builder);
       PortfolioNodeTraverser.parallel(traversalCallback,
           compilationContext.getServices().getExecutorService()).traverse(portfolio.getRootNode());
+=======
+      final PortfolioCompilerTraversalCallback traversalCallback = new PortfolioCompilerTraversalCallback(calcConfig, builder, resolutions);
+      PortfolioNodeTraverser.parallel(traversalCallback, compilationContext.getServices().getExecutorService()).traverse(portfolio.getRootNode());
+>>>>>>> YOURS
 
       // TODO: Use a heuristic to decide whether to let the graph builds run in parallel, or sequentially. We will force sequential builds for the time being.
       // Wait for the current config's dependency graph to be built before moving to the next view calc config
       try {
         builder.waitForDependencyGraphBuild();
-      } catch (InterruptedException e) {
+      } catch (final InterruptedException e) {
         throw new OpenGammaRuntimeException("Interrupted", e);
       }
 
@@ -102,7 +112,6 @@ public final  class  PortfolioCompiler {
     
     return portfolio;
   }
-
 	
 
   /**

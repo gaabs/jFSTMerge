@@ -95,26 +95,19 @@ public  class  ColumnIndex {
         }
 		
 
-        <<<<<<< MINE
-public Builder(ColumnFamily cf,
+        public Builder(ColumnFamily cf,
                        ByteBuffer key,
                        DataOutput output)
         {
+<<<<<<< MINE
             this.indexOffset = rowHeaderSize(key, cf.deletionInfo());
             this.result = new ColumnIndex(new ArrayList<IndexHelper.IndexInfo>());
             this.output = output;
             this.tombstoneTracker = new RangeTombstone.Tracker(cf.getComparator());
-        }
 =======
-public Builder(ColumnFamily cf,
-                       ByteBuffer key,
-                       int estimatedColumnCount,
-                       DataOutput output)
-        {
             this(cf, key, estimatedColumnCount, output, false);
-        }
-
 >>>>>>> YOURS
+        }
 		
 
         /**

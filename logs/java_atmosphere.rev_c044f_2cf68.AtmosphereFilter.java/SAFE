@@ -249,21 +249,15 @@ public  class  AtmosphereFilter  implements ResourceFilterFactory {
         <<<<<<< MINE
 boolean resumeOnBroadcast(ContainerRequest request, boolean resumeOnBroadcast) {
             String transport = request.getHeaderValue(X_ATMOSPHERE_TRANSPORT);
-            if (transport != null && (transport.equals(JSONP_TRANSPORT) || transport.equals(LONG_POLLING_TRANSPORT))) {
-                return true;
-            }
-            return resumeOnBroadcast;
-        }
-
 =======
 boolean resumeOnBroadcast(boolean resumeOnBroadcast) {
             String transport = servletReq.getHeader(X_ATMOSPHERE_TRANSPORT);
+>>>>>>> YOURS
             if (transport != null && (transport.equals(JSONP_TRANSPORT) || transport.equals(LONG_POLLING_TRANSPORT))) {
                 return true;
             }
             return resumeOnBroadcast;
         }
->>>>>>> YOURS
 		
 
         boolean outputJunk(ContainerRequest request, boolean outputJunk) {

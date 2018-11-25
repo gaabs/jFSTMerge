@@ -46,17 +46,13 @@ public final  class  SingleTermsEnum  extends FilteredTermsEnum {
   <<<<<<< MINE
 public SingleTermsEnum(IndexReader reader, Term singleTerm) throws IOException {
     super(reader, singleTerm.field());
-    singleRef = singleTerm.bytes();
-    setInitialSeekTerm(singleRef);
-  }
-
 =======
 public SingleTermsEnum(TermsEnum tenum, Term singleTerm) throws IOException {
     super(tenum);
+>>>>>>> YOURS
     singleRef = singleTerm.bytes();
     setInitialSeekTerm(singleRef);
   }
->>>>>>> YOURS
 	
 
   @Override

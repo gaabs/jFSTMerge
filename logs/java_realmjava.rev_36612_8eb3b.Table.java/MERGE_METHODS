@@ -1080,54 +1080,50 @@ public void setMixed(long columnIndex, long rowIndex, Mixed data) {
     protected native boolean nativeHasIndex(long nativePtr, long columnIndex);
 	
 
+    
+	
+
+    
+	
+
+    
+	
+
+    
+	
+
     //
     // Aggregate functions
     //
 
     // Integers
     public long sumInt(long columnIndex) {
-        return nativeSum(nativePtr, columnIndex);
+        return nativeSumInt(nativePtr, columnIndex);
     }
-
-	
-
-    
-	
-
-    public long maximumInt(long columnIndex) {
-        return nativeMaximum(nativePtr, columnIndex);
-    }
-
-	
-
-    
-	
-
-    public long minimumInt(long columnIndex) {
-        return nativeMinimum(nativePtr, columnIndex);
-    }
-
-	
-
-    
-	
-
-    public double averageInt(long columnIndex) { 
-        return nativeAverage(nativePtr, columnIndex);
-    }
-
-	
-
-    
 	
 
     protected native long nativeSumInt(long nativePtr, long columnIndex);
 	
 
+    public long maximumInt(long columnIndex) {
+        return nativeMaximumInt(nativePtr, columnIndex);
+    }
+	
+
     protected native long nativeMaximumInt(long nativePtr, long columnIndex);
 	
 
+    public long minimumInt(long columnIndex) {
+        return nativeMinimumInt(nativePtr, columnIndex);
+    }
+	
+
     protected native long nativeMinimumInt(long nativePtr, long columnnIndex);
+	
+
+    public double averageInt(long columnIndex) {
+        return nativeAverageInt(nativePtr, columnIndex);
+    }
 	
 
     protected native double nativeAverageInt(long nativePtr, long columnIndex);

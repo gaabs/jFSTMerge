@@ -21,13 +21,11 @@ public  class  ForceFailStore <K, V, T>  extends DelegatingStore<K, V, T> {
     <<<<<<< MINE
 public ForceFailStore(Store<K, V, T> innerStore) {
         super(innerStore);
-    }
 =======
 public ForceFailStore(Store<K, V> innerStore) {
         this(innerStore, new VoldemortException("Operation failed!"));
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     public ForceFailStore(Store<K, V> innerStore, VoldemortException e) {

@@ -612,28 +612,9 @@ public  class  CassandraServer  implements Cassandra.Iface {
 
     <<<<<<< MINE
 private void doInsert(ConsistencyLevel consistency_level, List<? extends IMutation> mutations) throws UnavailableException, TimedOutException
-    {
-        try
-        {
-            schedule();
-
-            try
-            {
-                if (!mutations.isEmpty())
-                    StorageProxy.mutate(mutations, consistency_level);
-            }
-            catch (TimeoutException e)
-            {
-                throw new TimedOutException();
-            }
-        }
-        finally
-        {
-            release();
-        }
-    }
 =======
 private void doInsert(ConsistencyLevel consistency_level, List<RowMutation> mutations) throws UnavailableException, TimedOutException, InvalidRequestException
+>>>>>>> YOURS
     {
         ThriftValidation.validateConsistencyLevel(state().getKeyspace(), consistency_level);
         try
@@ -642,11 +623,11 @@ private void doInsert(ConsistencyLevel consistency_level, List<RowMutation> muta
 
             try
             {
+                if (!mutations.isEmpty())
                 StorageProxy.mutate(mutations, consistency_level);
             }
             catch (TimeoutException e)
             {
-                logger.debug("... timed out");
                 throw new TimedOutException();
             }
         }
@@ -655,8 +636,6 @@ private void doInsert(ConsistencyLevel consistency_level, List<RowMutation> muta
             release();
         }
     }
-
->>>>>>> YOURS
 	
 
     public KsDef describe_keyspace(String table) throws NotFoundException, InvalidRequestException

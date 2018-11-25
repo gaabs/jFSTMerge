@@ -58,7 +58,7 @@ public abstract class DocValuesWriterBase extends PerDocConsumer {
         this.segmentName = state.segmentInfo.name;
         this.bytesUsed = state.bytesUsed;
         this.context = state.context;
-        this.fasterButMoreRam = fasterButMoreRam;
+        this.acceptableOverheadRatio = acceptableOverheadRatio;
     }
 
     protected abstract Directory getDirectory() throws IOException;

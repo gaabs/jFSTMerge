@@ -49,7 +49,7 @@ public class SnapshotDataBundleFormatter extends AbstractFormatter<SnapshotDataB
         List<List<String>> results = Lists.newArrayListWithCapacity(dataPoints.size());
         for (Map.Entry<ExternalId, Double> entry : dataPoints.entrySet()) {
             String idStr = entry.getKey().toString();
-            String formattedValue = _doubleFormatter.formatForDisplay(entry.getValue(), valueSpec);
+            String formattedValue = _doubleFormatter.formatCell(entry.getValue(), valueSpec);
             results.add(ImmutableList.of(idStr, formattedValue));
         }
         return results;

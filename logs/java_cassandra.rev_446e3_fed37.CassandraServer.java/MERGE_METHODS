@@ -619,11 +619,11 @@ public  class  CassandraServer  implements Cassandra.Iface {
 
             try
             {
+                if (!mutations.isEmpty())
                 StorageProxy.mutate(mutations, consistency_level);
             }
             catch (TimeoutException e)
             {
-                logger.debug("... timed out");
                 throw new TimedOutException();
             }
         }
@@ -632,7 +632,6 @@ public  class  CassandraServer  implements Cassandra.Iface {
             release();
         }
     }
-
 	
 
     public KsDef describe_keyspace(String table) throws NotFoundException, InvalidRequestException

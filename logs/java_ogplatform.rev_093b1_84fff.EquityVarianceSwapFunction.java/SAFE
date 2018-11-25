@@ -208,16 +208,14 @@ public abstract  class  EquityVarianceSwapFunction  extends AbstractFunction.Non
 private ValueRequirement getDiscountCurveRequirement(final EquityVarianceSwapSecurity security) {
     final ValueProperties properties = ValueProperties.builder().with(ValuePropertyNames.CURVE, _curveDefinitionName).get();
     return new ValueRequirement(ValueRequirementNames.YIELD_CURVE, ComputationTargetSpecification.of(security.getCurrency()), properties);
-  }
-
 =======
 private ValueRequirement getDiscountCurveRequirement(final EquityVarianceSwapSecurity security, final String curveName, final String curveCalculationConfig) {
     final ValueProperties properties = ValueProperties.builder()
         .with(ValuePropertyNames.CURVE, curveName)
         .with(ValuePropertyNames.CURVE_CALCULATION_CONFIG, curveCalculationConfig).get();
     return new ValueRequirement(ValueRequirementNames.YIELD_CURVE, ComputationTargetType.PRIMITIVE, security.getCurrency().getUniqueId(), properties);
-  }
 >>>>>>> YOURS
+  }
 	
 
   private ValueRequirement getVolatilitySurfaceRequirement(final EquityVarianceSwapSecurity security) {

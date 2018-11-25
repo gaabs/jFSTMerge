@@ -550,6 +550,14 @@ public  class  View  implements Lifecycle, LiveDataSnapshotListener {
    */
   <<<<<<< MINE
 public void checkIsEntitledToResults(UserPrincipal user) {
+=======
+public void assertAccessToLiveDataRequirements(UserPrincipal user) {
+    Set<ValueRequirement> requiredValues = getViewEvaluationModel().getAllLiveDataRequirements();
+    Collection<LiveDataSpecification> requiredLiveData = ValueRequirement.getRequiredLiveData(
+        requiredValues, 
+        getProcessingContext().getSecuritySource());
+    
+>>>>>>> YOURS
     s_logger.info("Checking that {} is entitled to the results of {}", user, this);
 
     Collection<LiveDataSpecification> requiredLiveData = getRequiredLiveDataSpecifications();
@@ -564,34 +572,10 @@ public void checkIsEntitledToResults(UserPrincipal user) {
     }
     
     if (!failures.isEmpty()) {
-      throw new ViewAccessException(user + " is not entitled to " + this + 
-          " because they do not have permissions to " + failures.get(0));
-    }
-  }
-
-=======
-public void assertAccessToLiveDataRequirements(UserPrincipal user) {
-    Set<ValueRequirement> requiredValues = getViewEvaluationModel().getAllLiveDataRequirements();
-    Collection<LiveDataSpecification> requiredLiveData = ValueRequirement.getRequiredLiveData(
-        requiredValues, 
-        getProcessingContext().getSecuritySource());
-    
-    s_logger.info("Checking that {} is entitled to the results of {}", user, this);
-    Map<LiveDataSpecification, Boolean> entitlements = getProcessingContext().getLiveDataEntitlementChecker().isEntitled(user, requiredLiveData);
-    
-    ArrayList<LiveDataSpecification> failures = new ArrayList<LiveDataSpecification>();
-    for (Map.Entry<LiveDataSpecification, Boolean> entry : entitlements.entrySet()) {
-      if (entry.getValue().booleanValue() == false) {
-        failures.add(entry.getKey());
-      }
-    }
-    
-    if (!failures.isEmpty()) {
       throw new ViewPermissionException(user + " is not entitled to the output of " + this + 
           " because they do not have permissions to " + failures.get(0));
     }
   }
->>>>>>> YOURS
 	
   
   private Set<ValueRequirement> getRequiredLiveData() {

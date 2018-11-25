@@ -129,7 +129,6 @@ protected Application app;
     public ContextScope( Application app ) {
         enter(app);
     }
-
 	
 
 

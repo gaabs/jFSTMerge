@@ -656,22 +656,12 @@ public  class  SecondaryIndexManager {
         
 		
 
-        <<<<<<< MINE
-public void update(Column oldColumn, Column column)
+        public void update(Column oldColumn, Column column)
         {
+<<<<<<< MINE
             for (SecondaryIndex index : indexFor(column.name()))
             {
-                if (index instanceof PerColumnSecondaryIndex)
-                {
-                    ((PerColumnSecondaryIndex) index).delete(key.key, oldColumn);
-                    if (!column.isMarkedForDelete())
-                        ((PerColumnSecondaryIndex) index).insert(key.key, column);
-                }
-            }
-        }
 =======
-public void update(IColumn oldColumn, IColumn column)
-        {
             if (oldColumn.equals(column))
                 return;
 
@@ -679,6 +669,7 @@ public void update(IColumn oldColumn, IColumn column)
             if (index == null)
                 return;
 
+>>>>>>> YOURS
             if (index instanceof PerColumnSecondaryIndex)
             {
                 // insert the new value before removing the old one, so we never have a period
@@ -688,8 +679,7 @@ public void update(IColumn oldColumn, IColumn column)
                 ((PerColumnSecondaryIndex) index).delete(key.key, oldColumn);
             }
         }
-
->>>>>>> YOURS
+        }
 		
 
         

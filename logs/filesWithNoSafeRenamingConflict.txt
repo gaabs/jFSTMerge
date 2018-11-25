@@ -1,6 +1,5 @@
 logs/java_voldemort.rev_6efd9_d55c7.ForceFailStore.java
 logs/java_voldemort.rev_6efd9_d55c7.NonblockingStore.java
-logs/java_voldemort.rev_6efd9_d55c7.PipelineRoutedStore.java
 logs/java_retrofit.rev_941ae_2ef7c.RequestBuilder.java
 logs/java_roboguice.rev_bee33_b6d1a.EventManager.java
 logs/java_roboguice.rev_bee33_b6d1a.ContextScope.java
@@ -22,7 +21,6 @@ logs/java_ogplatform.rev_b23d5_e4471.DbHistoricalTimeSeriesMaster.java
 logs/java_ogplatform.rev_96129_d2fd7.WebView.java
 logs/java_ogplatform.rev_96129_d2fd7.RequirementBasedWebViewGrid.java
 logs/java_ogplatform.rev_a1a90_46fa2.InterpolatedDiscountCurve.java
-logs/java_ogplatform.rev_a37de_e434d.EHCachingHistoricalDataProvider.java
 logs/java_ogplatform.rev_7b3fb_6494c.EquityFuturesFunction.java
 logs/java_ogplatform.rev_7b3fb_6494c.ExternallyProvidedSensitivitiesYieldCurveNodeSensitivitiesFunction.java
 logs/java_ogplatform.rev_7d0f7_a0710.FloatingInterestRateLeg.java
@@ -42,7 +40,6 @@ logs/java_ogplatform.rev_20353_c0ca1.TradeImpl.java
 logs/java_ogplatform.rev_18d76_f7d0f.TimeSeriesMasterTest.java
 logs/java_ogplatform.rev_1550f_57348.TimeSeriesSearchRequest.java
 logs/java_ogplatform.rev_00bce_fcf35.HibernatePositionMaster.java
-logs/java_ogplatform.rev_038e2_aae4b.SingleComputationCycle.java
 logs/java_ogplatform.rev_046c4_db953.SwapLegFudgeBuilder.java
 logs/java_ogplatform.rev_093b1_84fff.EquityVarianceSwapYieldCurveNodeSensitivityFunction.java
 logs/java_ogplatform.rev_093b1_84fff.EquityVarianceSwapFunction.java
@@ -75,15 +72,11 @@ logs/java_gradle.rev_914f9_a8133.Configuration.java
 logs/java_gradle.rev_cb507_bf1e6.DaemonClientServices.java
 logs/java_gradle.rev_16c71_dcc4b.IvyDependencyResolverAdapter.java
 logs/java_gradle.rev_16c71_dcc4b.ExternalResourceResolver.java
-logs/java_cassandra.rev_e1b10_769fe.SSTableNamesIterator.java
 logs/java_cassandra.rev_86a07_41ef8.UpdateStatement.java
 logs/java_cassandra.rev_95cf9_ce642.SecondaryIndexManager.java
 logs/java_cassandra.rev_748b0_c9376.UpdateParameters.java
-logs/java_cassandra.rev_6a4af_a7b2f.SecondaryIndexManager.java
-logs/java_cassandra.rev_5882a_47112.SSTableWriter.java
 logs/java_cassandra.rev_446e3_783ce.CassandraServer.java
 logs/java_cassandra.rev_446e3_fed37.CassandraServer.java
-logs/java_cassandra.rev_48438_39dd8.StreamInSession.java
 logs/java_cassandra.rev_29a8b_c5ee0.Message.java
 logs/java_cassandra.rev_0f1fb_8b0e1.ColumnIndex.java
 logs/java_cassandra.rev_09e54_b8578.SSTableReader.java

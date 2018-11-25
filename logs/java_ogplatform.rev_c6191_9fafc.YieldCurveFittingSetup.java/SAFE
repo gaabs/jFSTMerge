@@ -265,15 +265,14 @@ protected void setupDoubleCurveFinder() {
 	
 
   <<<<<<< MINE
-
 =======
 @SuppressWarnings("unused")
   private void doHotSpot(final NewtonVectorRootFinder rootFinder, final String name, final Function1D<DoubleMatrix1D, DoubleMatrix1D> functor,
       final Function1D<DoubleMatrix1D, DoubleMatrix2D> jacobianFunction) {
     doHotSpot(rootFinder, name, functor, jacobianFunction, false);
   }
-
 >>>>>>> YOURS
+
 	
 
   private void doHotSpot(final NewtonVectorRootFinder rootFinder, final String name, final Function1D<DoubleMatrix1D, DoubleMatrix1D> function,
@@ -318,7 +317,6 @@ private void doTestForSingleCurve(final NewtonVectorRootFinder rootFinder, final
 	
 
   <<<<<<< MINE
-
 =======
 private void doTestForDoubleCurve(final NewtonVectorRootFinder rootFinder, final Function1D<DoubleMatrix1D, DoubleMatrix1D> f, final Function1D<DoubleMatrix1D, DoubleMatrix2D> j) {
 
@@ -351,8 +349,8 @@ private void doTestForDoubleCurve(final NewtonVectorRootFinder rootFinder, final
     //      assertEquals(_marketRates[i], PAR_RATE_CALCULATOR.getValue(DOUBLE_CURVE_INSTRUMENTS.get(i), bundle), EPS);
     //    }
   }
-
 >>>>>>> YOURS
+
 	
 
   
@@ -553,6 +551,9 @@ protected static FixedFloatSwap setParSwapRate(FixedFloatSwap swap, double rate)
   <<<<<<< MINE
 protected static FixedFloatSwap makeSwap(final int payments, final String fundingCurveName,
       final String liborCurveName, final YieldCurveBundle curves) {
+=======
+protected static FixedFloatSwap setupSwap(final int payments, final String fundingCurveName, final String liborCurveName) {
+>>>>>>> YOURS
     final double[] fixed = new double[payments];
     final double[] floating = new double[2 * payments];
     final double[] indexFixing = new double[2 * payments];
@@ -574,6 +575,7 @@ protected static FixedFloatSwap makeSwap(final int payments, final String fundin
       indexMaturity[i] = 0.25 * (1 + i) + sigma * (RANDOM.nextDouble() - 0.5);
     }
     final ConstantCouponAnnuity fixedLeg = new ConstantCouponAnnuity(fixed, 0.0, fundingCurveName);
+<<<<<<< MINE
     final VariableAnnuity floatingLeg = new VariableAnnuity(floating, indexFixing, indexMaturity, yearFrac, 1.0,
         fundingCurveName, liborCurveName);
     InterestRateDerivative ird = new FixedFloatSwap(fixedLeg, floatingLeg);
@@ -581,35 +583,11 @@ protected static FixedFloatSwap makeSwap(final int payments, final String fundin
     ConstantCouponAnnuity newLeg = new ConstantCouponAnnuity(fixedLeg.getPaymentTimes(), fixedLeg.getNotional(), rate,
         fixedLeg.getYearFractions(), fixedLeg.getFundingCurveName());
     return new FixedFloatSwap(newLeg, floatingLeg);
-  }
 =======
-protected static FixedFloatSwap setupSwap(final int payments, final String fundingCurveName, final String liborCurveName) {
-    final double[] fixed = new double[payments];
-    final double[] floating = new double[2 * payments];
-    final double[] indexFixing = new double[2 * payments];
-    final double[] indexMaturity = new double[2 * payments];
-    final double[] yearFrac = new double[2 * payments];
-
-    final double sigma = 4.0 / 365.0;
-
-    for (int i = 0; i < payments; i++) {
-      fixed[i] = 0.5 * (1 + i) + sigma * (RANDOM.nextDouble() - 0.5);
-      floating[2 * i + 1] = fixed[i];
-    }
-    for (int i = 0; i < 2 * payments; i++) {
-      if (i % 2 == 0) {
-        floating[i] = 0.25 * (1 + i) + sigma * (RANDOM.nextDouble() - 0.5);
-      }
-      yearFrac[i] = 0.25 + sigma * (RANDOM.nextDouble() - 0.5);
-      indexFixing[i] = 0.25 * i + sigma * (i == 0 ? RANDOM.nextDouble() / 2 : (RANDOM.nextDouble() - 0.5));
-      indexMaturity[i] = 0.25 * (1 + i) + sigma * (RANDOM.nextDouble() - 0.5);
-    }
-    final ConstantCouponAnnuity fixedLeg = new ConstantCouponAnnuity(fixed, 0.0, fundingCurveName);
     final VariableAnnuity floatingLeg = new VariableAnnuity(floating, indexFixing, indexMaturity, yearFrac, 1.0, fundingCurveName, liborCurveName);
     return new FixedFloatSwap(fixedLeg, floatingLeg);
-  }
-
 >>>>>>> YOURS
+  }
 	
 
   protected static MultipleYieldCurveFinderDataBundle updateInstruments(MultipleYieldCurveFinderDataBundle old,

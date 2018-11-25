@@ -515,23 +515,13 @@ public  class  InflationBuildingCurveSimpleTest {
   
 	
 
-  <<<<<<< MINE
-@SuppressWarnings("rawtypes")
+  @SuppressWarnings("rawtypes")
+<<<<<<< MINE
   private static DoubleTimeSeries[] getTSSwapFixedIbor(final Boolean withToday, final Integer unit) {
     //REVIEW is it intended that the first two branches of the switch statement do the same thing
-    switch (unit) {
-      case 0:
-        return withToday ? TS_FIXED_IBOR_USD3M_WITH_TODAY : TS_FIXED_IBOR_USD3M_WITHOUT_TODAY;
-      case 1:
-        return withToday ? TS_FIXED_IBOR_USD3M_WITH_TODAY : TS_FIXED_IBOR_USD3M_WITHOUT_TODAY;
-      default:
-        throw new IllegalArgumentException(unit.toString());
-    }
-  }
-
 =======
-@SuppressWarnings("rawtypes")
   private static DoubleTimeSeries[] getTSSwapFixedInflation(final Boolean withToday, final Integer unit) {
+>>>>>>> YOURS
     switch (unit) {
       case 0:
         return withToday ? TS_FIXED_PRICE_INDEX_USD_WITH_TODAY : TS_FIXED_PRICE_INDEX_USD_WITHOUT_TODAY;
@@ -541,7 +531,6 @@ public  class  InflationBuildingCurveSimpleTest {
         throw new IllegalArgumentException(unit.toString());
     }
   }
->>>>>>> YOURS
 	
 
   private static double[] initialGuess(final InstrumentDefinition<?>[] definitions) {

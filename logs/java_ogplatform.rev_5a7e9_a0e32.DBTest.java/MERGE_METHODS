@@ -54,6 +54,7 @@ public abstract class DBTest implements TableCreationCallback {
         ArgumentChecker.notNull(databaseType, "Database type");
         _databaseType = databaseType;
         _dbtool = TestProperties.getDbTool(databaseType);
+        _databaseVersion = databaseVersion;
     }
 
     @Parameters

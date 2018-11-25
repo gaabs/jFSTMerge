@@ -518,17 +518,13 @@ public void setMixed(long columnIndex, long rowIndex, Mixed data){
     //!!!TODO: New
     <<<<<<< MINE
 public void adjust(long columnIndex, long value) {
-        if (immutable) throwImmutable();
-        nativeAddInt(nativePtr, columnIndex, value);
-    }
 =======
 @Override
     public void addLong(long columnIndex, long value) {
+>>>>>>> YOURS
         if (immutable) throwImmutable();
         nativeAddInt(nativePtr, columnIndex, value);
     }
-
->>>>>>> YOURS
 	
 
     protected native void nativeAddInt(long nativeViewPtr, long columnIndex, long value);
@@ -722,14 +718,12 @@ public TableView findAllString(long columnIndex, String value){
     <<<<<<< MINE
 public long sumInt(long columnIndex){
         return nativeSumInt(nativePtr, columnIndex);
-    }
 =======
 @Override
     public long sum(long columnIndex){
         return nativeSum(nativePtr, columnIndex);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     
@@ -747,14 +741,12 @@ public long sumInt(long columnIndex){
     <<<<<<< MINE
 public long maximumInt(long columnIndex){
         return nativeMaximumInt(nativePtr, columnIndex);
-    }
 =======
 @Override
     public long maximum(long columnIndex){
         return nativeMaximum(nativePtr, columnIndex);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     
@@ -772,14 +764,12 @@ public long maximumInt(long columnIndex){
     <<<<<<< MINE
 public long minimumInt(long columnIndex){
         return nativeMinimumInt(nativePtr, columnIndex);
-    }
 =======
 @Override
     public long minimum(long columnIndex){
         return nativeMinimum(nativePtr, columnIndex);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     
@@ -788,14 +778,12 @@ public long minimumInt(long columnIndex){
     <<<<<<< MINE
 public double averageInt(long columnIndex) {
         return nativeAverageInt(nativePtr, columnIndex);
-    }
 =======
 @Override
     public double average(long columnIndex) {
         return nativeAverage(nativePtr, columnIndex);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     

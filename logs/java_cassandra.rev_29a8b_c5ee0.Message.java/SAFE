@@ -125,20 +125,15 @@ public  class  Message {
 
     // TODO should take byte[] + length so we don't have to copy to a byte[] of exactly the right len
     // TODO make static
-    <<<<<<< MINE
-public Message getReply(InetAddress from, byte[] body, int version)
+    public Message getReply(InetAddress from, byte[] body, int version)
     {
         Header header = new Header(from, StorageService.Verb.REQUEST_RESPONSE);
+<<<<<<< MINE
         return new Message(header, body, version);
-    }
 =======
-public Message getReply(InetAddress from, byte[] args)
-    {
-        Header header = new Header(from, StorageService.Verb.REQUEST_RESPONSE);
         return new Message(header, args);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     public Message getInternalReply(byte[] body)

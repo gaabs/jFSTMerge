@@ -525,9 +525,21 @@ public  class  DbHistoricalTimeSeriesMaster  extends AbstractDocumentDbMaster<Hi
 	
 
   public ManageableHistoricalTimeSeries getTimeSeries(UniqueId uniqueId) {
+<<<<<<< MINE
+    ArgumentChecker.notNull(uniqueId, "uniqueId");
+    checkScheme(uniqueId);
+    
+    final VersionCorrection vc;
+    if (uniqueId.isVersioned() && uniqueId.getValue().startsWith(DATA_POINT_PREFIX)) {
+      vc = extractTimeSeriesInstants(uniqueId);
+    } else {
+      vc = VersionCorrection.LATEST;
+    }
+    return getTimeSeries(uniqueId.getObjectId(), vc);
+=======
     return getDataPointsWorker().getSummary(uniqueId);
+>>>>>>> YOURS
   }
-
 	
 
   public HistoricalTimeSeriesSummary getSummary(ObjectIdentifiable objectId, VersionCorrection versionCorrection) {

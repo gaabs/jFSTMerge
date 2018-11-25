@@ -74,21 +74,15 @@ public abstract  class  CompoundFileDirectory  extends Directory {
   <<<<<<< MINE
 public CompoundFileDirectory(Directory directory, String fileName, IOContext context) throws IOException {
     assert !(directory instanceof CompoundFileDirectory) : "compound file inside of compound file: " + fileName;
+=======
+public CompoundFileDirectory(Directory directory, String fileName, int readBufferSize) throws IOException {
+
+>>>>>>> YOURS
     this.directory = directory;
     this.fileName = fileName;
     this.readBufferSize = BufferedIndexInput.bufferSize(context);
     this.isOpen = false;
   }
-=======
-public CompoundFileDirectory(Directory directory, String fileName, int readBufferSize) throws IOException {
-
-    this.directory = directory;
-    this.fileName = fileName;
-    this.readBufferSize = readBufferSize;
-    this.isOpen = false;
-  }
-
->>>>>>> YOURS
 	
   
   /** Initialize with a map of filename->slices */

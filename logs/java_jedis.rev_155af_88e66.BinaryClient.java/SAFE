@@ -666,13 +666,11 @@ public void zcount(final byte[] key, final double min, final double max) {
         byte byteArrayMax[] = (max == Double.POSITIVE_INFINITY) ? "+inf".getBytes() : toByteArray(max);
 
         sendCommand(ZCOUNT, key, byteArrayMin, byteArrayMax);
-    }
-
 =======
 public void zrange(final byte[] key, final long start, final long end) {
 	sendCommand(ZRANGE, key, toByteArray(start), toByteArray(end));
-    }
 >>>>>>> YOURS
+    }
 	
 
     public void zcount(final byte[] key, final byte min[], final byte max[]) {
@@ -694,10 +692,9 @@ public void zrangeByScore(final byte[] key, final double min,
 
         sendCommand(ZRANGEBYSCORE, key, byteArrayMin, byteArrayMax);
     }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
     public void zrangeByScore(final byte[] key, final byte[] min,
@@ -768,15 +765,13 @@ public void zrangeByScore(final byte[] key, final double min,
 
         sendCommand(ZRANGEBYSCORE, key, byteArrayMin, byteArrayMax,
                 LIMIT.raw, toByteArray(offset), toByteArray(count));
-    }
-
 =======
 public void zrangeByScore(final byte[] key, final byte[] min,
 	    final byte[] max, final int offset, int count) {
 	sendCommand(ZRANGEBYSCORE, key, min, max, LIMIT.raw,
 		toByteArray(offset), toByteArray(count));
-    }
 >>>>>>> YOURS
+    }
 	
 
     public void zrangeByScore(final byte[] key, final byte min[],
@@ -804,15 +799,13 @@ public void zrevrangeByScore(final byte[] key, final double max,
 
         sendCommand(ZREVRANGEBYSCORE, key, byteArrayMax, byteArrayMin,
                 LIMIT.raw, toByteArray(offset), toByteArray(count));
-    }
-
 =======
 public void zrevrangeByScore(final byte[] key, final byte[] max,
 	    final byte[] min, final int offset, int count) {
 	sendCommand(ZREVRANGEBYSCORE, key, max, min, LIMIT.raw,
 		toByteArray(offset), toByteArray(count));
-    }
 >>>>>>> YOURS
+    }
 	
 
      public void zrevrangeByScore(final byte[] key, final byte max[],
@@ -841,10 +834,9 @@ public void zrangeByScoreWithScores(final byte[] key, final double min,
         sendCommand(ZRANGEBYSCORE, key, byteArrayMin, byteArrayMax,
                 WITHSCORES.raw);
     }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
     public void zrangeByScoreWithScores(final byte[] key, final byte min[],
@@ -873,10 +865,9 @@ public void zrevrangeByScoreWithScores(final byte[] key, final double max,
         sendCommand(ZREVRANGEBYSCORE, key, byteArrayMax, byteArrayMin,
                 WITHSCORES.raw);
     }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
     public void zrevrangeByScoreWithScores(final byte[] key, final byte max[],
@@ -903,15 +894,13 @@ public void zrangeByScoreWithScores(final byte[] key, final double min,
         sendCommand(ZRANGEBYSCORE, key, byteArrayMin, byteArrayMax,
                 LIMIT.raw, toByteArray(offset), toByteArray(count),
                 WITHSCORES.raw);
-    }
-
 =======
 public void zrangeByScoreWithScores(final byte[] key, final byte[] min,
 	    final byte[] max, final int offset, final int count) {
 	sendCommand(ZRANGEBYSCORE, key, min, max, LIMIT.raw,
 		toByteArray(offset), toByteArray(count), WITHSCORES.raw);
-    }
 >>>>>>> YOURS
+    }
 	
 
     public void zrangeByScoreWithScores(final byte[] key, final byte min[],
@@ -940,15 +929,13 @@ public void zrevrangeByScoreWithScores(final byte[] key, final double max,
         sendCommand(ZREVRANGEBYSCORE, key, byteArrayMax, byteArrayMin,
                 LIMIT.raw, toByteArray(offset), toByteArray(count),
                 WITHSCORES.raw);
-    }
-
 =======
 public void zrevrangeByScoreWithScores(final byte[] key, final byte[] max,
 	    final byte[] min, final int offset, final int count) {
 	sendCommand(ZREVRANGEBYSCORE, key, max, min, LIMIT.raw,
 		toByteArray(offset), toByteArray(count), WITHSCORES.raw);
-    }
 >>>>>>> YOURS
+    }
 	
 
     public void zrevrangeByScoreWithScores(final byte[] key, final byte max[],

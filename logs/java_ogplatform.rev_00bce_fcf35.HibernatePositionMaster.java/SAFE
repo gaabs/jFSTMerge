@@ -204,33 +204,21 @@ public Portfolio getPortfolio(final InstantProvider now, final PortfolioId portf
     if (portfolioId.getId().startsWith("h8/") == false) {
       throw new IllegalArgumentException("Invalid portfolio id for Hibernate: " + portfolioId);
     }
-    return (Portfolio) getHibernateTemplate().execute(new HibernateCallback() {
-      @Override
-      public Object doInHibernate(final Session session) throws HibernateException, SQLException {
-        final PositionMasterSession positionMasterSession = new PositionMasterSession(session);
-        final PortfolioBean dbPortfolio = positionMasterSession.getPortfolioBeanByIdentifier(now, portfolioId.getId().substring(3));
-        if (dbPortfolio == null) {
-          s_logger.debug("portfolio {} not found at {}", portfolioId, now);
-          return null;
-        }
-        final PortfolioNodeImpl rootNode = new PortfolioNodeImpl();
-        final PortfolioImpl portfolio = new PortfolioImpl(portfolioId, dbPortfolio.getName(), rootNode);
-        loadPortfolioNodeChildren(positionMasterSession, now, rootNode, dbPortfolio.getRoot());
-        return portfolio;
-      }
-    });
-  }
-
 =======
 public Portfolio getPortfolio(final InstantProvider now, final Identifier portfolioId) {
+>>>>>>> YOURS
     return (Portfolio) getHibernateTemplate().execute(new HibernateCallback() {
       @Override
       public Object doInHibernate(final Session session) throws HibernateException, SQLException {
         final PositionMasterSession positionMasterSession = new PositionMasterSession(session);
+<<<<<<< MINE
+        final PortfolioBean dbPortfolio = positionMasterSession.getPortfolioBeanByIdentifier(now, portfolioId.getId().substring(3));
+=======
         if (portfolioId.isNotScheme("h8")) {
           throw new IllegalArgumentException("Invalid portfolio id for Hibernate: " + portfolioId);
         }
         final PortfolioBean dbPortfolio = positionMasterSession.getPortfolioBeanByIdentifier(now, portfolioId.getValue());
+>>>>>>> YOURS
         if (dbPortfolio == null) {
           s_logger.debug("portfolio {} not found at {}", portfolioId, now);
           return null;
@@ -242,7 +230,6 @@ public Portfolio getPortfolio(final InstantProvider now, final Identifier portfo
       }
     });
   }
->>>>>>> YOURS
 	
 
   //-------------------------------------------------------------------------

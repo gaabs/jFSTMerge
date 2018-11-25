@@ -106,12 +106,19 @@ public  class  UpdateStatement  extends ModificationStatement {
      *
      * @throws InvalidRequestException on the wrong request
      */
-    <<<<<<< MINE
-public ColumnFamily updateForKey(ByteBuffer key, ColumnNameBuilder builder, UpdateParameters params)
+    public ColumnFamily updateForKey(ByteBuffer key, ColumnNameBuilder builder, UpdateParameters params)
     throws InvalidRequestException
     {
+<<<<<<< MINE
         CFDefinition cfDef = cfm.getCfDef();
         ColumnFamily cf = UnsortedColumns.factory.create(cfm);
+=======
+        validateKey(key);
+
+        QueryProcessor.validateKey(key);
+        RowMutation rm = new RowMutation(cfDef.cfm.ksName, key);
+        ColumnFamily cf = rm.addOrGet(cfDef.cfm);
+>>>>>>> YOURS
 
         // Inserting the CQL row marker (see #4361)
         // We always need to insert a marker, because of the following situation:
@@ -162,63 +169,6 @@ public ColumnFamily updateForKey(ByteBuffer key, ColumnNameBuilder builder, Upda
 
         return cf;
     }
-=======
-private IMutation mutationForKey(CFDefinition cfDef, ByteBuffer key, ColumnNameBuilder builder, UpdateParameters params, ConsistencyLevel cl)
-    throws InvalidRequestException
-    {
-        validateKey(key);
-
-        QueryProcessor.validateKey(key);
-        RowMutation rm = new RowMutation(cfDef.cfm.ksName, key);
-        ColumnFamily cf = rm.addOrGet(cfDef.cfm);
-
-        // Inserting the CQL row marker (see #4361)
-        // We always need to insert a marker, because of the following situation:
-        //   CREATE TABLE t ( k int PRIMARY KEY, c text );
-        //   INSERT INTO t(k, c) VALUES (1, 1)
-        //   DELETE c FROM t WHERE k = 1;
-        //   SELECT * FROM t;
-        // The last query should return one row (but with c == null). Adding
-        // the marker with the insert make sure the semantic is correct (while making sure a
-        // 'DELETE FROM t WHERE k = 1' does remove the row entirely)
-        if (cfDef.isComposite && !cfDef.isCompact)
-        {
-            ByteBuffer name = builder.copy().add(ByteBufferUtil.EMPTY_BYTE_BUFFER).build();
-            cf.addColumn(params.makeColumn(name, ByteBufferUtil.EMPTY_BYTE_BUFFER));
-        }
-
-        if (cfDef.isCompact)
-        {
-            if (builder.componentCount() == 0)
-                throw new InvalidRequestException(String.format("Missing PRIMARY KEY part %s", cfDef.columns.values().iterator().next()));
-
-            if (cfDef.value == null)
-            {
-                // compact + no compact value implies there is no column outside the PK. So no operation could
-                // have passed through validation
-                assert processedColumns.isEmpty();
-                setToEmptyOperation.execute(key, cf, builder.copy(), params);
-            }
-            else
-            {
-                // compact means we don't have a row marker, so don't accept to set only the PK. See CASSANDRA-5648.
-                if (processedColumns.isEmpty())
-                    throw new InvalidRequestException(String.format("Column %s is mandatory for this COMPACT STORAGE table", cfDef.value));
-
-                for (Operation op : processedColumns)
-                    op.execute(key, cf, builder.copy(), params);
-            }
-        }
-        else
-        {
-            for (Operation op : processedColumns)
-                op.execute(key, cf, builder.copy(), params);
-        }
-
-        return type == Type.COUNTER ? new CounterMutation(rm, cl) : rm;
-    }
-
->>>>>>> YOURS
 	
 
     

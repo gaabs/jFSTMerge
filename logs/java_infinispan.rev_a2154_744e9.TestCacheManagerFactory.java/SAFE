@@ -172,13 +172,11 @@ public  class  TestCacheManagerFactory {
    <<<<<<< MINE
 public static EmbeddedCacheManager createClusteredCacheManager(boolean withFD) {
       return createClusteredCacheManager(withFD, new Configuration());
-   }
-
 =======
 public static EmbeddedCacheManager createClusteredCacheManager(TransportFlags flags) {
       return createClusteredCacheManager(new Configuration(), false, flags);
-   }
 >>>>>>> YOURS
+   }
 	
 
    /**
@@ -190,13 +188,12 @@ public static EmbeddedCacheManager createClusteredCacheManager(TransportFlags fl
 	
 
    <<<<<<< MINE
-
 =======
 public static EmbeddedCacheManager createClusteredCacheManager(Configuration defaultCacheConfig, boolean transactional) {
       return createClusteredCacheManager(defaultCacheConfig, transactional, new TransportFlags());
    }
-
 >>>>>>> YOURS
+
 	
 
    public static EmbeddedCacheManager createClusteredCacheManager(Configuration defaultCacheConfig, boolean transactional, TransportFlags flags) {

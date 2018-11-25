@@ -48,7 +48,7 @@ public class UpdateParameters {
 
     public UpdateParameters(CFMetaData metadata, QueryOptions options, long timestamp, int ttl, Map<ByteBuffer, CQL3Row> prefetchedLists) {
         this.metadata = metadata;
-        this.variables = variables;
+        this.options = options;
         this.timestamp = timestamp;
         this.ttl = ttl;
         this.localDeletionTime = (int) (System.currentTimeMillis() / 1000);

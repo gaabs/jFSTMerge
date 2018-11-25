@@ -275,14 +275,13 @@ public  class  WebView  implements Viewport {
 public String getViewDefinitionName() {
     synchronized (_lock) {
       return _viewDefinitionName;
-    }
-  }
-
 =======
 public UniqueId getViewDefinitionId() {
     return _viewDefinitionId;
-  }
 >>>>>>> YOURS
+  }
+  }
+
 	
   
   
@@ -340,7 +339,6 @@ public UniqueId getViewDefinitionId() {
 	
   
   <<<<<<< MINE
-
 =======
 private void processResult(ViewComputationResultModel resultModel) {
     long resultTimestamp = resultModel.getCalculationTime().toEpochMillisLong();
@@ -358,8 +356,8 @@ private void processResult(ViewComputationResultModel resultModel) {
       getPortfolioGrid().processDepGraphs(resultTimestamp);
     }
   }
-
 >>>>>>> YOURS
+
 	
   
   /**

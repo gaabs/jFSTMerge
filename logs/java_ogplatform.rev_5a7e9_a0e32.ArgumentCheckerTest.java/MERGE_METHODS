@@ -14,39 +14,38 @@ import org.junit.Test;
 
 public class ArgumentCheckerTest {
 
-    @Test(expected = NullPointerException.class)
-    public void test_notNull_null() {
-        try {
-            ArgumentChecker.notNull(null, "name");
-        } catch (NullPointerException ex) {
-            assertTrue(ex.getMessage().contains("'name'"));
-            assertFalse(ex.getMessage().contains("Injected"));
-            throw ex;
-        }
-    }
-
-    //-------------------------------------------------------------------------
-    @Test(expected = NullPointerException.class)
-    public void test_notNullInjected_null() {
-        try {
-            ArgumentChecker.notNullInjected(null, "name");
-        } catch (NullPointerException ex) {
-            assertTrue(ex.getMessage().contains("'name'"));
-            assertTrue(ex.getMessage().contains("Injected"));
-            throw ex;
-        }
-    }
-
     //-------------------------------------------------------------------------
     @Test
     public void test_notNull_ok() {
         ArgumentChecker.notNull("Kirk", "name");
     }
 
+    @Test(expected = NullPointerException.class)
+    public void test_notNull_null() {
+        try {
+            ArgumentChecker.notNull(null, "name");
+        } catch (NullPointerException ex) {
+            assertEquals(ex.getMessage().contains("'name'"), true);
+            assertEquals(ex.getMessage().contains("Injected"), false);
+            throw ex;
+        }
+    }
+
     //-------------------------------------------------------------------------
     @Test
     public void test_notNullInjected_ok() {
         ArgumentChecker.notNullInjected("Kirk", "name");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void test_notNullInjected_null() {
+        try {
+            ArgumentChecker.notNullInjected(null, "name");
+        } catch (NullPointerException ex) {
+            assertEquals(ex.getMessage().contains("'name'"), true);
+            assertEquals(ex.getMessage().contains("Injected"), true);
+            throw ex;
+        }
     }
 
     //-------------------------------------------------------------------------

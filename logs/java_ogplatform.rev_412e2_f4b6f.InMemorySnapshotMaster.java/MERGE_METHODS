@@ -87,7 +87,6 @@ public  class  InMemorySnapshotMaster  implements MarketDataSnapshotMaster {
   public InMemorySnapshotMaster(final ChangeManager changeManager) {
     this(new ObjectIdSupplier(DEFAULT_OID_SCHEME), changeManager);
   }
-
 	
 
   /**
@@ -98,7 +97,6 @@ public  class  InMemorySnapshotMaster  implements MarketDataSnapshotMaster {
   public InMemorySnapshotMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
   }
-
 	
 
   /**
@@ -224,7 +222,6 @@ public InMemorySnapshotMaster(final Supplier<ObjectId> objectIdSupplier, final M
     }
     _changeManager.entityChanged(ChangeType.REMOVED, uniqueId, null, Instant.now());
   }
-
 	
 
   //-------------------------------------------------------------------------

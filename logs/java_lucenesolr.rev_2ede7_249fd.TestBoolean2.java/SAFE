@@ -88,6 +88,12 @@ public  class  TestBoolean2  extends LuceneTestCase {
     rnd = newRandom();
     RAMDirectory directory = new RAMDirectory();
     RandomIndexWriter writer= new RandomIndexWriter(rnd, directory);
+=======
+@BeforeClass
+  public static void beforeClass() throws Exception {
+    directory = newDirectory();
+    RandomIndexWriter writer= new RandomIndexWriter(random, directory);
+>>>>>>> YOURS
     for (int i = 0; i < docFields.length; i++) {
       Document doc = new Document();
       doc.add(new Field(field, docFields[i], Field.Store.NO, Field.Index.ANALYZED));
@@ -97,21 +103,33 @@ public  class  TestBoolean2  extends LuceneTestCase {
     searcher = new IndexSearcher(directory, true);
 
     // Make big index
-    dir2 = new MockRAMDirectory(directory);
+    dir2 = new MockDirectoryWrapper(random, new RAMDirectory(directory));
 
     // First multiply small test index:
     mulFactor = 1;
     int docCount = 0;
     do {
+<<<<<<< MINE
       final Directory copy = new RAMDirectory(dir2);
       RandomIndexWriter w = new RandomIndexWriter(rnd, dir2);
       w.addIndexes(new Directory[] {copy});
+=======
+      final Directory copy = new MockDirectoryWrapper(random, new RAMDirectory(dir2));
+      RandomIndexWriter w = new RandomIndexWriter(random, dir2);
+      w.addIndexes(copy);
+>>>>>>> YOURS
       docCount = w.maxDoc();
       w.close();
       mulFactor *= 2;
     } while(docCount < 3000);
 
+<<<<<<< MINE
     RandomIndexWriter w = new RandomIndexWriter(rnd, dir2);
+=======
+    RandomIndexWriter w = new RandomIndexWriter(random, dir2, 
+        newIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer())
+        .setMaxBufferedDocs(_TestUtil.nextInt(random, 50, 1000)));
+>>>>>>> YOURS
     Document doc = new Document();
     doc.add(new Field("field2", "xxx", Field.Store.NO, Field.Index.ANALYZED));
     for(int i=0;i<NUM_EXTRA_DOCS/2;i++) {
@@ -126,53 +144,6 @@ public  class  TestBoolean2  extends LuceneTestCase {
     bigSearcher = new IndexSearcher(reader);
     w.close();
   }
-
-=======
-@BeforeClass
-  public static void beforeClass() throws Exception {
-    directory = newDirectory();
-    RandomIndexWriter writer= new RandomIndexWriter(random, directory);
-    for (int i = 0; i < docFields.length; i++) {
-      Document doc = new Document();
-      doc.add(newField(field, docFields[i], Field.Store.NO, Field.Index.ANALYZED));
-      writer.addDocument(doc);
-    }
-    writer.close();
-    searcher = new IndexSearcher(directory, true);
-
-    // Make big index
-    dir2 = new MockDirectoryWrapper(random, new RAMDirectory(directory));
-
-    // First multiply small test index:
-    mulFactor = 1;
-    int docCount = 0;
-    do {
-      final Directory copy = new MockDirectoryWrapper(random, new RAMDirectory(dir2));
-      RandomIndexWriter w = new RandomIndexWriter(random, dir2);
-      w.addIndexes(copy);
-      docCount = w.maxDoc();
-      w.close();
-      mulFactor *= 2;
-    } while(docCount < 3000);
-
-    RandomIndexWriter w = new RandomIndexWriter(random, dir2, 
-        newIndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer())
-        .setMaxBufferedDocs(_TestUtil.nextInt(random, 50, 1000)));
-    Document doc = new Document();
-    doc.add(newField("field2", "xxx", Field.Store.NO, Field.Index.ANALYZED));
-    for(int i=0;i<NUM_EXTRA_DOCS/2;i++) {
-      w.addDocument(doc);
-    }
-    doc = new Document();
-    doc.add(newField("field2", "big bad bug", Field.Store.NO, Field.Index.ANALYZED));
-    for(int i=0;i<NUM_EXTRA_DOCS/2;i++) {
-      w.addDocument(doc);
-    }
-    reader = w.getReader();
-    bigSearcher = new IndexSearcher(reader);
-    w.close();
-  }
->>>>>>> YOURS
 	
 
   

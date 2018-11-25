@@ -102,13 +102,11 @@ public  class  InMemoryHistoricalTimeSeriesMaster  implements HistoricalTimeSeri
   <<<<<<< MINE
 public InMemoryHistoricalTimeSeriesMaster(final MasterChangeManager changeManager) {
     this(new ObjectIdSupplier(DEFAULT_OID_SCHEME), changeManager);
-  }
-
 =======
 public InMemoryHistoricalTimeSeriesMaster(final ChangeManager changeManager) {
     this(new ObjectIdentifierSupplier(DEFAULT_OID_SCHEME), changeManager);
-  }
 >>>>>>> YOURS
+  }
 	
 
   /**
@@ -119,13 +117,11 @@ public InMemoryHistoricalTimeSeriesMaster(final ChangeManager changeManager) {
   <<<<<<< MINE
 public InMemoryHistoricalTimeSeriesMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicMasterChangeManager());
-  }
 =======
 public InMemoryHistoricalTimeSeriesMaster(final Supplier<ObjectIdentifier> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
-  }
-
 >>>>>>> YOURS
+  }
 	
 
   /**

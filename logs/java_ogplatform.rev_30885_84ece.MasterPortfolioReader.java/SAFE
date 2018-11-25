@@ -54,19 +54,15 @@ public MasterPortfolioReader(String portfolioName, LoaderContext loaderContext) 
     _positionMaster = loaderContext.getPositionMaster();
     _securityMaster = loaderContext.getSecurityMaster();
     _securitySource = loaderContext.getSecuritySource();
-    
-    _portfolioDocument = openPortfolio(portfolioName);
-  }
-
 =======
 public MasterPortfolioReader(String portfolioName, ToolContext toolContext) {
     _portfolioMaster = toolContext.getPortfolioMaster();
     _positionMaster = toolContext.getPositionMaster();
     _securityMaster = toolContext.getSecurityMaster();
+>>>>>>> YOURS
     
     _portfolioDocument = openPortfolio(portfolioName);
   }
->>>>>>> YOURS
 	
 
   

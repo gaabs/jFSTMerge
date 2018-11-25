@@ -1098,13 +1098,11 @@ private LocalDateDoubleTimeSeries makeRandomTimeSeries(LocalDate start, LocalDat
       }
     }
     return new ArrayLocalDateDoubleTimeSeries(tsMap);
-  }
 =======
 private LocalDateDoubleTimeSeries makeRandomTimeSeries(LocalDate start) {
     return makeRandomTimeSeries(start, 8);
-  }
-
 >>>>>>> YOURS
+  }
 	
   
   public static LocalDateDoubleTimeSeries makeRandomTimeSeries(int numDays) {

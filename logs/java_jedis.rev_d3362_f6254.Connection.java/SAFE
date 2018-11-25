@@ -90,10 +90,6 @@ public  class  Connection {
     <<<<<<< MINE
 protected Connection sendCommand(String name, String... args) {
         protocol.sendCommand(outputStream, name, args);
-        pipelinedCommands++;
-        return this;
-    }
-
 =======
 protected Connection sendCommand(final Command cmd, final byte[]... args) {
         try {
@@ -104,10 +100,10 @@ protected Connection sendCommand(final Command cmd, final byte[]... args) {
             throw new JedisException("Could not connect to redis-server", e);
         }
         protocol.sendCommand(outputStream, cmd, args);
+>>>>>>> YOURS
         pipelinedCommands++;
         return this;
     }
->>>>>>> YOURS
 	
 
     public Connection(final String host, final int port) {

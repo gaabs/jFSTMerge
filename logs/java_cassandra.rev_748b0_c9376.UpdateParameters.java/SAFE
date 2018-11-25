@@ -55,20 +55,13 @@ public  class  UpdateParameters {
 
     <<<<<<< MINE
 public UpdateParameters(CFMetaData metadata, QueryOptions options, long timestamp, int ttl, Map<ByteBuffer, CQL3Row> prefetchedLists)
-    {
-        this.metadata = metadata;
-        this.options = options;
-        this.timestamp = timestamp;
-        this.ttl = ttl;
-        this.localDeletionTime = (int)(System.currentTimeMillis() / 1000);
-        this.prefetchedLists = prefetchedLists;
-    }
 =======
 public UpdateParameters(CFMetaData metadata, List<ByteBuffer> variables, long timestamp, int ttl, Map<ByteBuffer, ColumnGroupMap> prefetchedLists)
     throws InvalidRequestException
+>>>>>>> YOURS
     {
         this.metadata = metadata;
-        this.variables = variables;
+        this.options = options;
         this.timestamp = timestamp;
         this.ttl = ttl;
         this.localDeletionTime = (int)(System.currentTimeMillis() / 1000);
@@ -79,8 +72,6 @@ public UpdateParameters(CFMetaData metadata, List<ByteBuffer> variables, long ti
         if (timestamp == Long.MIN_VALUE)
             throw new InvalidRequestException(String.format("Out of bound timestamp, must be in [%d, %d]", Long.MIN_VALUE + 1, Long.MAX_VALUE));
     }
-
->>>>>>> YOURS
 	
 
     

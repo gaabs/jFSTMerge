@@ -59,13 +59,11 @@ public  class  MarkovChain {
   <<<<<<< MINE
 public MarkovChain(final double vol1, final double vol2, final double lambda12, final double lambda21) {
     this(vol1, vol2, lambda12, lambda21, MersenneTwister.DEFAULT_SEED);
-  }
-
 =======
 public MarkovChain(final double vol1, final double vol2, final double lambda12, final double lambda21, final double probState1) {
     this(vol1, vol2, lambda12, lambda21, probState1, MersenneTwister64.DEFAULT_SEED);
-  }
 >>>>>>> YOURS
+  }
 	
 
   

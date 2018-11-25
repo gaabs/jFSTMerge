@@ -49,13 +49,11 @@ public DaemonClientServices(ServiceRegistry loggingServices, File daemonBaseDir,
         this.idleTimeout = idleTimeout;
         this.registryServices = new DaemonRegistryServices(daemonBaseDir);
         add(registryServices);
-    }
 =======
 public DaemonClientServices(ServiceRegistry loggingServices, File daemonBaseDir, Integer idleTimeout) {
         this(loggingServices, new DaemonRegistryServices(daemonBaseDir), idleTimeout);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
     private DaemonClientServices(ServiceRegistry loggingServices, DaemonRegistryServices registryServices, Integer idleTimeout) {

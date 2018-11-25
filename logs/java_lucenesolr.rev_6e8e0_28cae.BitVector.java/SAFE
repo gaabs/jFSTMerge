@@ -390,21 +390,11 @@ public int length() {
   <<<<<<< MINE
 public BitVector(Directory d, String name, IOContext context) throws IOException {
     IndexInput input = d.openInput(name, context);
-    try {
-      size = input.readInt();       // read size
-      if (size == -1) {
-        readDgaps(input);
-      } else {
-        readBits(input);
-      }
-    } finally {
-      input.close();
-    }
-  }
 =======
 public BitVector(Directory d, String name) throws IOException {
     IndexInput input = d.openInput(name);
 
+>>>>>>> YOURS
     try {
       final int firstInt = input.readInt();
 
@@ -429,8 +419,6 @@ public BitVector(Directory d, String name) throws IOException {
       input.close();
     }
   }
-
->>>>>>> YOURS
 	
 
   /** Read as a bit set */

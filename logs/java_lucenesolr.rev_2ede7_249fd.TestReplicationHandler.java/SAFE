@@ -100,8 +100,6 @@ public  class  TestReplicationHandler  extends SolrTestCaseJ4 {
     slaveClient.deleteByQuery("*:*");
     slaveClient.commit();
     rQuery(0, "*:*", slaveClient);
-  }
-
 =======
 @BeforeClass
   public static void beforeClass() throws Exception {
@@ -114,8 +112,8 @@ public  class  TestReplicationHandler  extends SolrTestCaseJ4 {
     slave.setUp();
     slaveJetty = createJetty(slave);
     slaveClient = createNewSolrServer(slaveJetty.getLocalPort());
-  }
 >>>>>>> YOURS
+  }
 	
 
   @Override

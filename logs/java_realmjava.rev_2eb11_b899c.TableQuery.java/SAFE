@@ -357,28 +357,22 @@ public  class  TableQuery {
     <<<<<<< MINE
 public TableQuery equalTo(long columnIndex, Date value){
         nativeEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery equal(long columnIndex, Date value){
         nativeEqualDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     <<<<<<< MINE
 public TableQuery equalTo(long columnIndex, Date value){
         nativeEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery eq(long columnIndex, Date value){
         nativeEqualDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     protected native void nativeEqualDateTime(long nativeQueryPtr, long columnIndex, long value);
 	
@@ -388,28 +382,22 @@ public TableQuery eq(long columnIndex, Date value){
     <<<<<<< MINE
 public TableQuery notEqualTo(long columnIndex, Date value){
         nativeNotEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery notEqual(long columnIndex, Date value){
         nativeNotEqualDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     <<<<<<< MINE
 public TableQuery notEqualTo(long columnIndex, Date value){
         nativeNotEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery neq(long columnIndex, Date value){
         nativeNotEqualDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     protected native void nativeNotEqualDateTime(long nativeQueryPtr, long columnIndex, long value);
 	
@@ -424,15 +412,12 @@ public TableQuery neq(long columnIndex, Date value){
     <<<<<<< MINE
 public TableQuery equalTo(long columnIndex, Date value){
         nativeEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery gt(long columnIndex, Date value){
         nativeGreaterDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     protected native void nativeGreaterDateTime(long nativeQueryPtr, long columnIndex, long value);
 	
@@ -447,15 +432,12 @@ public TableQuery gt(long columnIndex, Date value){
     <<<<<<< MINE
 public TableQuery equalTo(long columnIndex, Date value){
         nativeEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery gte(long columnIndex, Date value){
         nativeGreaterEqualDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     protected native void nativeGreaterEqualDateTime(long nativeQueryPtr, long columnIndex, long value);
 	
@@ -470,15 +452,12 @@ public TableQuery gte(long columnIndex, Date value){
     <<<<<<< MINE
 public TableQuery equalTo(long columnIndex, Date value){
         nativeEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery lt(long columnIndex, Date value){
         nativeLessDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     protected native void nativeLessDateTime(long nativeQueryPtr, long columnIndex, long value);
 	
@@ -493,15 +472,12 @@ public TableQuery lt(long columnIndex, Date value){
     <<<<<<< MINE
 public TableQuery equalTo(long columnIndex, Date value){
         nativeEqualDate(nativePtr, columnIndex, value.getTime()/1000);
-        return this;
-    }
 =======
 public TableQuery lte(long columnIndex, Date value){
         nativeLessEqualDateTime(nativePtr, columnIndex, value.getTime()/1000);
+>>>>>>> YOURS
         return this;
     }
-
->>>>>>> YOURS
 	
     protected native void nativeLessEqualDateTime(long nativeQueryPtr, long columnIndex, long value);
 	

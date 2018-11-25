@@ -39,10 +39,9 @@ public  interface  Configuration  extends FileCollection {
     <<<<<<< MINE
 @Deprecated
     VersionConflictStrategy getVersionConflictStrategy();
-
 =======
-
 >>>>>>> YOURS
+
 	
 
     /**
@@ -53,10 +52,10 @@ public  interface  Configuration  extends FileCollection {
     <<<<<<< MINE
 @Deprecated
     ResolutionStrategy getResolution();
-
 =======
 ResolutionStrategy getResolutionStrategy();
 >>>>>>> YOURS
+
 	enum  State { UNRESOLVED ,  RESOLVED ,  RESOLVED_WITH_FAILURES}
 	
 

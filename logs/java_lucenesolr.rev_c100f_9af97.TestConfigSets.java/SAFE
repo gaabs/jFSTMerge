@@ -46,20 +46,12 @@ public  class  TestConfigSets  extends SolrTestCaseJ4 {
   <<<<<<< MINE
 public CoreContainer setupContainer(String configSetsBaseDir) {
     File testDirectory = createTempDir();
-
-    System.setProperty("configsets", configSetsBaseDir);
-
-    SolrResourceLoader loader = new SolrResourceLoader(testDirectory.getAbsolutePath());
-    CoreContainer container = new CoreContainer(loader, ConfigSolr.fromString(loader, solrxml));
-    container.load();
-
-    return container;
-  }
 =======
 public CoreContainer setupContainer(String testName, String configSetsBaseDir) {
 
     File testDirectory = new File(dataDir, testName);
     testDirectory.mkdirs();
+>>>>>>> YOURS
 
     System.setProperty("configsets", configSetsBaseDir);
 
@@ -69,8 +61,6 @@ public CoreContainer setupContainer(String testName, String configSetsBaseDir) {
 
     return container;
   }
-
->>>>>>> YOURS
 	
 
   @Test

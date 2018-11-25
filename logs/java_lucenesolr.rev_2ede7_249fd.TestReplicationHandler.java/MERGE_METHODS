@@ -92,6 +92,17 @@ public  class  TestReplicationHandler  extends SolrTestCaseJ4 {
 
   @BeforeClass
   public static void beforeClass() throws Exception {
+<<<<<<< MINE
+    master = new SolrInstance("master", null);
+    master.setUp();
+    masterJetty = createJetty(master);
+    masterClient = createNewSolrServer(masterJetty.getLocalPort());
+
+    slave = new SolrInstance("slave", masterJetty.getLocalPort());
+    slave.setUp();
+    slaveJetty = createJetty(slave);
+    slaveClient = createNewSolrServer(slaveJetty.getLocalPort());
+=======
     super.setUp();
     masterClient.deleteByQuery("*:*");
     masterClient.commit();
@@ -99,8 +110,8 @@ public  class  TestReplicationHandler  extends SolrTestCaseJ4 {
     slaveClient.deleteByQuery("*:*");
     slaveClient.commit();
     rQuery(0, "*:*", slaveClient);
+>>>>>>> YOURS
   }
-
 	
 
   @Override

@@ -84,6 +84,7 @@ logs/java_voldemort.rev_6efd9_d55c7.StoreDefinition.java
 logs/java_voldemort.rev_6efd9_d55c7.StoreDefinitionBuilder.java
 logs/java_voldemort.rev_6efd9_d55c7.ThreadPoolBasedNonblockingStoreImpl.java
 logs/java_voldemort.rev_6efd9_d55c7.SocketStore.java
+logs/java_voldemort.rev_6efd9_d55c7.PipelineRoutedStore.java
 logs/java_voldemort.rev_6efd9_d55c7.PerformParallelGetAllRequests.java
 logs/java_voldemort.rev_6efd9_d55c7.PerformParallelPutRequests.java
 logs/java_voldemort.rev_6efd9_d55c7.AbstractReadRepair.java
@@ -1631,6 +1632,7 @@ logs/java_ogplatform.rev_a37de_e434d.PerformanceTest.java
 logs/java_ogplatform.rev_a37de_e434d.LocalDateTimeSeriesMasterTest.java
 logs/java_ogplatform.rev_a37de_e434d.TimeSeriesSearchRequest.java
 logs/java_ogplatform.rev_a37de_e434d.RowStoreTimeSeriesMaster.java
+logs/java_ogplatform.rev_a37de_e434d.EHCachingHistoricalDataProvider.java
 logs/java_ogplatform.rev_a314f_55094.NamedDimensionDao.java
 logs/java_ogplatform.rev_a1784_fd173.BondDefinition.java
 logs/java_ogplatform.rev_a2619_b8f10.BatchResultWriter.java
@@ -2934,6 +2936,7 @@ logs/java_ogplatform.rev_032f9_9e34b.ViewProcessorImpl.java
 logs/java_ogplatform.rev_038e2_aae4b.CombiningLiveDataSnapshotProviderTest.java
 logs/java_ogplatform.rev_038e2_aae4b.MockView.java
 logs/java_ogplatform.rev_038e2_aae4b.ViewProcessorImpl.java
+logs/java_ogplatform.rev_038e2_aae4b.SingleComputationCycle.java
 logs/java_ogplatform.rev_040e6_06865.InMemoryRegionRepository.java
 logs/java_ogplatform.rev_046c4_db953.SwapScheduleCalculatorTest.java
 logs/java_ogplatform.rev_046c4_db953.FixedIncomeStripIdentifierAndMaturityBuilder.java
@@ -4753,6 +4756,7 @@ logs/java_cassandra.rev_e1b10_769fe.NamesQueryFilter.java
 logs/java_cassandra.rev_e1b10_769fe.QueryFilter.java
 logs/java_cassandra.rev_e1b10_769fe.IFilter.java
 logs/java_cassandra.rev_e1b10_769fe.SSTableSliceIterator.java
+logs/java_cassandra.rev_e1b10_769fe.SSTableNamesIterator.java
 logs/java_cassandra.rev_e3a4f_bc630.CompressedRandomAccessReader.java
 logs/java_cassandra.rev_e3a88_66a3d.ColumnFamilyMetrics.java
 logs/java_cassandra.rev_e3c5d_f6024.MessagingService.java
@@ -5334,6 +5338,7 @@ logs/java_cassandra.rev_6a03b_e306a.RetriedSliceFromReadCommand.java
 logs/java_cassandra.rev_6a03b_e306a.QueryProcessor.java
 logs/java_cassandra.rev_6a03b_e306a.RowDataResolver.java
 logs/java_cassandra.rev_6a03b_e306a.ReadCallback.java
+logs/java_cassandra.rev_6a4af_a7b2f.SecondaryIndexManager.java
 logs/java_cassandra.rev_6a6b7_f650d.ColumnFamilyStore.java
 logs/java_cassandra.rev_6a6b7_f650d.Descriptor.java
 logs/java_cassandra.rev_6a6b7_f650d.SSTableMetadata.java
@@ -5478,6 +5483,7 @@ logs/java_cassandra.rev_5160c_e60a0.Upgrader.java
 logs/java_cassandra.rev_5160c_e60a0.SSTableRewriter.java
 logs/java_cassandra.rev_5160c_e60a0.SSTableReader.java
 logs/java_cassandra.rev_5434a_9895c.MigrationManager.java
+logs/java_cassandra.rev_5882a_47112.SSTableWriter.java
 logs/java_cassandra.rev_5923d_0cc97.CommitLogSegment.java
 logs/java_cassandra.rev_5923d_0cc97.CommitLog.java
 logs/java_cassandra.rev_52671_44957.StorageProxy.java
@@ -5578,6 +5584,7 @@ logs/java_cassandra.rev_44925_a3479.SystemTable.java
 logs/java_cassandra.rev_45261_fd66c.NodeCmd.java
 logs/java_cassandra.rev_45766_a7e8d.ColumnFamilyStore.java
 logs/java_cassandra.rev_45766_a7e8d.SSTableExport.java
+logs/java_cassandra.rev_48438_39dd8.StreamInSession.java
 logs/java_cassandra.rev_48438_39dd8.StreamOutSession.java
 logs/java_cassandra.rev_49109_c00c2.Constants.java
 logs/java_cassandra.rev_3a2bd_83cd5.DataTracker.java

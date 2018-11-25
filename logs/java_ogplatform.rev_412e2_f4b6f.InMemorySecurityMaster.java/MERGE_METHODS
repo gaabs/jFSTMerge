@@ -90,7 +90,6 @@ public  class  InMemorySecurityMaster  implements SecurityMaster {
   public InMemorySecurityMaster(final ChangeManager changeManager) {
     this(new ObjectIdSupplier(DEFAULT_OID_SCHEME), changeManager);
   }
-
 	
 
   /**
@@ -101,7 +100,6 @@ public  class  InMemorySecurityMaster  implements SecurityMaster {
   public InMemorySecurityMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
   }
-
 	
 
   /**
@@ -238,7 +236,6 @@ public InMemorySecurityMaster(final Supplier<ObjectId> objectIdSupplier, final M
     }
     _changeManager.entityChanged(ChangeType.REMOVED, uniqueId, null, Instant.now());
   }
-
 	
 
   //-------------------------------------------------------------------------

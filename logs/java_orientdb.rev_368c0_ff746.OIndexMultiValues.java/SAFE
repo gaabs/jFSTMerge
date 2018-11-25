@@ -59,13 +59,11 @@ public OIndexMultiValues(final String type, OIndexEngine<Set<OIdentifiable>> ind
     OStorage storage = ODatabaseRecordThreadLocal.INSTANCE.get().getStorage();
     useSBTreeRIDSet = storage.getType().equals(OEngineLocalPaginated.NAME)
         && OGlobalConfiguration.INDEX_NOTUNIQUE_USE_SBTREE_CONTAINER_BY_DEFAULT.getValueAsBoolean();
-  }
-
 =======
 public OIndexMultiValues(final String type, String algorithm, OIndexEngine<Set<OIdentifiable>> indexEngine) {
     super(type, algorithm, indexEngine);
-  }
 >>>>>>> YOURS
+  }
 	
 
   public Set<OIdentifiable> get(final Object key) {

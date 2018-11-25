@@ -57,27 +57,18 @@ public  class  SnapshotDataBundleFormatter  extends AbstractFormatter<SnapshotDa
 @Override
   public List<List<String>> formatForExpandedDisplay(SnapshotDataBundle bundle, ValueSpecification valueSpec) {
     Map<ExternalId, Double> dataPoints = bundle.getDataPoints();
-    List<List<String>> results = Lists.newArrayListWithCapacity(dataPoints.size());
-    for (Map.Entry<ExternalId, Double> entry : dataPoints.entrySet()) {
-      String idStr = entry.getKey().toString();
-      String formattedValue = _doubleFormatter.formatForDisplay(entry.getValue(), valueSpec);
-      results.add(ImmutableList.of(idStr, formattedValue));
-    }
-    return results;
-  }
-
 =======
 private List<List<String>> formatExpanded(SnapshotDataBundle bundle, ValueSpecification valueSpec) {
     Map<UniqueId, Double> dataPoints = bundle.getDataPoints();
+>>>>>>> YOURS
     List<List<String>> results = Lists.newArrayListWithCapacity(dataPoints.size());
-    for (Map.Entry<UniqueId, Double> entry : dataPoints.entrySet()) {
+    for (Map.Entry<ExternalId, Double> entry : dataPoints.entrySet()) {
       String idStr = entry.getKey().toString();
       String formattedValue = _doubleFormatter.formatCell(entry.getValue(), valueSpec);
       results.add(ImmutableList.of(idStr, formattedValue));
     }
     return results;
   }
->>>>>>> YOURS
 	
 
   

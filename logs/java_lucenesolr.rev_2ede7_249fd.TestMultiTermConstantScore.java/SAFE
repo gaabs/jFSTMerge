@@ -78,12 +78,21 @@ IndexReader reader;
 @Override
   protected void setUp() throws Exception {
     super.setUp();
+=======
+@BeforeClass
+  public static void beforeClass() throws Exception {
+>>>>>>> YOURS
     String[] data = new String[] { "A 1 2 3 4 5 6", "Z       4 5 6", null,
         "B   2   4 5 6", "Y     3   5 6", null, "C     3     6",
         "X       4 5 6" };
 
+<<<<<<< MINE
     small = new RAMDirectory();
     RandomIndexWriter writer = new RandomIndexWriter(rand, small, new MockAnalyzer(MockTokenizer.WHITESPACE, false));
+=======
+    small = newDirectory();
+    RandomIndexWriter writer = new RandomIndexWriter(random, small, new MockAnalyzer(MockTokenizer.WHITESPACE, false));
+>>>>>>> YOURS
 
     for (int i = 0; i < data.length; i++) {
       Document doc = new Document();
@@ -102,35 +111,6 @@ IndexReader reader;
     reader = writer.getReader();
     writer.close();
   }
-
-=======
-@BeforeClass
-  public static void beforeClass() throws Exception {
-    String[] data = new String[] { "A 1 2 3 4 5 6", "Z       4 5 6", null,
-        "B   2   4 5 6", "Y     3   5 6", null, "C     3     6",
-        "X       4 5 6" };
-
-    small = newDirectory();
-    RandomIndexWriter writer = new RandomIndexWriter(random, small, new MockAnalyzer(MockTokenizer.WHITESPACE, false));
-
-    for (int i = 0; i < data.length; i++) {
-      Document doc = new Document();
-      doc.add(newField("id", String.valueOf(i), Field.Store.YES,
-          Field.Index.NOT_ANALYZED));// Field.Keyword("id",String.valueOf(i)));
-      doc
-          .add(newField("all", "all", Field.Store.YES,
-              Field.Index.NOT_ANALYZED));// Field.Keyword("all","all"));
-      if (null != data[i]) {
-        doc.add(newField("data", data[i], Field.Store.YES,
-            Field.Index.ANALYZED));// Field.Text("data",data[i]));
-      }
-      writer.addDocument(doc);
-    }
-
-    reader = writer.getReader();
-    writer.close();
-  }
->>>>>>> YOURS
 	
 
   @Override

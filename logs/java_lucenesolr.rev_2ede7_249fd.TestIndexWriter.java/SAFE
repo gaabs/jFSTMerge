@@ -546,10 +546,9 @@ public void testSimulatedCrashedWriter() throws IOException {
         // close
         writer.close();
     }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
     // Simulate a corrupt index by removing last byte of
@@ -1364,10 +1363,9 @@ public void testExceptionFromTokenStream() throws IOException {
     reader.close();
     dir.close();
   }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
   // LUCENE-1072: make sure an errant exception on flushing
@@ -1596,10 +1594,9 @@ public void testCloseWithThreads() throws Exception {
       dir.close();
     }
   }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
   // LUCENE-1130: make sure immeidate disk full on creating
@@ -1976,10 +1973,9 @@ public void testCloseWithThreads() throws Exception {
         throw new RuntimeException("intentionally failing");
       return true;
     }
-
 =======
-
 >>>>>>> YOURS
+
 
 	}
 	
@@ -2004,10 +2000,9 @@ public void testExceptionDocumentsWriterInit() throws IOException {
     _TestUtil.checkIndex(dir);
     dir.close();
   }
-
 =======
-
 >>>>>>> YOURS
+
 	
 
   // LUCENE-1208
@@ -3300,46 +3295,16 @@ public void doAfterFlush() {
   <<<<<<< MINE
 public void _testIndexingThenDeleting() throws Exception {
     final Random r = newRandom();
-
-    Directory dir = new MockRAMDirectory();
-    FlushCountingIndexWriter w = new FlushCountingIndexWriter(dir, new IndexWriterConfig(TEST_VERSION_CURRENT, new MockAnalyzer()).setRAMBufferSizeMB(0.5));
-    //w.setInfoStream(System.out);
-    Document doc = new Document();
-    doc.add(new Field("field", "go 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20", Field.Store.NO, Field.Index.ANALYZED));
-    int num = 6 * RANDOM_MULTIPLIER;
-    for (int iter = 0; iter < num; iter++) {
-      int count = 0;
-
-      final boolean doIndexing = r.nextBoolean();
-      if (doIndexing) {
-        // Add docs until a flush is triggered
-        final int startFlushCount = w.flushCount;
-        while(w.flushCount == startFlushCount) {
-          w.addDocument(doc);
-          count++;
-        }
-      } else {
-        // Delete docs until a flush is triggered
-        final int startFlushCount = w.flushCount;
-        while(w.flushCount == startFlushCount) {
-          w.deleteDocuments(new Term("foo", ""+count));
-          count++;
-        }
-      }
-      assertTrue("flush happened too quickly during " + (doIndexing ? "indexing" : "deleting") + " count=" + count, count > 2500);
-    }
-    w.close();
-    dir.close();
-  }
 =======
 public void testIndexingThenDeleting() throws Exception {
     final Random r = random;
+>>>>>>> YOURS
 
     Directory dir = newDirectory();
     FlushCountingIndexWriter w = new FlushCountingIndexWriter(dir, newIndexWriterConfig( TEST_VERSION_CURRENT, new MockAnalyzer(MockTokenizer.WHITESPACE, true, false)).setRAMBufferSizeMB(0.5).setMaxBufferedDocs(-1).setMaxBufferedDeleteTerms(-1));
     w.setInfoStream(VERBOSE ? System.out : null);
     Document doc = new Document();
-    doc.add(newField("field", "go 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20", Field.Store.NO, Field.Index.ANALYZED));
+    doc.add(new Field("field", "go 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20", Field.Store.NO, Field.Index.ANALYZED));
     int num = 6 * RANDOM_MULTIPLIER;
     for (int iter = 0; iter < num; iter++) {
       int count = 0;
@@ -3368,8 +3333,6 @@ public void testIndexingThenDeleting() throws Exception {
     w.close();
     dir.close();
   }
-
->>>>>>> YOURS
 	
   
   public void testNoCommits() throws Exception {

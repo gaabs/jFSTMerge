@@ -44,9 +44,13 @@ public  class  TestConfigSets  extends SolrTestCaseJ4 {
 	
 
   public CoreContainer setupContainer(String configSetsBaseDir) {
+<<<<<<< MINE
 
     File testDirectory = new File(dataDir, testName);
     testDirectory.mkdirs();
+=======
+    File testDirectory = createTempDir();
+>>>>>>> YOURS
 
     System.setProperty("configsets", configSetsBaseDir);
 
@@ -56,7 +60,6 @@ public  class  TestConfigSets  extends SolrTestCaseJ4 {
 
     return container;
   }
-
 	
 
   @Test

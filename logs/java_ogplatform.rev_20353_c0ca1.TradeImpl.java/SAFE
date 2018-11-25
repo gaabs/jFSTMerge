@@ -424,14 +424,11 @@ public  class  TradeImpl  implements Trade, MutableUniqueIdentifiable, Serializa
   
   <<<<<<< MINE
 public void setPremuim(final Double premium) {
-    _premium = premium;
-  }
-
 =======
 public void setPremium(final Double premium) {
+>>>>>>> YOURS
     _premium = premium;
   }
->>>>>>> YOURS
 	
   
   //-------------------------------------------------------------------------

@@ -169,15 +169,13 @@ public  class  RateLimitingMergingViewProcessListenerTest {
 private ComputedValue getComputedValue(String valueName, Object value) {
     final ComputationTargetSpecification target = ComputationTargetSpecification.of(UniqueId.of("Scheme", valueName));
     return new ComputedValue(new ValueSpecification(valueName, target, ValueProperties.with(ValuePropertyNames.FUNCTION, "FunctionId").get()), value);
-  }
-
 =======
 private ComputedValueResult getComputedValueResult(String valueName, Object value) {
     UniqueId uniqueId = UniqueId.of("Scheme", valueName);
     ValueRequirement valueRequirement = new ValueRequirement(valueName, ComputationTargetType.PRIMITIVE, uniqueId);
     return new ComputedValueResult(new ValueSpecification(valueRequirement, "FunctionId"), value, ExecutionLog.EMPTY);
-  }
 >>>>>>> YOURS
+  }
 	
 
   private void assertCorrectUpdateRate(RateLimitingMergingViewProcessListener mergingListener, TestViewResultListener testListener, int period) throws InterruptedException {

@@ -390,19 +390,14 @@ public abstract  class  ExternalResourceResolver  implements ModuleVersionPublis
     <<<<<<< MINE
 protected void resolveMetaDataArtifacts(ModuleVersionMetaData module, BuildableArtifactSetResolveResult result, boolean localOnly) {
         ModuleVersionArtifactMetaData artifact = getMetaDataArtifactFor(module.getComponentId());
-        if (artifact != null) {
-            result.resolved(ImmutableSet.of(artifact));
-        }
-    }
-
 =======
 protected void resolveMetaDataArtifacts(ModuleVersionMetaData module, BuildableArtifactSetResolveResult result) {
         ModuleVersionArtifactMetaData artifact = getMetaDataArtifactFor(module.getId());
+>>>>>>> YOURS
         if (artifact != null) {
             result.resolved(ImmutableSet.of(artifact));
         }
     }
->>>>>>> YOURS
 	
 
     protected void resolveJavadocArtifacts(ModuleVersionMetaData module, BuildableArtifactSetResolveResult result, boolean localOnly) {

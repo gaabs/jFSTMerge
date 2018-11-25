@@ -55,14 +55,21 @@ public  class  SwapLegFudgeBuilder  extends AbstractFudgeBuilder {
 	
 
   public static void fromFudgeMsg(FudgeDeserializer deserializer, FudgeMsg msg, SwapLeg object) {
+<<<<<<< MINE
+    object.setDayCount(msg.getValue(DayCount.class, DAY_COUNT_FIELD_NAME));
+    object.setFrequency(msg.getValue(Frequency.class, FREQUENCY_FIELD_NAME));
+    object.setRegionId(ExternalIdFudgeBuilder.fromFudgeMsg(deserializer, msg.getMessage(REGION_IDENTIFIER_FIELD_NAME)));
+    object.setBusinessDayConvention(msg.getValue(BusinessDayConvention.class, BUSINESS_DAY_CONVENTION_FIELD_NAME));
+    object.setNotional(deserializer.fudgeMsgToObject(Notional.class, msg.getMessage(NOTIONAL_FIELD_NAME)));
+=======
     object.set(SwapLeg.meta().dayCount().name(), msg.getValue(DayCount.class, DAY_COUNT_FIELD_NAME));
     object.set(SwapLeg.meta().frequency().name(), msg.getValue(Frequency.class, FREQUENCY_FIELD_NAME));
     object.set(SwapLeg.meta().regionId().name(), ExternalIdFudgeBuilder.fromFudgeMsg(deserializer, msg.getMessage(REGION_IDENTIFIER_FIELD_NAME)));
     object.set(SwapLeg.meta().businessDayConvention().name(), msg.getValue(BusinessDayConvention.class, BUSINESS_DAY_CONVENTION_FIELD_NAME));
     object.set(SwapLeg.meta().notional().name(), deserializer.fudgeMsgToObject(Notional.class, msg.getMessage(NOTIONAL_FIELD_NAME)));
     object.set(SwapLeg.meta().eom().name(), msg.getBoolean(IS_EOM_FIELD_NAME));
+>>>>>>> YOURS
   }
-
 	
 
   //-------------------------------------------------------------------------

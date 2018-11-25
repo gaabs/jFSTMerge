@@ -92,7 +92,6 @@ public  class  InMemoryConfigMaster  implements ConfigMaster {
   public InMemoryConfigMaster(final ChangeManager changeManager) {
     this(new ObjectIdSupplier(InMemoryConfigMaster.DEFAULT_OID_SCHEME), changeManager);
   }
-
 	
 
   /**
@@ -103,7 +102,6 @@ public  class  InMemoryConfigMaster  implements ConfigMaster {
   public InMemoryConfigMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
   }
-
 	
 
 
@@ -212,7 +210,6 @@ public InMemoryConfigMaster(final Supplier<ObjectId> objectIdSupplier, final Mas
     }
     _changeManager.entityChanged(ChangeType.REMOVED, uniqueId, null, Instant.now());
   }
-
 	
 
   //-------------------------------------------------------------------------

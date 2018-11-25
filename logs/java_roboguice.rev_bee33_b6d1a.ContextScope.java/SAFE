@@ -129,13 +129,11 @@ protected Application app;
     <<<<<<< MINE
 public ContextScope( Application app ) {
         this.app = app;
-    }
 =======
 public ContextScope(RoboApplication app) {
         enter(app);
-    }
-
 >>>>>>> YOURS
+    }
 	
 
 

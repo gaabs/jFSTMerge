@@ -211,15 +211,22 @@ public  class  EventManager {
      * Unregisters all methods observing the given event from the provided context.
      */
     public <T> void unregisterObserver(Context context, Object instance, Class<T> event) {
+<<<<<<< MINE
+        if (!isEnabled()) return;
+
+        final Map<Class<?>, Set<EventListener<?>>> methods = registrations.get(context);
+=======
         final Map<Class<?>, Set<ObserverReference<?>>> methods = registrations.get(context);
+>>>>>>> YOURS
         if (methods == null) return;
 
-        final Set<ObserverReference<?>> observers = methods.get(event);
+        final Set<EventListener<?>> observers = methods.get(event);
         if (observers == null) return;
 
-        for (Iterator<ObserverReference<?>> iterator = observers.iterator(); iterator.hasNext();) {
-            ObserverReference observer = iterator.next();
-            if (observer != null) {
+        for (Iterator<EventListener<?>> iterator = observers.iterator(); iterator.hasNext();) {
+            final EventListener listener = iterator.next();
+            if( listener instanceof ObserverMethodListener ) {
+                final ObserverMethodListener observer = ((ObserverMethodListener)listener);
                 final Object registeredInstance = observer.instanceReference.get();
                 if (registeredInstance == instance) {
                     iterator.remove();
@@ -228,7 +235,6 @@ public  class  EventManager {
             }
         }
     }
-
 	
 
     /**

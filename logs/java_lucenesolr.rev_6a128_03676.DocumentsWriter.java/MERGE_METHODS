@@ -393,10 +393,16 @@ final  class  DocumentsWriter {
 	
 
   synchronized void setSimilarityProvider(SimilarityProvider similarity) {
+<<<<<<< MINE
+    this.similarityProvider = similarity;
+    for(int i=0;i<threadStates.length;i++) {
+      threadStates[i].docState.similarityProvider = similarity;
+    }
+=======
     this.similarity = similarity;
     pushConfigChange();
+>>>>>>> YOURS
   }
-
 	
 
   private final void pushConfigChange() {

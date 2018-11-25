@@ -963,13 +963,11 @@ private Table getSubTableDuringInsert(long columnIndex, long rowIndex) {
             nativeClose(nativeSubtablePtr);
             throw e;
         }
-    }
-
 =======
 private Table getSubtableDuringInsert(long columnIndex, long rowIndex) {
         return new Table(this, nativeGetSubtableDuringInsert(nativePtr, columnIndex, rowIndex), immutable);
-    }
 >>>>>>> YOURS
+    }
 	
     
 	

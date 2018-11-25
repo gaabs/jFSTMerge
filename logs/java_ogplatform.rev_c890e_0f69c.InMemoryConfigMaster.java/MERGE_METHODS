@@ -278,20 +278,31 @@ public  class  InMemoryConfigMaster  implements ConfigMaster {
   @Override
   public ConfigSearchResult search(ConfigSearchRequest request) {
     ArgumentChecker.notNull(request, "request");
-    final List<ConfigDocument<T>> list = new ArrayList<ConfigDocument<T>>();
-    for (ConfigDocument<?> doc : _store.values()) {
+
+    final List<ConfigDocument> list = new ArrayList<ConfigDocument>();
+    for (ConfigDocument doc : _store.values()) {
       if (request.matches(doc)) {
-        list.add((ConfigDocument<T>) doc);
+        list.add(doc);
       }
     }
+<<<<<<< MINE
     Collections.sort(list, request.getSortOrder());
     
     final ConfigSearchResult<T> result = new ConfigSearchResult<T>();
+=======
+    final ConfigSearchResult result = new ConfigSearchResult();
+>>>>>>> YOURS
     result.setPaging(Paging.of(request.getPagingRequest(), list));
+<<<<<<< MINE
     result.getDocuments().addAll(request.getPagingRequest().select(list));
+=======
+
+    List<ConfigDocument> select = request.getPagingRequest().select(list);
+
+    result.getDocuments().addAll(select);
+>>>>>>> YOURS
     return result;
   }
-
 	
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

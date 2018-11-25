@@ -54,13 +54,11 @@ public  class  BlackFunctionData {
   <<<<<<< MINE
 public double getSimga() {
     return _sigma;
-  }
 =======
 public double getBlackVolatility() {
     return _blackVolatility;
-  }
-
 >>>>>>> YOURS
+  }
 	
 
   public static BlackFunctionData fromDataBundle(final BlackOptionDataBundle bundle, final EuropeanVanillaOptionDefinition definition) {

@@ -41,15 +41,12 @@ public  class  PrefixTermsEnum  extends FilteredTermsEnum {
   <<<<<<< MINE
 public PrefixTermsEnum(IndexReader reader, Term prefix) throws IOException {
     super(reader, prefix.field());
-    setInitialSeekTerm(prefixRef = prefix.bytes());
-  }
-
 =======
 public PrefixTermsEnum(TermsEnum tenum, Term prefix) throws IOException {
     super(tenum);
+>>>>>>> YOURS
     setInitialSeekTerm(prefixRef = prefix.bytes());
   }
->>>>>>> YOURS
 	
 
   @Override

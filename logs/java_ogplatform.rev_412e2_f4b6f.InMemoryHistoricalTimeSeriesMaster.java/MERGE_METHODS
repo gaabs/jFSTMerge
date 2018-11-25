@@ -102,7 +102,6 @@ public  class  InMemoryHistoricalTimeSeriesMaster  implements HistoricalTimeSeri
   public InMemoryHistoricalTimeSeriesMaster(final ChangeManager changeManager) {
     this(new ObjectIdSupplier(DEFAULT_OID_SCHEME), changeManager);
   }
-
 	
 
   /**
@@ -113,7 +112,6 @@ public  class  InMemoryHistoricalTimeSeriesMaster  implements HistoricalTimeSeri
   public InMemoryHistoricalTimeSeriesMaster(final Supplier<ObjectId> objectIdSupplier) {
     this(objectIdSupplier, new BasicChangeManager());
   }
-
 	
 
   /**
@@ -271,7 +269,6 @@ public InMemoryHistoricalTimeSeriesMaster(final Supplier<ObjectId> objectIdSuppl
     }
     _changeManager.entityChanged(ChangeType.REMOVED, uniqueId, null, Instant.now());
   }
-
 	
 
   //-------------------------------------------------------------------------
