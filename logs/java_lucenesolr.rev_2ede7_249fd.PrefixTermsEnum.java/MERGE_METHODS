@@ -1,0 +1,32 @@
+package org.apache.lucene.search;
+
+import java.io.IOException;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.util.BytesRef;
+
+/**
+ * Subclass of FilteredTermEnum for enumerating all terms that match the
+ * specified prefix filter term.
+ * <p>Term enumerations are always ordered by
+ * {@link #getComparator}.  Each term in the enumeration is
+ * greater than all that precede it.</p>
+ */
+public class PrefixTermsEnum extends FilteredTermsEnum {
+
+    private final BytesRef prefixRef;
+
+    public PrefixTermsEnum(TermsEnum tenum, Term prefix) throws IOException {
+        super(reader, prefix.field());
+        setInitialSeekTerm(prefixRef = prefix.bytes());
+    }
+
+    @Override
+    protected AcceptStatus accept(BytesRef term) {
+        if (term.startsWith(prefixRef)) {
+            return AcceptStatus.YES;
+        } else {
+            return AcceptStatus.END;
+        }
+    }
+}

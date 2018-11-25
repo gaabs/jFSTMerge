@@ -1,0 +1,47 @@
+package org.apache.lucene.search;
+
+import java.io.IOException;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.util.BytesRef;
+
+/**
+ * Subclass of FilteredTermsEnum for enumerating a single term.
+ * <p>
+ * This can be used by {@link MultiTermQuery}s that need only visit one term,
+ * but want to preserve MultiTermQuery semantics such as
+ * {@link MultiTermQuery#rewriteMethod}.
+ */
+public final class SingleTermsEnum extends FilteredTermsEnum {
+
+    private final BytesRef singleRef;
+
+    /**
+   * Creates a new <code>SingleTermsEnum</code>.
+   * <p>
+   * After calling the constructor the enumeration is already pointing to the term,
+   * if it exists.
+   */
+    public SingleTermsEnum(TermsEnum tenum, Term singleTerm) throws IOException {
+        super(tenum);
+        singleRef = singleTerm.bytes();
+        setInitialSeekTerm(singleRef);
+    }
+
+    /**
+   * Creates a new <code>SingleTermsEnum</code>.
+   * <p>
+   * After calling the constructor the enumeration is already pointing to the term,
+   * if it exists.
+   */
+    public SingleTermsEnum(IndexReader reader, Term singleTerm) throws IOException {
+        super(reader, singleTerm.field());
+        singleRef = singleTerm.bytes();
+        setInitialSeekTerm(singleRef);
+    }
+
+    @Override
+    protected AcceptStatus accept(BytesRef term) {
+        return term.equals(singleRef) ? AcceptStatus.YES : AcceptStatus.END;
+    }
+}
