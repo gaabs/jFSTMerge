@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 
-public class DefaultSingleRenamingHandlerTest {
+public class SafeSingleRenamingHandlerTest {
     private File baseFile = new File("testfiles/renaming/method/base_method/Test.java");
     private File bodyChangedFileBelowSignature = new File("testfiles/renaming/method/changed_body_below_signature/Test.java");
     private File bodyChangedAtEndFile = new File("testfiles/renaming/method/changed_body_at_end/Test.java");
