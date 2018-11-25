@@ -1,0 +1,46 @@
+/*
+ * Copyright 2010 LinkedIn, Inc
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package voldemort.store.nonblockingstore;
+
+import java.util.Map;
+import voldemort.VoldemortException;
+import voldemort.store.Store;
+import voldemort.store.routed.RoutedStore;
+import voldemort.store.socket.SocketStore;
+import voldemort.utils.ByteArray;
+import voldemort.versioning.Version;
+import voldemort.versioning.Versioned;
+
+public interface NonblockingStore {
+
+    public void submitGetRequest(ByteArray key, NonblockingStoreCallback callback, long timeoutMs);
+
+    public void submitGetAllRequest(Iterable<ByteArray> keys, NonblockingStoreCallback callback, long timeoutMs);
+
+    public void submitGetVersionsRequest(ByteArray key, NonblockingStoreCallback callback, long timeoutMs);
+
+    public void submitPutRequest(ByteArray key, Versioned<byte[]> value, NonblockingStoreCallback callback, long timeoutMs);
+
+    public void submitDeleteRequest(ByteArray key, Version version, NonblockingStoreCallback callback, long timeoutMs);
+
+    public void submitGetRequest(ByteArray key, byte[] transforms, NonblockingStoreCallback callback);
+
+    public void submitGetAllRequest(Iterable<ByteArray> keys, Map<ByteArray, byte[]> transforms, NonblockingStoreCallback callback);
+
+    public void submitPutRequest(ByteArray key, Versioned<byte[]> value, byte[] transforms, NonblockingStoreCallback callback);
+
+    public void close() throws VoldemortException;
+}

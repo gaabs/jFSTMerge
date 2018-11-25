@@ -63,8 +63,8 @@ RequestBuilder setHeaders(List<HeaderPair> headers) {
     return this;
   }
 =======
-RequestBuilder headers(List<Header> headers) {
-    this.headers = headers;
+RequestBuilder args(Object[] args) {
+    this.args = args;
     return this;
   }
 >>>>>>> YOURS
@@ -104,9 +104,9 @@ RequestBuilder headers(List<Header> headers) {
   }
 	
 
-  /** Arguments from method invocation. */
-  RequestBuilder args(Object[] args) {
-    this.args = args;
+  /** A list of custom headers. */
+  RequestBuilder headers(List<Header> headers) {
+    this.headers = headers;
     return this;
   }
 	

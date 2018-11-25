@@ -46,9 +46,7 @@ public  interface  Configuration  extends FileCollection {
      *
      * @return strategy
      */
-    ResolutionStrategy getResolutionStrategy()@Deprecated
-    ResolutionStrategy getResolution();
-
+    ResolutionStrategy getResolutionStrategy()
 	
 
     /**
