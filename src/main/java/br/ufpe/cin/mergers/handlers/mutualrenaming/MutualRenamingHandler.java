@@ -1,4 +1,4 @@
-package br.ufpe.cin.mergers.handlers.mutualrenaming.singlerenaming;
+package br.ufpe.cin.mergers.handlers.mutualrenaming;
 
 import br.ufpe.cin.mergers.util.MergeContext;
 
