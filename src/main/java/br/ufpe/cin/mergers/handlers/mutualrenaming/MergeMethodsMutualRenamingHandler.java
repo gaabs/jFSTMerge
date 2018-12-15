@@ -7,6 +7,10 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
+/**
+ * This handler reports conflict when a declaration have been renamed on both versions, and they have similar enough
+ * bodies.
+ */
 public class MergeMethodsMutualRenamingHandler implements MutualRenamingHandler {
     public void handle(MergeContext context) {
         List<FSTNode> mutuallyRemovedMethodsOrConstructors = RenamingUtils.getMethodsOrConstructors(context.deletedBaseNodes);

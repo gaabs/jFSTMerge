@@ -10,6 +10,10 @@ import de.ovgu.cide.fstgen.ast.FSTTerminal;
 
 import java.util.List;
 
+/**
+ * This handler only reports a renaming conflict when unstructured merge reports a conflict including the whole
+ * signature of the renamed declaration.
+ */
 public class SafeSingleRenamingHandler implements SingleRenamingHandler {
     public void handle(MergeContext context, String baseContent, FSTNode conflictNode,
                        List<FSTNode> addedNodes, Side renamingSide) {

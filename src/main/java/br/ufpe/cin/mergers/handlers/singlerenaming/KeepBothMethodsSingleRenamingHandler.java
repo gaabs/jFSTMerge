@@ -7,10 +7,12 @@ import br.ufpe.cin.mergers.util.RenamingUtils;
 import br.ufpe.cin.mergers.util.Side;
 import de.ovgu.cide.fstgen.ast.FSTNode;
 import de.ovgu.cide.fstgen.ast.FSTTerminal;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
+/**
+ * This handler simply keeps both nodes involved on single renaming conflict.
+ */
 public class KeepBothMethodsSingleRenamingHandler implements SingleRenamingHandler {
     public void handle(MergeContext context, String baseContent, FSTNode conflictNode,
                        List<FSTNode> addedNodes, Side renamingSide) {

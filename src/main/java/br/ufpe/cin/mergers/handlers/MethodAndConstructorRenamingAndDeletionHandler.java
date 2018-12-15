@@ -1,8 +1,8 @@
 package br.ufpe.cin.mergers.handlers;
 
 import br.ufpe.cin.app.JFSTMerge;
-import br.ufpe.cin.mergers.handlers.mutualrenaming.singlerenaming.MutualRenamingHandler;
-import br.ufpe.cin.mergers.handlers.mutualrenaming.singlerenaming.MutualRenamingHandlerFactory;
+import br.ufpe.cin.mergers.handlers.mutualrenaming.MutualRenamingHandler;
+import br.ufpe.cin.mergers.handlers.mutualrenaming.MutualRenamingHandlerFactory;
 import br.ufpe.cin.mergers.handlers.singlerenaming.SingleRenamingHandler;
 import br.ufpe.cin.mergers.handlers.singlerenaming.SingleRenamingHandlerFactory;
 import br.ufpe.cin.mergers.util.MergeContext;

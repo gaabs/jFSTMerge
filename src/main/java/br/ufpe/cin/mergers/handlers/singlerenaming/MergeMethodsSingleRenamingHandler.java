@@ -11,6 +11,11 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
+
+/**
+ * This handler reports a renaming conflict if there is a similar enough matching node. Similarity is based on
+ * Levenshtein distance of 70% or more.
+ */
 public class MergeMethodsSingleRenamingHandler implements SingleRenamingHandler {
     public void handle(MergeContext context, String baseContent, FSTNode conflictNode,
                        List<FSTNode> addedNodes, Side renamingSide) {
